@@ -118,3 +118,8 @@ Perber.View.Toolbar = Backbone.Marionette.ItemView.extend({
 Perber.Region.Main = Backbone.Marionette.Region.extend({
     el: '#main',
 });
+
+Perber.Region.Modal = Backbone.Marionette.Region.extend({
+    el: '#modal',
+});
+
