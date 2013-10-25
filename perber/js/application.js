@@ -67,7 +67,6 @@ Perber.View.Speakform = Backbone.Marionette.ItemView.extend({
 // Toolbar
 Perber.View.Toolbar = Backbone.Marionette.ItemView.extend({
     template : "#template-toolbar",
-    tagName : "ul",
     slideSpeed:500,
     events:{
         "click  .leave":"leaveConversation",
