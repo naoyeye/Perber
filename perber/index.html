@@ -17,10 +17,16 @@
     <script type="text/javascript" src="js/jquery.1.10.1.min.js"></script>
     <script type="text/javascript" src="js/semantic.min.js"></script>
 
+    
+
     <script type="text/javascript" src="js/json2.js"></script>
     <script type="text/javascript" src="js/underscore.1.5.2.min.js"></script>
     <script type="text/javascript" src="js/backbone.1.1.0.min.js"></script>
     <script type="text/javascript" src="js/marionette.1.2.0.js"></script>
+
+    <script type="text/javascript" src="js/mentions_input.js"></script>
+    <script type="text/javascript" src="js/highlight.js"></script>
+
     <script type="text/javascript" src="js/application.js"></script>
     
     <script type="text/javascript" src="js/app.js"></script>
@@ -35,8 +41,8 @@
 </head>
 <body>
 <header id="header"></header>
+<div id="sidebar"></div>
 <div id="main"></div>
-
 
 
 
@@ -54,7 +60,7 @@
 
 <!-- sidebar -->
 <script type="text/template" id="template-sidebar">
-<div class="ui red vertical demo sidebar menu">
+<div class="ui inverted vertical demo sidebar menu">
     <a class="item">
         <i class="home icon"></i>
         Home
@@ -72,34 +78,77 @@
         <div class="menu">
             <a class="item">About</a>
             <a class="item">Contact Us</a>
-        
+        </div>
     </div>
 </div>
 </script>
 
 <!-- toolbar -->
-<script type="text/template" id="template-toolbar">
+<!-- <script type="text/template" id="template-toolbar">
     <div class="ui yellow icon message">
       <i class="inbox icon"></i>
       <div class="content">
         <div class="header">
-          Have you heard about our mailing list?
+          Have you heard about our mailing list? Have you heard about our mailing list? Toolbar  Have you heard about our mailing list? Toolbar 
+          Toolbar
         </div>
         <p>Get all the best inventions in your e-mail every day. Sign up now!</p>
       </div>
     </div>
+</script> -->
+
+<script type="text/template" id="template-perber-item">
+    <div class="selectable" >
+        <div class="icon"><span>icon</span></div>
+        <div class="content">
+            
+            <p class="message">ddd</p>
+            
+            <span class="time timeago" title=""></span>
+        </div>
+    </div>
+    <!-- ddd -->
 </script>
 
+<!-- 
+<script type="text/template" id="template-perber-list">
+    <div id="perber-list">22</div>
+</script> -->
+
+<!-- 文字聊天 template-activity -->
+<script type="text/template" id="template-activity">
+    <div id="activity-item-wrapper" class="scrollable right_box_inner">
+        <h1><i class="icon-comments"></i> 聊天</h1>
+        <span id="activity-loading"></span>
+        <ul></ul>
+    </div>
+
+    <section class="panel-model noactivity placeholder">
+        <i class="icon-comments-alt"></i>
+        <h2 class="panel-model-header c888">这里还是空的</h2>
+    </section>
+
+    <section class="panel-model loading placeholder">
+        <h2 class="panel-model-header">加载中...</h2>
+        <p class="panel-model-info">正在读取历史记录</p>
+    </section>
+
+    <section class="panel-model sharer">
+        <textarea id="message" placeholder="有什么想说的？" data-placeholder="粘贴或者输入"></textarea>
+    </section>
+</script>
+<!-- 文字聊天 -->
+
 <!-- speakpanel -->
-<script type="text/template" id="template-speakpanel">
+<!-- <script type="text/template" id="template-speakpanel">
     <div id="toolbar"></div>
     <div id="sidebar"></div>
-</script>
+</script> -->
 
 
 
 <!-- modal -->
-<script type="text/template" id="template-modal">
+<!-- <script type="text/template" id="template-modal">
     <div class="ui modal">
         <i class="close icon"></i>
         <div class="header">
@@ -118,7 +167,7 @@
             <div class="ui button">OK</div>
         </div>
     </div>
-</script>
+</script> -->
 
 </body>
 
