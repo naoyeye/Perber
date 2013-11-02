@@ -1,3 +1,11 @@
+/* 
+* @Author: hanjiyun
+* @Date:   2013-11-02 19:47:42
+* @Email:  jiyun@han.im
+* @Last modified by:   hanjiyun
+* @Last Modified time: 2013-11-02 20:45:11
+*/
+
 article,
 aside,
 details,
@@ -24,22 +32,23 @@ audio:not([controls]) {
   display: none;
 }
 html {
-  font-size: 100%;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
+  /*font-size: 100%;*/
+  /*-webkit-text-size-adjust: 100%;*/
+  /*-ms-text-size-adjust: 100%;*/
 }
 html,
 button,
 input,
 select,
 textarea {
-  font-family: sans-serif;
+  /*font-family: sans-serif;*/
   color: #222;
 }
 body {
   margin: 0;
   font-size: 1em;
   line-height: 1.4;
+  font: 500 14px/1.8 Lucida,Verdana,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
 }
 ::-moz-selection {
   background: #f4e489;
@@ -256,11 +265,9 @@ body {
 html,
 body {
   height: 100%;
-  /*overflow: hidden;*/
 }
 body {
   position: relative;
-  font-size: 78%;
 }
 a {
   text-decoration: none;
@@ -287,9 +294,7 @@ textarea:focus {
 }
 .wrap {
   height: auto !important;
-/* ie6 ignores !important, so this will be overridden below */
   min-height: 100%;
-/* ie6 ignores min-height completely */
   height: 100%;
   overflow-y: scroll;
   width: auto;
@@ -657,11 +662,11 @@ p span.date {
   font-style: italic;
 }
 .content {
-  position: absolute;
+/*  position: absolute;
   bottom: 0;
   right: 0;
   top: 4.4em;
-  left: 201px;
+  left: 201px;*/
 }
 .content .chat {
   z-index: 100;
@@ -859,30 +864,7 @@ p span.date {
   width: 200px;
   font-style: italic;
 }
-.button {
-  border: 1px solid #999;
-  color: #333;
-  display: inline-block;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-  background-image: -webkit-linear-gradient(#f7f7f7 7.6%, #d5d5d5);
-  background-image: -moz-linear-gradient(#f7f7f7 7.6%, #d5d5d5);
-  background-image: -o-linear-gradient(#f7f7f7 7.6%, #d5d5d5);
-  font-weight: bold;
-  border-radius: 5px;
-  padding: 10px 20px;
-}
-.button:hover {
-  color: #000;
-  background-image: -webkit-linear-gradient(#f7f7f7 7.6%, #ccc);
-  background-image: -moz-linear-gradient(#f7f7f7 7.6%, #ccc);
-  background-image: -o-linear-gradient(#f7f7f7 7.6%, #ccc);
-}
-.button:active {
-  color: #000;
-  background-image: -webkit-linear-gradient(#ccc 7.6%, #f7f7f7);
-  background-image: -moz-linear-gradient(#ccc 7.6%, #f7f7f7);
-  background-image: -o-linear-gradient(#ccc 7.6%, #f7f7f7);
-}
+
 body.fancy-theme{
   overflow: hidden;
 }
@@ -944,27 +926,24 @@ img {
   height: auto;
   width: auto;
 }
+
+
+/*home*/
+
 body.home-page {
   background: #f1f1f1 url("../img/bg-site.png");
   position: relative;
   overflow: visible;
 }
-body.home-page .inner-padding {
-  padding: 2em;
-}
+
 body.home-page .homepage-container {
-  width: 824px;
-  padding-top: 10em;
-  overflow: hidden;
-  margin: auto;
-  position: relative;
+
+  padding-top: 5em;
+
 }
 body.home-page .homepage-container .login-box {
   background: #fff;
-  z-index: 100000;
-  position: absolute;
-  right: 0;
-  text-align: center;
+  margin: 0 auto;
   width: 300px;
 }
 body.home-page .homepage-container .login-box em {
@@ -1056,6 +1035,7 @@ body.home-page .select-room-container .logo {
   margin-bottom: 1em;
 }
 body.home-page footer {
+  margin-top: 30px;
   font-size: 10px;
   font-weight: bold;
   bottom: 30px;
