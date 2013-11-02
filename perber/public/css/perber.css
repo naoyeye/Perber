@@ -26,6 +26,7 @@ html{
     color: #fff!important;
     font-size: 14px;*/
     text-transform: none;
+    font-weight: 100;
 }
 
 /*.home-card .ui.basic.button:hover{
