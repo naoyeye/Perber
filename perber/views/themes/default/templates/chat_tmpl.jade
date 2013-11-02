@@ -1,7 +1,7 @@
 script#chat_box(type='text/html')
   .chat-box(data-user='{{ nickname }}', data-provider='{{ provider }}', data-type='{{ type }}')
     
-    if provider  = 'douban'
+    if provider  = douban
       div(class="avatar avatar-{{ provider }}")
         img(src="{{ avatar }}")
         a(href="https://{{ provider }}.com/people/{{ nickname }}")(target='_blank')

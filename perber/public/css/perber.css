@@ -3,7 +3,45 @@
 * @Date:   2013-11-02 21:18:23
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2013-11-02 21:21:24
+* @Last Modified time: 2013-11-02 22:21:37
 */
 
+html{
+    height: 100%;
+}
+.home-page{
+    height: 100%;
+    margin: 0;
+    background: #f1f1f1 url(../img/bg-photo-2.jpg) center center no-repeat;
+    background-size: cover;
+}
 .home-card{padding-top: 50px;}
+.home-card h3{font-weight: normal;color: #777;font-size: 18px;}
+/*.logo{width:150px;height:150px; padding: 40px;margin:0 auto; background: #fff;border-radius: 50%;text-align: center;}*/
+.logo img{max-width: 100%}
+
+.home-card .ui.button{
+/*    background-color: rgba(0,0,0,0.1)!important;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0);
+    color: #fff!important;
+    font-size: 14px;*/
+    text-transform: none;
+}
+
+/*.home-card .ui.basic.button:hover{
+    background-color: #009A93!important;
+    box-shadow: 0 -0.2rem 0 rgba(0, 0, 0, 0.1) inset!important;
+}*/
+.copyright{
+    font-size: 11px;
+    background: rgba(0,0,0,0.7);
+    padding: 8px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: 3px 0 0 0;
+}
+.copyright a{
+    color: #bbb;
+    text-decoration: none;
+}

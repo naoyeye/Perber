@@ -3,13 +3,13 @@
 
     "auth": {
         "twitter": {
-            "consumerkey" : "yourConsumerKey",
-            "consumersecret" : "yourSecretKey",
+            "consumerkey" : "sIgzKXRq3ngxXZoTZY0HVw",
+            "consumersecret" : "l54D81rJCdzbljofbotg7G6a52VpexTdBJ8D1rw08k",
             "callback" : "http://127.0.0.1:6789/auth/twitter/callback"
         },
         "facebook": {
-            "clientid" : "yourClientID",
-            "clientsecret" : "yourClientSecret",
+            "clientid" : "103181313124110",
+            "clientsecret" : "b327b689322e6954408506d92057a18c",
             "callback" : "http://127.0.0.1:6789/auth/facebook/callback"
         },
         "douban": {

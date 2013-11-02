@@ -52,6 +52,7 @@ module.exports = Strategy;
             callbackURL: config.auth.facebook.callback
         },
         function(accessToken, refreshToken, profile, done) {
+            console.log(profile)
             return done(null, profile);
         }
         ));

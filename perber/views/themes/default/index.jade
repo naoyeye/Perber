@@ -5,8 +5,17 @@ block content
 		.column.row.center.aligned.middle
 			.column.vertical
 				.home-card
-					img.logo(src='img/logo.png', srcset="logo@2x.png 2x", alt='Perber')
+					.logo
+						img(src='img/logo.png', srcset="logo@2x.png 2x", alt='Perber')
 					h3 
-					p
-						a.ui.button.teal(href="/auth/douban",style="font-weight:normal")
-							| 用豆瓣登录
+						|Just Talk
+					.buttons.ui
+						a.ui.button.green(href="/auth/douban",style="font-weight:normal")
+							|Douban
+						a.ui.button.facebook(href="/auth/facebook",style="font-weight:normal")
+							|Facebook
+						a.ui.button.twitter(href="/auth/twitter",style="font-weight:normal")
+							|Twitter
+					.copyright
+						a(href="http://www.flickr.com/photos/basf/6923264227/", target="_blank")
+							|BASF - The Chemical Company 
