@@ -1,0 +1,24 @@
+{
+  "name": "Balloons.io",
+  "description": "Web multi-room chat server and client ready to use.",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "3.3.4",
+    "connect": "~2.8.4",
+    "debug": "~0.7.2",
+    "cookie": "0.0.x",
+    "jade": "~0.33.0",
+    "socket.io": "~0.9.16",
+    "redis": "0.7.2",
+    "connect-redis": "1.4.x",
+    "passport": "~0.1.17",
+    "passport-facebook": "~0.1.5",
+    "passport-twitter": "~0.1.5",
+    "passport-douban": "~0.0.1",
+    "component-type": "component/type"
+  },
+  "engines": {
+    "node": ">= 0.8.0",
+    "npm": ">= 1.0"
+  }
+}

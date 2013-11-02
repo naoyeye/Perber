@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Perber</title>
+    <meta name="keywords" content="Perber">
+    <meta name="description" content="Perber">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/semantic.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/perber.css"/>
+
+    <script type="text/javascript" src="js/jquery.1.10.1.min.js"></script>
+    <script type="text/javascript" src="js/semantic.min.js"></script>
+
+    
+
+    <script type="text/javascript" src="js/json2.js"></script>
+    <script type="text/javascript" src="js/underscore.1.5.2.min.js"></script>
+    <script type="text/javascript" src="js/backbone.1.1.0.min.js"></script>
+    <script type="text/javascript" src="js/marionette.1.2.0.js"></script>
+
+    <script type="text/javascript" src="js/mentions_input.js"></script>
+    <script type="text/javascript" src="js/highlight.js"></script>
+
+    <script type="text/javascript" src="js/application.js"></script>
+    
+    <script type="text/javascript" src="js/app.js"></script>
+    <script>
+    //     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    //     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    //     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    //     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    //     ga('create', 'UA-44986847-1', 'perber.com');
+    //     ga('send', 'pageview');
+    </script>
+</head>
+<body>
+<header id="header"></header>
+<div id="sidebar"></div>
+<div id="main"></div>
+
+
+
+
+
+<!-- script template -->
+
+<!-- navbar -->
+<script type="text/template" id="template-navbar">
+    <a class="ui secondary labeled icon toggle button">
+        <i class="home icon"></i> Perber 
+    </a>
+</script>
+
+
+<!-- sidebar -->
+<script type="text/template" id="template-sidebar">
+<div class="ui inverted vertical demo sidebar menu">
+    <a class="item">
+        <i class="home icon"></i>
+        Home
+    </a>
+    <a class="active item">
+        <i class="heart icon"></i>
+        Current Section
+    </a>
+    <a class="item">
+        <i class="facebook icon"></i>
+        Like us on Facebook
+    </a>
+    <div class="item">
+        <b>More</b>
+        <div class="menu">
+            <a class="item">About</a>
+            <a class="item">Contact Us</a>
+        </div>
+    </div>
+</div>
+</script>
+
+<!-- toolbar -->
+<!-- <script type="text/template" id="template-toolbar">
+    <div class="ui yellow icon message">
+      <i class="inbox icon"></i>
+      <div class="content">
+        <div class="header">
+          Have you heard about our mailing list? Have you heard about our mailing list? Toolbar  Have you heard about our mailing list? Toolbar 
+          Toolbar
+        </div>
+        <p>Get all the best inventions in your e-mail every day. Sign up now!</p>
+      </div>
+    </div>
+</script> -->
+
+<script type="text/template" id="template-perber-item">
+    <div class="selectable" >
+        <div class="icon"><span>icon</span></div>
+        <div class="content">
+            
+            <p class="message">ddd</p>
+            
+            <span class="time timeago" title=""></span>
+        </div>
+    </div>
+    <!-- ddd -->
+</script>
+
+<!-- 
+<script type="text/template" id="template-perber-list">
+    <div id="perber-list">22</div>
+</script> -->
+
+<!-- 文字聊天 template-activity -->
+<script type="text/template" id="template-activity">
+    <div id="activity-item-wrapper" class="scrollable right_box_inner">
+        <h1><i class="icon-comments"></i> 聊天</h1>
+        <span id="activity-loading"></span>
+        <ul></ul>
+    </div>
+
+    <section class="panel-model noactivity placeholder">
+        <i class="icon-comments-alt"></i>
+        <h2 class="panel-model-header c888">这里还是空的</h2>
+    </section>
+
+    <section class="panel-model loading placeholder">
+        <h2 class="panel-model-header">加载中...</h2>
+        <p class="panel-model-info">正在读取历史记录</p>
+    </section>
+
+    <section class="panel-model sharer">
+        <textarea id="message" placeholder="有什么想说的？" data-placeholder="粘贴或者输入"></textarea>
+    </section>
+</script>
+<!-- 文字聊天 -->
+
+<!-- speakpanel -->
+<!-- <script type="text/template" id="template-speakpanel">
+    <div id="toolbar"></div>
+    <div id="sidebar"></div>
+</script> -->
+
+
+
+<!-- modal -->
+<!-- <script type="text/template" id="template-modal">
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Modal Title
+        </div>
+        <div class="content">
+            <div class="left">
+                Content can appear on left
+            </div>
+            <div class="right">
+                Content can appear on right
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui button">Cancel</div>
+            <div class="ui button">OK</div>
+        </div>
+    </div>
+</script> -->
+
+</body>
+
+</html>

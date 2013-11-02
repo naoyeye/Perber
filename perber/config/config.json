@@ -1,0 +1,31 @@
+{
+    "redisURL": "http://localhost/",
+
+    "auth": {
+        "twitter": {
+            "consumerkey" : "yourConsumerKey",
+            "consumersecret" : "yourSecretKey",
+            "callback" : "http://127.0.0.1:6789/auth/twitter/callback"
+        },
+        "facebook": {
+            "clientid" : "yourClientID",
+            "clientsecret" : "yourClientSecret",
+            "callback" : "http://127.0.0.1:6789/auth/facebook/callback"
+        },
+        "douban": {
+            "clientid" : "05e21bd92de6b69111a6538b89b423b3",
+            "clientsecret" : "b77cfc40c6f23ae9",
+            "callback" : "http://127.0.0.1:6789/auth/douban/callback"
+        }
+    },
+
+    "session" : {
+        "secret" : "yourbestsecret"
+    },
+    "app": {
+        "port": 6789
+    },
+    "theme": {
+        "name" : "default"
+    }
+}
