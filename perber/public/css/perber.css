@@ -3,7 +3,7 @@
 * @Date:   2013-11-02 21:18:23
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2013-11-03 17:44:09
+* @Last Modified time: 2013-11-03 18:01:30
 */
 
 /*******************************
@@ -244,4 +244,16 @@ body.home-page{
 .copyright a{
     color: #bbb;
     text-decoration: none;
+}
+
+@media(max-width: 320px){
+    .home-card h3{
+        font-size: 40px;
+    }
+    .logo{
+        margin: 0 70px;
+    }
+    .home-card .ui.button{
+        padding: 0.8em 1em;
+    }
 }
