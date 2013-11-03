@@ -1,21 +1,22 @@
 extends layout
 
 block content
-	.ui.grid.column
-		.column.row.center.aligned.middle
-			.column.vertical
-				.home-card
-					.logo
-						img(src='img/logo.png', srcset="logo@2x.png 2x", alt='Perber')
-					h3 
-						|Just Talk
-					.buttons.ui
-						a.ui.button.green(href="/auth/douban")
-							|Douban
-						a.ui.button.facebook(href="/auth/facebook")
-							|Facebook
-						a.ui.button.twitter(href="/auth/twitter")
-							|Twitter
-					.copyright
-						a(href="http://www.flickr.com/photos/basf/6923264227/", target="_blank")
-							|BASF - The Chemical Company 
+	#home-wrapper.bg-overlay
+		.ui.grid.column
+			.column.row.center.aligned.middle
+				.column.vertical
+					.home-card
+						.logo
+							img(src='img/logo.png', srcset="logo@2x.png 2x", alt='Perber')
+						h3 
+							|Just Talk
+						.buttons.ui
+							a.ui.button.green(href="/auth/douban")
+								|Douban
+							a.ui.button.facebook(href="/auth/facebook")
+								|Facebook
+							a.ui.button.twitter(href="/auth/twitter")
+								|Twitter
+						.copyright
+							a(href="http://www.flickr.com/photos/basf/6923264227/", target="_blank")
+								|BASF - The Chemical Company 
