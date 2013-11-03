@@ -3,7 +3,7 @@
 * @Date:   2013-11-02 21:18:23
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2013-11-03 18:01:30
+* @Last Modified time: 2013-11-03 18:10:23
 */
 
 /*******************************
@@ -233,7 +233,7 @@ body.home-page{
     box-shadow: 0 -0.2rem 0 rgba(0, 0, 0, 0.1) inset!important;
 }*/
 .copyright{
-    font-size: 11px;
+    font-size: 9px;
     background: rgba(0,0,0,0.7);
     padding: 8px;
     position: fixed;
