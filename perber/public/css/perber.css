@@ -3,7 +3,7 @@
 * @Date:   2013-11-02 21:18:23
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2013-11-03 18:49:14
+* @Last Modified time: 2013-11-04 03:27:42
 */
 
 /*
@@ -93,6 +93,7 @@ h3::selection {
 /*******************************
              Global
 *******************************/
+img{max-width: 100%}
 
 html,
 body {
@@ -108,7 +109,8 @@ body {
     min-width: 310px;
 
     font-weight: 300;
-    letter-spacing: 1px;
+    /*letter-spacing: 1px;*/
+    text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -118,9 +120,11 @@ h4,
 h5 {
   font-family: "Roboto", "Source Sans Pro", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   font-weight: 400;
-  letter-spacing: 0
+  letter-spacing: 0;
+  color:#fff;
 }
 .ui.grid{margin: 0;}
+
 /*
 p,
 ul,
@@ -129,7 +133,6 @@ li {
   font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   font-size-adjust: none;
 }*/
-
 
 ul.list {
   list-style-type: disc;
@@ -162,7 +165,7 @@ code {
   background-color: rgba(0, 0, 0, 0.02);
   border: 1px solid rgba(0, 0, 0, 0.1);
   display: inline-block;
-  font-family: Courier New;
+  font-family: "Courier New";
   font-size: 14px;
   margin: 0.25em;
   padding: 0.125em 0.5em;
@@ -187,6 +190,7 @@ p:first-child {
 p:last-child {
   margin-bottom: 0em;
 }
+
 /* links */
 a {
   color: #009FDA;
@@ -196,16 +200,7 @@ a:hover {
   color: #00BAFF;
 }
 
-
-/*landing*/
-#home-wrapper{
-    height: 100%;
-    background: #f1f1f1 url(../img/bg-photo-2.jpg) center center fixed no-repeat;
-    background-size: cover;
-}
-.home-card{padding-top: 50px;position: relative;z-index: 2}
-.bg-overlay:after{
-    content: "";
+.bg-overlay{
     width: 100%;
     height: 100%;
     position: absolute;
@@ -217,9 +212,24 @@ a:hover {
     background:-webkit-gradient(radial, 0 50%, 0 20%, from(rgba(0,0,0,0.1)), to(rgba(0,0,0,0.8)));
     z-index: 1;
 }
+.wrapper{
+    position: relative;
+    z-index: 2;
+}
+
+/*================landing================*/
+#home-wrapper{
+    height: 100%;
+    background: #f1f1f1 url(../img/bg-photo-2.jpg) center center fixed no-repeat;
+    background-size: cover;
+}
+.home-card{padding-top: 50px;}
+
 .home-card h3{font-weight: 100;color: #fff;font-size: 69px;line-height: 1}
-/*.logo{width:150px;height:150px; padding: 40px;margin:0 auto; background: #fff;border-radius: 50%;text-align: center;}*/
-.logo img{max-width: 100%}
+
+/*
+.logo{width:150px;height:150px; padding: 40px;margin:0 auto; background: #fff;border-radius: 50%;text-align: center;}
+*/
 
 .home-card .ui.button{
     text-transform: none;
@@ -229,7 +239,9 @@ a:hover {
 .copyright{
     font-size: 9px;
     background: rgba(0,0,0,0.7);
-    padding: 8px;
+    line-height: 12px;
+    text-align: center;
+    width: 100%;
     position: fixed;
     right: 0;
     bottom: 0;
@@ -240,27 +252,95 @@ a:hover {
     text-decoration: none;
 }
 
-/*room-list*/
+/*================room-list================*/
 #room-list-wrapper{
     height: 100%;
-    background: #f1f1f1 url(../img/bg-photo-3.jpg) center center fixed no-repeat;
+    background: #f1f1f1 url(../img/bg-photo.jpg) center center fixed no-repeat;
     background-size: cover;
 }
+
 .room-list{
     padding-top: 50px;
     position: relative;
     z-index: 2
 }
 
-/*Responsive*/
+/*================Responsive================*/
 @media(max-width: 320px){
-    .home-card h3{
+
+
+/*================landing================*/
+    #home-wrapper{
+        /*padding-top: 250px;*/
+    }
+    #home-wrapper .home-card h3{
         font-size: 40px;
+        font-family: 'Baumans';
     }
-    .logo{
-        margin: 0 70px;
+
+    #home-wrapper .home-card .ui.button{
+        padding: 0.6em 1em 0.9em 1em;
+        font-weight: 300;
     }
-    .home-card .ui.button{
-        padding: 0.8em 1em;
+
+    #home-wrapper .logo{
+        margin: 0 80px;
     }
+
+/*================rooms================*/
+    #room-list-wrapper{
+        background: #f1f1f1 url(../img/bg-photo-3.jpg) center center no-repeat;
+        background-size: cover;
+    }
+    #room-list-wrapper .bg-overlay{
+/*        height: 100%;
+        position: fixed;
+        background: rgba(0,0,0,0.2);*/
+        background:-moz-radial-gradient(50% 20%, rgba(0,0,0,0), rgba(0,0,0,0.5));
+        background:-webkit-radial-gradient(50% 20%, rgba(0,0,0,0), rgba(0,0,0,0.5));
+        background:-webkit-gradient(radial, 0 50%, 0 20%, from(rgba(0,0,0,0)), to(rgba(0,0,0,0.5)));
+    }
+
+     #room-list-wrapper .logo{
+        position: relative;
+        top: 10px;
+        left:10px;
+        width: 50px;
+        height: 50px;
+        /*background: rgba(255,255,255,0.2);*/
+        border-radius: 50%;
+        text-align: center;
+    }
+    #room-list-wrapper .logo a{
+        margin-top: 5px;
+        font-size: 30px;
+        font-family: 'Baumans';
+        /*color: rgba(0,0,0,0.3);*/
+        color: #1d3748;
+        display: inline-block;
+        background: rgba(255,255,255,0.3);
+        /*background-size: 60%;*/
+        width: 37px;
+        padding-left: 3px;
+        height: 40px;
+        line-height: 28px;
+        text-align: center;
+        border-radius: 50%;
+    }
+    /*#room-list-wrapper .logo a:active{
+        border:5px solid #fff;
+    }*/
+    #room-list-wrapper h4{
+        font-size: 2.5rem;
+        font-weight: 100;
+        margin:0;
+    }
+
+
 }
+
+
+
+
+
+

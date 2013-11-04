@@ -1,16 +1,18 @@
 extends layout
 
 block content
-	#room-list-wrapper.bg-overlay
-		.ui.grid.column
-			.column.row.center.aligned.middle
-				.column.vertica
-					.room-list
-						.logo
-							img(src='img/logo.png', height="140", srcset="logo@2x.png 2x", alt='Perber')
-						.clear
-						.rooms-block
-							h4 Select a room:
+	#room-list-wrapper
+		.bg-overlay
+		.wrapper
+			.logo
+				a(href="/")
+					|p
+			.ui.grid.column
+				.column.row.center.aligned.middle
+					.column.vertica
+						.room-list
+							
+							h4 Select a room
 							.room-list.hide-inactive
 								each room,index in rooms
 									- var roomClass = room.online > 0 ? "room-active" : "room-inactive";
@@ -23,13 +25,12 @@ block content
 								input(type='checkbox', id="hide-inactive", checked) 
 								label(for="hide-inactive") Hide inactive
 						.create-room-block
-							h4
-								em or
-								| Create a new one:
+							h4 Create a new one
 							form(method="POST",action="/create")
 								p
 									input.text-grey(type='text', name='room_name', value='', placeholder='Name of your room')
-								input.ui.button.teal(type='submit', value='Create now')
+								button.ui.button.teal(type='submit')
+									| Create now:
 
 
 

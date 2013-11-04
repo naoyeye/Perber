@@ -3,18 +3,18 @@
 
     "auth": {
         "twitter": {
-            "consumerkey" : "sIgzKXRq3ngxXZoTZY0HVw",
-            "consumersecret" : "l54D81rJCdzbljofbotg7G6a52VpexTdBJ8D1rw08k",
+            "consumerkey" : "your consumerkey",
+            "consumersecret" : "your consumersecret",
             "callback" : "http://127.0.0.1:6789/auth/twitter/callback"
         },
         "facebook": {
-            "clientid" : "103181313124110",
-            "clientsecret" : "b327b689322e6954408506d92057a18c",
+            "clientid" : "your clientid",
+            "clientsecret" : "your clientsecret",
             "callback" : "http://127.0.0.1:6789/auth/facebook/callback"
         },
         "douban": {
-            "clientid" : "05e21bd92de6b69111a6538b89b423b3",
-            "clientsecret" : "b77cfc40c6f23ae9",
+            "clientid" : "clientid",
+            "clientsecret" : "clientsecret",
             "callback" : "http://127.0.0.1:6789/auth/douban/callback"
         }
     },
