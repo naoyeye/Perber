@@ -10,23 +10,27 @@ block content
 			.ui.grid.column
 				.column.row.center.aligned.middle
 					.column.vertica
-						.room-list
-							
-							h4 Select a room
-							.room-list.hide-inactive
+						.room-list-block
+							h4 Select
+
+							ul.hide.room-list.hide-inactive
 								each room,index in rooms
 									- var roomClass = room.online > 0 ? "room-active" : "room-inactive";
 									- var word = room.online == 1 ? "user" : "users";
-									a(href='/' + room.key, class="#{roomClass}", title="#{room.name}")
-										| #{room.name.substr(0,20)}
-										span.users-online
-											| #{room.online} #{word}
-							.inactive
-								input(type='checkbox', id="hide-inactive", checked) 
-								label(for="hide-inactive") Hide inactive
+									li
+										a(href='/' + room.key, class="#{roomClass}", title="#{room.name}")
+											| #{room.name.substr(0,20)}
+											span.users-online
+												| #{room.online} #{word}
+						.inactive.hide
+							input(type='checkbox', id="hide-inactive", checked) 
+							label(for="hide-inactive") Hide inactive
+
+						.gap or
+
 						.create-room-block
-							h4 Create a new one
-							form(method="POST",action="/create")
+							h4 Create
+							form.hide(method="POST",action="/create")
 								p
 									input.text-grey(type='text', name='room_name', value='', placeholder='Name of your room')
 								button.ui.button.teal(type='submit')
@@ -39,3 +43,19 @@ block content
 		$('#hide-inactive').click(function(ev) {
 			$('.room-list').toggleClass('hide-inactive');
 		});
+		$('.room-list-block h4').click(function(){
+			var ul = $('.room-list-block ul'),
+				inactive = $('.inactive');
+			
+			if (ul.hasClass('hide')){
+				$('.room-list-block').addClass('active');
+				ul.slideDown(150).removeClass('hide');
+				inactive.slideDown(150);
+			} else {
+				$('.room-list-block').removeClass('active');
+				ul.slideUp(150).addClass('hide');
+				inactive.slideUp(150);
+			}
+		})
+
+

@@ -134,6 +134,12 @@ li {
   font-size-adjust: none;
 }*/
 
+ul,ol,li{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
 ul.list {
   list-style-type: disc;
 }
@@ -200,6 +206,13 @@ a:hover {
   color: #00BAFF;
 }
 
+/*******************************
+             Public
+*******************************/
+.hide{display: none;}
+.show{display: block;}
+.f_w_100{font-weight: 100;}
+
 .bg-overlay{
     width: 100%;
     height: 100%;
@@ -217,19 +230,39 @@ a:hover {
     z-index: 2;
 }
 
+/*******************************
+             Pages
+*******************************/
+
 /*================landing================*/
 #home-wrapper{
     height: 100%;
-    background: #f1f1f1 url(../img/bg-photo-2.jpg) center center fixed no-repeat;
+    background: #213855 url(../img/bg-photo-2.jpg) center center fixed no-repeat;
     background-size: cover;
 }
 .home-card{padding-top: 50px;}
 
-.home-card h3{font-weight: 100;color: #fff;font-size: 69px;line-height: 1}
 
-/*
-.logo{width:150px;height:150px; padding: 40px;margin:0 auto; background: #fff;border-radius: 50%;text-align: center;}
-*/
+.home-card .logo{/*width:150px;height:150px; padding: 40px;margin:0 auto; background: #fff;border-radius: 50%;text-align: center;*/
+    font-family: "Baumans";
+    font-size: 120px;
+    line-height: 1;
+    color: #fff;
+    color: rgba(255,255,255,0.85);
+}
+
+.home-card h3{
+    font-weight: 100;
+    color: #fff;
+    color: rgba(255,255,255,0.85);
+    font-size: 50px;
+    line-height: 1;
+    font-family: "Baumans";
+    margin: 30px 0 40px 0;
+}
+
+
+
 
 .home-card .ui.button{
     text-transform: none;
@@ -239,13 +272,12 @@ a:hover {
 .copyright{
     font-size: 9px;
     background: rgba(0,0,0,0.7);
-    line-height: 12px;
+    line-height: 15px;
     text-align: center;
     width: 100%;
     position: fixed;
     right: 0;
     bottom: 0;
-    border-radius: 3px 0 0 0;
 }
 .copyright a{
     color: #bbb;
@@ -255,15 +287,91 @@ a:hover {
 /*================room-list================*/
 #room-list-wrapper{
     height: 100%;
-    background: #f1f1f1 url(../img/bg-photo.jpg) center center fixed no-repeat;
+    background: #213855 url(../img/bg-photo.jpg) center center fixed no-repeat;
     background-size: cover;
 }
 
-.room-list{
-    padding-top: 50px;
+ #room-list-wrapper .logo{
+    position: fixed;
+    top: 10px;
+    left:10px;
+    width: 50px;
+    height: 50px;
+    /*background: rgba(255,255,255,0.2);*/
+    border-radius: 50%;
+    text-align: center;
+}
+#room-list-wrapper .logo a{
+    margin-top: 5px;
+    font-size: 30px;
+    font-family: 'Baumans';
+    /*color: rgba(0,0,0,0.3);*/
+    color: #1d3748;
+    display: inline-block;
+    background: rgba(255,255,255,0.3);
+    /*background-size: 60%;*/
+    width: 37px;
+    padding-left: 3px;
+    height: 40px;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 50%;
+}
+/*#room-list-wrapper .logo a:active{
+    border:5px solid #fff;
+}*/
+#room-list-wrapper h4{
+    font-size: 4rem;
+    font-weight: 100;
+    margin:0;
+    display: inline-block;
+    padding: 10px 20px;
+}
+#room-list-wrapper h4:hover{
+    background:rgba(255,255,255,0.05);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#room-list-wrapper h4 i{
+    font-style: normal;
+    padding-right: 10px;
+    padding-top: 5px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.gap{padding: 20px;font-size: 40px;color: #fff;font-weight: 100;}
+
+.room-list-block{
+    padding-top: 60px;
+    padding-left: 0;
+    margin: 0;
     position: relative;
     z-index: 2
 }
+
+#room-list-wrapper .room-list-block.active h4,
+#room-list-wrapper .room-list-block.active h4:hover{
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
+.room-list-block ul.room-list{
+    padding: 20px 0;
+    background:rgba(255,255,255,0.1);
+    margin:20px -1.5% 10px -1.5%;
+}
+.room-list-block ul.room-list li a{
+    display: block;
+    padding: 10px 0;
+}
+
+.room-list-block ul.room-list.hide-inactive li a.room-inactive {
+    display: none;
+}
+
+
 
 /*================Responsive================*/
 @media(max-width: 320px){
@@ -274,7 +382,7 @@ a:hover {
         /*padding-top: 250px;*/
     }
     #home-wrapper .home-card h3{
-        font-size: 40px;
+        /*font-size: 40px;*/
         font-family: 'Baumans';
     }
 
@@ -289,52 +397,22 @@ a:hover {
 
 /*================rooms================*/
     #room-list-wrapper{
-        background: #f1f1f1 url(../img/bg-photo-3.jpg) center center no-repeat;
-        background-size: cover;
+        background: none;
     }
     #room-list-wrapper .bg-overlay{
-/*        height: 100%;
+        content: "";
         position: fixed;
-        background: rgba(0,0,0,0.2);*/
-        background:-moz-radial-gradient(50% 20%, rgba(0,0,0,0), rgba(0,0,0,0.5));
-        background:-webkit-radial-gradient(50% 20%, rgba(0,0,0,0), rgba(0,0,0,0.5));
-        background:-webkit-gradient(radial, 0 50%, 0 20%, from(rgba(0,0,0,0)), to(rgba(0,0,0,0.5)));
+        left:0;
+        right: 0;
+        top:0;
+        bottom:0;
+        background: #213855 url(../img/bg-photo-3.jpg) center center no-repeat;
+        background-size: cover;
+        z-index: -1;
     }
 
-     #room-list-wrapper .logo{
-        position: relative;
-        top: 10px;
-        left:10px;
-        width: 50px;
-        height: 50px;
-        /*background: rgba(255,255,255,0.2);*/
-        border-radius: 50%;
-        text-align: center;
-    }
-    #room-list-wrapper .logo a{
-        margin-top: 5px;
-        font-size: 30px;
-        font-family: 'Baumans';
-        /*color: rgba(0,0,0,0.3);*/
-        color: #1d3748;
-        display: inline-block;
-        background: rgba(255,255,255,0.3);
-        /*background-size: 60%;*/
-        width: 37px;
-        padding-left: 3px;
-        height: 40px;
-        line-height: 28px;
-        text-align: center;
-        border-radius: 50%;
-    }
-    /*#room-list-wrapper .logo a:active{
-        border:5px solid #fff;
-    }*/
-    #room-list-wrapper h4{
-        font-size: 2.5rem;
-        font-weight: 100;
-        margin:0;
-    }
+
+
 
 
 }
