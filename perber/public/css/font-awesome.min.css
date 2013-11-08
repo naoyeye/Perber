@@ -400,6 +400,7 @@
 ionicons
 http://ionicons.com/
 ===========*/
+
 @font-face {
     font-family: 'ionicons'!important;
     src:url('../fonts/ionicons.eot');
@@ -411,6 +412,7 @@ http://ionicons.com/
     font-style: normal;
 }
 
+i.icon,
 [class*="icon-"] {
     font-family: 'ionicons';
     speak: none;

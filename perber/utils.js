@@ -1,5 +1,16 @@
+/* 
+* @Author: hanjiyun
+* @Date:   2013-11-08 16:32:13
+* @Email:  jiyun@han.im
+* @Last modified by:   hanjiyun
+* @Last Modified time: 2013-11-08 17:05:48
+*/
+
+
+
 var crypto = require('crypto'),
-    type = require('component-type');
+    type = require('type-component'),
+    sanitize = require('validator').sanitize; //fix
 
 /*
  * Restrict paths
@@ -25,7 +36,7 @@ var crypto = require('crypto'),
  */
 
  exports.validRoomName = function(req, res, fn) {
-    req.body.room_name = req.body.room_name.trim();
+    req.body.room_name = sanitize(req.body.room_name).trim();
     var nameLen = req.body.room_name.length;
 
     if(nameLen < 255 && nameLen >0) {
@@ -52,8 +63,8 @@ exports.roomExists = function(req, res, client, fn) {
  * Creates a room
  */       
 exports.createRoom = function(req, res, client) {
-    var roomKey = exports.genRoomKey()
-    , room = {
+    var roomKey = exports.genRoomKey(),
+    room = {
         key: roomKey,
         name: req.body.room_name,
         admin: req.user.provider + ":" + req.user.username,

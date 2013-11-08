@@ -15,7 +15,8 @@
     "passport-facebook": "~0.1.5",
     "passport-twitter": "~0.1.5",
     "passport-douban": "~0.0.1",
-    "component-type": "component/type"
+    "type-component": "0.0.1",
+    "validator": "2.0.0"
   },
   "engines": {
     "node": ">= 0.8.0",

@@ -370,6 +370,11 @@ a:hover {
 .room-list-block ul.room-list.hide-inactive li a.room-inactive {
     display: none;
 }
+.input.ui input.new-room{
+    border:none;
+    background: rgba(255,255,255,0.6);
+    color: #fff;
+}
 
 
 

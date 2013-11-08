@@ -5,36 +5,35 @@ block content
 		.bg-overlay
 		.wrapper
 			.logo
-				a(href="/")
-					|p
+				a(href="/") p
 			.ui.grid.column
 				.column.row.center.aligned.middle
 					.column.vertica
-						.room-list-block
-							h4 Select
+						if rooms.length > 0
+							.room-list-block
+								h4 Select
+								ul.hide.room-list.hide-inactive
+									each room,index in rooms
+										- var roomClass = room.online > 0 ? "room-active" : "room-inactive";
+										- var word = room.online == 1 ? "user" : "users";
+										li
+											a(href='/' + room.key, class="#{roomClass}", title="#{room.name}")
+												| #{room.name.substr(0,20)}
+												span.users-online
+													| #{room.online} #{word}
+							.inactive.hide
+								input(type='checkbox', id="hide-inactive", checked) 
+								label(for="hide-inactive") Hide inactive
 
-							ul.hide.room-list.hide-inactive
-								each room,index in rooms
-									- var roomClass = room.online > 0 ? "room-active" : "room-inactive";
-									- var word = room.online == 1 ? "user" : "users";
-									li
-										a(href='/' + room.key, class="#{roomClass}", title="#{room.name}")
-											| #{room.name.substr(0,20)}
-											span.users-online
-												| #{room.online} #{word}
-						.inactive.hide
-							input(type='checkbox', id="hide-inactive", checked) 
-							label(for="hide-inactive") Hide inactive
-
-						.gap or
+							.gap or
 
 						.create-room-block
 							h4 Create
-							form.hide(method="POST",action="/create")
-								p
-									input.text-grey(type='text', name='room_name', value='', placeholder='Name of your room')
-								button.ui.button.teal(type='submit')
-									| Create now:
+							form(method="POST",action="/create")
+
+								.ui.big.icon.input
+									input.new-room(type='text', name='room_name', value='', placeholder='Name of your room')
+									i.icon.icon-ios7-plus-empty
 
 
 
