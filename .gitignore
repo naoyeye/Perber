@@ -14,5 +14,7 @@ results
 npm-debug.log
 node_modules
 config.json
-perber/chats/*.txt
+*.txt
+!humans.txt
+!robots.txt
 
