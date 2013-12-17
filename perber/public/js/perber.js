@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-17 16:54:59
+* @Last Modified time: 2013-12-17 20:57:48
 */
 
 
@@ -16,6 +16,7 @@ $(function() {
     updateTitle();
 
     focusInput();
+
 
     // Then check users online!
     $('.people a').each(function(index, element) {
@@ -44,7 +45,12 @@ $(function() {
         $(this).hide().after('<p class="inviting-people">Inviting peple, please wait.</p>').delay(2000).hide().after('something');
     });
 
-  //Socket.io
+/*
+=================
+    Socket.io
+=================
+*/
+
     var socket = io.connect("", {
         "connect timeout": 1000
     });
@@ -60,6 +66,11 @@ $(function() {
         }
     });
 
+
+
+/*
+history respinse
+*/
     socket.on('history response', function(data) {
         if(data.history && data.history.length) {
             var $lastInput,
@@ -75,8 +86,9 @@ $(function() {
                     provider: provider,
                     msg: historyLine.withData,
                     type: 'history',
-                    time: timeParser(time)
+                    time: time
                 };
+
 
                 $lastInput = $('.chat .history').children().last();
                 lastInputUserKey = $lastInput.data('provider') + ':' + $lastInput.data('user');
@@ -89,9 +101,16 @@ $(function() {
 
                 $('.chat').scrollTop($('.chat').prop('scrollHeight'));
             });
+
+            $('time.time').timeago();
+
         }
     });
 
+
+/*
+new user
+*/
     socket.on('new user', function(data) {
         var message = "$username has joined the room.";
 
@@ -109,7 +128,7 @@ $(function() {
                 noticeBoxData = {
                 user: data.nickname,
                 noticeMsg: message,
-                time: timeParser(time)
+                time: time
             };
 
             var $lastChatInput = $('.chat .current').children().last();
@@ -126,6 +145,12 @@ $(function() {
         }
     });
 
+
+
+/*
+user-info update
+*/
+/*
     socket.on('user-info update', function(data) {
         var message = "$username is now $status.";
 
@@ -150,7 +175,7 @@ $(function() {
         noticeBoxData = {
             user: data.username,
             noticeMsg: message,
-            time: timeParser(time)
+            time: time
         };
 
         var $lastChatInput = $('.chat .current').children().last();
@@ -162,14 +187,21 @@ $(function() {
             $('.chat').scrollTop($('.chat').prop('scrollHeight'));
         }
     });
+*/
 
+
+
+
+/*
+new msg
+*/
     socket.on('new msg', function(data) {
         var time = new Date(),
             $lastInput = $('.chat .current').children().last(),
             lastInputUserKey = $lastInput.data('provider') + ':' + $lastInput.data('user');
 
         data.type = 'chat';
-        data.time = timeParser(time)
+        data.time = time;
 
         if($lastInput.hasClass('chat-box') && lastInputUserKey === data.provider + ':' + data.nickname) {
             $lastInput.append(parseChatBoxMsg(ich.chat_box_text(data)));
@@ -179,6 +211,8 @@ $(function() {
 
         $('.chat').scrollTop($('.chat').prop('scrollHeight'));
 
+        $(".time").timeago();
+
         //update title if window is hidden
         if(windowStatus == "hidden") {
             afkDeliveredMessages +=1;
@@ -186,6 +220,11 @@ $(function() {
         }
     });
 
+
+
+/*
+user leave
+*/
     socket.on('user leave', function(data) {
         var nickname = $('#username').text(),
             message = "$username has left the room.";
@@ -210,7 +249,7 @@ $(function() {
                         noticeBoxData = {
                             user: data.nickname,
                             noticeMsg: message,
-                            time: timeParser(time)
+                            time: time
                         };
 
                         var $lastChatInput = $('.chat .current').children().last();
@@ -226,6 +265,18 @@ $(function() {
             }
         }
     });
+
+
+
+
+
+
+/*
+=================
+   Say
+=================
+*/
+
 
     $(".chat-input input").keypress(function(e) {
         var inputText = $(this).val().trim();
@@ -245,28 +296,16 @@ $(function() {
         }
     });
 
-    $('.dropdown-status .list a.status').click(function(e) {
-        socket.emit('set status', {
-            status: $(this).data('status')
-        });
-    });
-
-    var timeParser = function(date) {
-        var hours = date.getHours(),
-            minutes = date.getMinutes(),
-            seconds = date.getSeconds();
-        return {
-            hours: hours > 12 ? hours - 12 : hours,
-            minutes: minutes > 10 ? minutes : '0' + minutes,
-            seconds: seconds > 10 ? seconds : '0' + seconds,
-            meridiem: hours > 12 ? 'PM' : 'AM'
-        }
-    };
+    // $('.dropdown-status .list a.status').click(function(e) {
+    //     socket.emit('set status', {
+    //         status: $(this).data('status')
+    //     });
+    // });
 
     var textParser = function(text) {
         text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href=\"$1\" target='_blank'>$1</a>").replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
 
-        return  injectEmoticons(text);
+        return injectEmoticons(text);
     };
 
     var parseChatBox = function(chatBox) {
@@ -324,16 +363,67 @@ $(function() {
         return text;
     }
 
-    // TITLE notifications
+
+    Date.prototype.format = function(format){
+        // var o = {
+        //     "M+" : this.getMonth()+1, //month
+        //     "d+" : this.getDate(), //day
+        //     "h+" : this.getHours(), //hour
+        //     "m+" : this.getMinutes(), //minute
+        //     "s+" : this.getSeconds(), //second
+        //     "q+" : Math.floor((this.getMonth()+3)/3), //quarter
+        //     "S" : this.getMilliseconds() //millisecond
+        // }
+
+        // if(/(y+)/.test(format)) format=format.replace(RegExp.$1,(this.getFullYear()+"").substr(4- RegExp.$1.length));
+        // for(var k in o)if(new RegExp("("+ k +")").test(format))
+        //     format = format.replace(RegExp.$1,RegExp.$1.length==1? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+        return format;
+    }
+
+    // Simplified Chinese
+    $.timeago.settings = {
+        refreshMillis : 1000,
+        allowFuture: false,
+        localeTitle: false,
+        cutoff:0,
+        strings: {
+            prefixAgo: null,
+            prefixFromNow: "从现在开始",
+            suffixAgo: "之前",
+            suffixFromNow: null,
+            seconds: "刚刚",
+            minute: "大约 1 分钟",
+            minutes: "%d 分钟",
+            hour: "大约 1 小时",
+            hours: "大约 %d 小时",
+            day: "1 天",
+            days: "%d 天",
+            month: "大约 1 个月",
+            months: "%d 月",
+            year: "大约 1 年",
+            years: "%d 年",
+            numbers: [],
+            wordSeparator: ""
+        }
+    }
+
+
+/*
+=================
+    TITLE notifications
+=================
+*/
+
     var hidden,
-    change,
-    vis = {
-        hidden: "visibilitychange",
-        mozHidden: "mozvisibilitychange",
-        webkitHidden: "webkitvisibilitychange",
-        msHidden: "msvisibilitychange",
-        oHidden: "ovisibilitychange" /* not currently supported */
-    };             
+        change,
+        vis = {
+            hidden: "visibilitychange",
+            mozHidden: "mozvisibilitychange",
+            webkitHidden: "webkitvisibilitychange",
+            msHidden: "msvisibilitychange",
+            oHidden: "ovisibilitychange" /* not currently supported */
+        };
 
     for (var hidden in vis) {
         if (vis.hasOwnProperty(hidden) && hidden in document) {

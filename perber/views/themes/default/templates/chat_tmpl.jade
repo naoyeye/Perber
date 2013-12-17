@@ -9,18 +9,17 @@ script#chat_box(type='text/html')
       div(class="avatar avatar-{{ provider }}")
         // img(src='http://avatars.io/{{ provider }}/{{ nickname }}')
         a(href="https://{{ provider }}.com/{{ nickname }}", target='_blank')
-    h5
       | {{ nickname }}
     {{> chat_box_text }}
 
 script#chat_box_text(type='text/html')
   p
-    span.date {{ time.hours }}:{{ time.minutes }} {{ time.meridiem }}
+    time.time(datetime="{{ time }}") {{ time }}
     | {{ msg }}
 
 script#chat_notice(type='text/html')
   .notice(data-user="{{ user }}")
-    span.date {{ time.hours }}:{{ time.minutes }} {{ time.meridiem }}
+    time.time {{ time }}
     |  {{ noticeMsg }}
 
 script#people_box(type='text/html')
@@ -29,4 +28,4 @@ script#people_box(type='text/html')
     | {{ nickname }}
 
 script#title_template(type='text/html')
-  | {{#count}} ({{ count }}) {{/count}} {{ roomName }} - Balloons.IO
+  | {{#count}} ({{ count }}) {{/count}} {{ roomName }} Perber

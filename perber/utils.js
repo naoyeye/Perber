@@ -3,14 +3,14 @@
 * @Date:   2013-11-08 16:32:13
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2013-12-17 14:18:16
+* @Last Modified time: 2013-12-17 17:27:52
 */
 
 
 
 var crypto = require('crypto'),
     type = require('type-component'),
-    sanitize = require('validator').sanitize; //fix
+    sanitize = require('validator').sanitize; //hanjiyun fix
 
 /*
  * Restrict paths
@@ -23,7 +23,7 @@ var crypto = require('crypto'),
 
 /*
  * Generates a URI Like key for a room
- */       
+ */
 
  exports.genRoomKey = function() {
     var shasum = crypto.createHash('sha1');
@@ -64,13 +64,13 @@ exports.roomExists = function(req, res, client, fn) {
  */       
 exports.createRoom = function(req, res, client) {
     var roomKey = exports.genRoomKey(),
-    room = {
-        key: roomKey,
-        name: req.body.room_name,
-        admin: req.user.provider + ":" + req.user.username,
-        locked: 0,
-        online: 0
-    };
+        room = {
+            key: roomKey,
+            name: req.body.room_name,
+            admin: req.user.provider + ":" + req.user.username,
+            locked: 0,
+            online: 0
+        };
 
     client.hmset('rooms:' + roomKey + ':info', room, function(err, ok) {
         if(!err && ok) {
@@ -135,9 +135,9 @@ exports.getPublicRoomsInfo = function(client, fn) {
 
         online_users.forEach(function(userKey, index) {
             client.get('users:' + userKey + ':status', function(err, status) {
-                var msnData = userKey.split(':')
-                , username = msnData.length > 1 ? msnData[1] : msnData[0]
-                , provider = msnData.length > 1 ? msnData[0] : "twitter";
+                var msnData = userKey.split(':'),
+                username = msnData.length > 1 ? msnData[1] : msnData[0],
+                provider = msnData.length > 1 ? msnData[0] : "twitter";
 
                 users.push({
                     username: username,
@@ -178,6 +178,12 @@ exports.getPublicRoomsInfo = function(client, fn) {
  */
 
  exports.enterRoom = function(req, res, room, users, rooms, status){
+
+    // var room = {
+    //         key: null,
+    //         name: '测试'
+    //     };
+
     res.locals({
         room: room,
         rooms: rooms,

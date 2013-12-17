@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2013-12-15 23:39:06
+* @Last Modified time: 2013-12-17 17:30:13
 */
 
 
@@ -123,15 +123,15 @@ app.post('/create', utils.restrict, function(req, res) {
 */
 
 app.get('/:id', utils.restrict, function(req, res) {
-    utils.getRoomInfo(req, res, client, function(room) {
-        utils.getUsersInRoom(req, res, client, room, function(users) {
-            utils.getPublicRoomsInfo(client, function(rooms) {
+    // utils.getRoomInfo(req, res, client, function(room) {
+        // utils.getUsersInRoom(req, res, client, room, function(users) {
+            // utils.getPublicRoomsInfo(client, function(rooms) {
                 utils.getUserStatus(req.user, client, function(status) {
                     utils.enterRoom(req, res, room, users, rooms, status);
                 });
-            });
-        });
-    });
+            // });
+        // });
+    // });
 });
 
 }

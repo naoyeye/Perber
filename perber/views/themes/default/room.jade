@@ -2,19 +2,15 @@ extends layout
 
 block content
     .wrap
-        header
-
         .content(role='main')
             .chat
                 .history
 
                 .current
 
-            .line-chat
-            .line-chat.second
 
-            .chat-input
-                input.text(type='text', name='', placeholder="Your Message", value='')
+            div(class="chat-input ui input")
+                input.text(type="text", name="", placeholder="Say somthing", value="")
 
 
     include templates/chat_tmpl
