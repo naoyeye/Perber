@@ -4,11 +4,11 @@ script#chat_box(type='text/html')
     if provider  = douban
       div(class="avatar avatar-{{ provider }}")
         // img(src="{{ avatar }}")
-        a(href="https://{{ provider }}.com/people/{{ nickname }}")(target='_blank')
+        a(href="https://{{ provider }}.com/people/{{ nickname }}", target='_blank')
     else
       div(class="avatar avatar-{{ provider }}")
         // img(src='http://avatars.io/{{ provider }}/{{ nickname }}')
-        a(href="https://{{ provider }}.com/{{ nickname }}")(target='_blank')
+        a(href="https://{{ provider }}.com/{{ nickname }}", target='_blank')
     h5
       | {{ nickname }}
     {{> chat_box_text }}

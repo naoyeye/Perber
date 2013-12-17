@@ -1,39 +1,36 @@
 !!! 5
 //if lt IE 7
-	html(class="no-js ie6 oldie", lang="en")
+    html(class="no-js ie6 oldie", lang="en")
 //if IE 7
-	html(class="no-js ie7 oldie", lang="en")
+    html(class="no-js ie7 oldie", lang="en")
 //if IE 8
-	html(class="no-js ie8 oldie", lang="en")
+    html(class="no-js ie8 oldie", lang="en")
 // [if gt IE 8] <!
 html(class="no-js", lang="en")
-	// <![endif]
+    // <![endif]
 
-	head
-		meta(charset="utf-8")
-		meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
-		meta(name="apple-mobile-web-app-capable", content="yes")
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+        meta(name="apple-mobile-web-app-capable", content="yes")
 
-		title Perber
+        title Perber
 
-		meta(name="description", content="")
-		meta(name="author", content="hanjiyun")
-		meta(name="viewport", content="width=device-width, initial-scale=1.0")
-		
+        meta(name="description", content="")
+        meta(name="author", content="hanjiyun")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
 
-		// link(rel="stylesheet", href="https://s3.amazonaws.com/social-buttons/css/social-buttons.css")
-		link(rel="stylesheet", href="/js/libs/fancy-box/jquery.fancybox.css")
-		link(rel="stylesheet", href="/css/semantic.min.css")
-		link(rel="stylesheet", href="/css/font-awesome.min.css")
-		link(rel="stylesheet", href="/css/perber.css")
-		link(href='http://fonts.googleapis.com/css?family=Baumans|Roboto:100',rel='stylesheet',type='text/css')
-		//link(href='http://fonts.googleapis.com/css?family=Nova+Script|Monoton|Baumans|Roboto:300,100,100italic,300italic,400,400italic,500,500italic,700,700italic,900,900italic|Raleway:400,200,900,800,700,600,500,300,100',rel='stylesheet',type='text/css')
-		// link(rel="stylesheet", href="/css/style.css")
-  
-		script(type="text/javascript",src="/js/libs/jquery-1.7.1.min.js")
-		script(type="text/javascript",src="/js/libs/modernizr-2.5.3.min.js")
-		script(type="text/javascript",src="/js/libs/retina.js")
+        link(rel="stylesheet", href="/css/semantic.min.css")
+        link(rel="stylesheet", href="/css/font-awesome.min.css")
+        link(rel="stylesheet", href="/css/perber.css")
+        // link(href='http://fonts.googleapis.com/css?family=Baumans|Roboto:100',rel='stylesheet',type='text/css')
+        //link(href='http://fonts.googleapis.com/css?family=Nova+Script|Monoton|Baumans|Roboto:300,100,100italic,300italic,400,400italic,500,500italic,700,700italic,900,900italic|Raleway:400,200,900,800,700,600,500,300,100',rel='stylesheet',type='text/css')
+        // link(rel="stylesheet", href="/css/style.css")
 
-	- var body_class = (("undefined" != typeof room) ? 'fancy-theme' : 'home-page')
-	body(class=body_class)
-		block content
+        script(type="text/javascript",src="/js/libs/jquery-1.10.2.min.js")
+        script(type="text/javascript",src="/js/libs/modernizr-2.5.3.min.js")
+        script(type="text/javascript",src="/js/libs/retina.js")
+
+    - var body_class = (("undefined" != typeof room) ? 'fancy-theme' : 'home-page')
+    body(class=body_class)
+        block content

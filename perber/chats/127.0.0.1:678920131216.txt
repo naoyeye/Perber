@@ -1,2 +1,0 @@
-{"type":"message","from":"douban:","atTime":"2013-12-15T16:48:42.132Z","withData":"das"}
-{"type":"message","from":"douban:","atTime":"2013-12-15T16:48:57.089Z","withData":"??"}

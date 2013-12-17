@@ -1,3 +1,12 @@
+/* 
+* @Author: hanjiyun
+* @Date:   2013-12-16 00:41:38
+* @Last Modified by:   hanjiyun
+* @Last Modified time: 2013-12-17 16:27:25
+*/
+
+
+
 /*
  * Module dependencies
  */
@@ -10,6 +19,11 @@ var express = require('express'),
  */
 
 var app = exports.app = express();
+
+
+app.set("view engine", "jade");
+app.use(express.favicon(__dirname + '/public/img/favicon.png')); 
+
 
 /**
  * Configure application
