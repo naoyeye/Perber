@@ -32,14 +32,16 @@ function Sockets (app, server) {
     io.set('authorization', function (hsData, accept) {
         if(hsData.headers.cookie) {
             var cookies = parseCookies(cookie.parse(hsData.headers.cookie), config.session.secret),
-            sid = cookies['balloons'];
+            sid = cookies['perber'];
 
             sessionStore.load(sid, function(err, session) {
                 if(err || !session) {
                     return accept('Error retrieving session!', false);
                 }
+                console.log('session', session)
+                console.log(' session.passport ' , session.passport)
 
-                hsData.balloons = {
+                hsData.perber = {
                     user: session.passport.user,
                     room: /\/(?:([^\/]+?))\/?$/g.exec(hsData.headers.referer)[1]
                 };
@@ -67,16 +69,21 @@ function Sockets (app, server) {
 
     io.sockets.on('connection', function (socket) {
         var hs = socket.handshake,
-            nickname = hs.balloons.user.username,
-            provider = hs.balloons.user.provider,
-            avatar = hs.balloons.user.avatar,
+            // nickname = hs.perber.user.username,
+            nickname = '' // todo: random
+
+            // provider = hs.perber.user.provider,
+            provider = 'douban' // todo:random
+
+            // avatar = hs.perber.user.avatar,
+            // avatar = ''
+
             userKey = provider + ":" + nickname,
-            room_id = hs.balloons.room,
+            room_id = hs.perber.room,
             now = new Date(),
             // Chat Log handler
             chatlogFileName = './chats/' + room_id + (now.getFullYear()) + (now.getMonth() + 1) + (now.getDate()) + ".txt";
-            // chatlogWriteStream = fs.createWriteStream(chatlogFileName, {'flags': 'a'});
-
+            chatlogWriteStream = fs.createWriteStream(chatlogFileName, {'flags': 'a'});
         socket.join(room_id);
 
         client.sadd('sockets:for:' + userKey + ':at:' + room_id, socket.id, function(err, socketAdded) {
@@ -89,8 +96,8 @@ function Sockets (app, server) {
                         client.get('users:' + userKey + ':status', function(err, status) {
                             io.sockets.in(room_id).emit('new user', {
                                 nickname: nickname,
-                                avatar: avatar,
-                                provider: provider,
+                                // avatar: avatar,
+                                // provider: provider,
                                 status: status || 'available'
                             });
                         });
@@ -109,11 +116,11 @@ function Sockets (app, server) {
                     withData: data.msg
                 }
 
-                // chatlogWriteStream.write(JSON.stringify(chatlogRegistry) + "\n");
+                chatlogWriteStream.write(JSON.stringify(chatlogRegistry) + "\n");
             
                 io.sockets.in(room_id).emit('new msg', {
                     nickname: nickname,
-                    avatar: avatar,
+                    // avatar: avatar,
                     provider: provider,
                     msg: data.msg
                 });
@@ -126,7 +133,7 @@ function Sockets (app, server) {
             client.set('users:' + userKey + ':status', status, function(err, statusSet) {
                 io.sockets.emit('user-info update', {
                     username: nickname,
-                    avatar: avatar,
+                    // avatar: avatar,
                     provider: provider,
                     status: status
                 });
@@ -152,28 +159,28 @@ function Sockets (app, server) {
             });
         });
 
-        socket.on('disconnect', function() {
-          // 'sockets:at:' + room_id + ':for:' + userKey
-            client.srem('sockets:for:' + userKey + ':at:' + room_id, socket.id, function(err, removed) {
-                if(removed) {
-                    client.srem('socketio:sockets', socket.id);
-                    client.scard('sockets:for:' + userKey + ':at:' + room_id, function(err, members_no) {
-                        if(!members_no) {
-                            client.srem('rooms:' + room_id + ':online', userKey, function(err, removed) {
-                                if (removed) {
-                                    client.hincrby('rooms:' + room_id + ':info', 'online', -1);
-                                    // chatlogWriteStream.destroySoon();
-                                    io.sockets.in(room_id).emit('user leave', {
-                                        nickname: nickname,
-                                        avatar: avatar,
-                                        provider: provider
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        });
+        // socket.on('disconnect', function() {
+        //   // 'sockets:at:' + room_id + ':for:' + userKey
+        //     client.srem('sockets:for:' + userKey + ':at:' + room_id, socket.id, function(err, removed) {
+        //         if(removed) {
+        //             client.srem('socketio:sockets', socket.id);
+        //             client.scard('sockets:for:' + userKey + ':at:' + room_id, function(err, members_no) {
+        //                 if(!members_no) {
+        //                     client.srem('rooms:' + room_id + ':online', userKey, function(err, removed) {
+        //                         if (removed) {
+        //                             client.hincrby('rooms:' + room_id + ':info', 'online', -1);
+        //                             // chatlogWriteStream.destroySoon();
+        //                             io.sockets.in(room_id).emit('user leave', {
+        //                                 nickname: nickname,
+        //                                 // avatar: avatar,
+        //                                 provider: provider
+        //                             });
+        //                         }
+        //                     });
+        //                 }
+        //             });
+        //         }
+        //     });
+        // });
     });
 };

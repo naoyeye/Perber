@@ -3,7 +3,7 @@
 * @Date:   2013-11-08 16:32:13
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2013-11-08 17:05:48
+* @Last Modified time: 2013-12-17 14:18:16
 */
 
 
@@ -50,7 +50,7 @@ var crypto = require('crypto'),
  * Checks if room exists
  */
 exports.roomExists = function(req, res, client, fn) {
-    client.hget('balloons:rooms:keys', encodeURIComponent(req.body.room_name), function(err, roomKey) {
+    client.hget('perber:rooms:keys', encodeURIComponent(req.body.room_name), function(err, roomKey) {
         if(!err && roomKey) {
             res.redirect( '/' + roomKey );
         } else {
@@ -74,8 +74,8 @@ exports.createRoom = function(req, res, client) {
 
     client.hmset('rooms:' + roomKey + ':info', room, function(err, ok) {
         if(!err && ok) {
-            client.hset('balloons:rooms:keys', encodeURIComponent(req.body.room_name), roomKey);
-            client.sadd('balloons:public:rooms', roomKey);
+            client.hset('perber:rooms:keys', encodeURIComponent(req.body.room_name), roomKey);
+            client.sadd('perber:public:rooms', roomKey);
             res.redirect('/' + roomKey);
         } else {
             res.send(500);
@@ -95,7 +95,7 @@ exports.getRoomInfo = function(req, res, client, fn) {
 };
 
 exports.getPublicRoomsInfo = function(client, fn) {
-    client.smembers('balloons:public:rooms', function(err, publicRooms) {
+    client.smembers('perber:public:rooms', function(err, publicRooms) {
         var rooms = [],
         len = publicRooms.length;
         if(!len) fn([]);
@@ -157,7 +157,7 @@ exports.getPublicRoomsInfo = function(client, fn) {
  */
 
  exports.getPublicRooms = function(client, fn){
-    client.smembers("balloons:public:rooms", function(err, rooms) {
+    client.smembers("perber:public:rooms", function(err, rooms) {
         if (!err && rooms) fn(rooms);
         else fn([]);
     });

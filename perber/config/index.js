@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var log = require('debug')('balloons:config')
+var log = require('debug')('perber:config')
   , express = require('express')
   , redis = require('redis')
   , RedisStore = require('connect-redis')(express)
@@ -90,7 +90,7 @@ function Config (app) {
   
   log('Use of express session middleware.');
   app.use(express.session({
-    key: "balloons",
+    key: "perber",
     store: app.get('sessionStore')
   }));
   

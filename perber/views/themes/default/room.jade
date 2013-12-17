@@ -4,8 +4,8 @@ block content
 	.color-line
 	.wrap
 		header
-			include status_dropdown
-			include rooms_dropdown
+			// include status_dropdown
+			// include rooms_dropdown
 			a.button-circle.invite.fancybox(href='#invite', style="display:none;")
 				strong
 					span
@@ -36,9 +36,9 @@ block content
 					span
 						i
 		sidebar
-			include chat_list
-			include files_list
-			a(href="https://github.com/gravityonmars/Balloons.IO", target="_blank", class="sidebar-open-source") get the code from github
+			// include chat_list
+			// include files_list
+			// a(href="https://github.com/gravityonmars/Balloons.IO", target="_blank", class="sidebar-open-source") get the code from github
 
 		.content(role='main')
 			.chat
@@ -58,9 +58,9 @@ block content
 
 	// .wrap
 
-	span#room_name(style="display:none")= room.name
-	span#username(style="display:none")= user.nickname
-	span#provider(style="display:none")= user.provider
+	//span#room_name(style="display:none")= room.name
+	//span#username(style="display:none")= user.nickname
+	//span#provider(style="display:none")= user.provider
 
 	include templates/chat_tmpl
 

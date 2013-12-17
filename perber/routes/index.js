@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2013-11-08 15:16:42
+* @Last Modified time: 2013-12-15 23:39:06
 */
 
 
@@ -36,15 +36,22 @@ function Routes (app) {
 */
 
 app.get('/', function(req, res, next) {
-    if(req.isAuthenticated()){
-        client.hmset(
-            'users:' + req.user.provider + ":" + req.user.username,
-            req.user
-        );
-        res.redirect('/rooms');
-    } else{
-        res.render('index');
-    }
+    // if(!req.isAuthenticated()){
+        // client.hmset(
+        //     'users:' + req.user.provider + ":" + req.user.username,
+        //     req.user
+        // );
+        // res.redirect('/rooms');
+
+        // utils.getPublicRoomsInfo(client, function(rooms) {
+        //     res.render('room_list', { rooms: rooms });
+        // });
+
+        // res.redirect('/04a496')
+        res.render('room');
+    // } else{
+        // res.render('index');
+    // }
 });
 
 /*
