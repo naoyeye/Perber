@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-17 20:57:48
+* @Last Modified time: 2013-12-17 23:22:39
 */
 
 
@@ -277,8 +277,8 @@ user leave
 =================
 */
 
-
-    $(".chat-input input").keypress(function(e) {
+    // todo clear
+    $(".chat-input textarea").keypress(function(e) {
         var inputText = $(this).val().trim();
         if(e.which == 13 && inputText) {
             var chunks = inputText.match(/.{1,1024}/g),
@@ -303,7 +303,7 @@ user leave
     // });
 
     var textParser = function(text) {
-        text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href=\"$1\" target='_blank'>$1</a>").replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
+        text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href=\"$1\" target='_blank'>$1</a>").replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"https://www.twitter.com/$2\" target=\"_blank\">$1$2</a>");
 
         return injectEmoticons(text);
     };
@@ -363,23 +363,12 @@ user leave
         return text;
     }
 
-
-    Date.prototype.format = function(format){
-        // var o = {
-        //     "M+" : this.getMonth()+1, //month
-        //     "d+" : this.getDate(), //day
-        //     "h+" : this.getHours(), //hour
-        //     "m+" : this.getMinutes(), //minute
-        //     "s+" : this.getSeconds(), //second
-        //     "q+" : Math.floor((this.getMonth()+3)/3), //quarter
-        //     "S" : this.getMilliseconds() //millisecond
-        // }
-
-        // if(/(y+)/.test(format)) format=format.replace(RegExp.$1,(this.getFullYear()+"").substr(4- RegExp.$1.length));
-        // for(var k in o)if(new RegExp("("+ k +")").test(format))
-        //     format = format.replace(RegExp.$1,RegExp.$1.length==1? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
-        return format;
+    var isChinese = function(text){
+        if(/.*[\u4e00-\u9fa5]+.*$/.test(text)){
+            return true;
+        }
     }
+
 
     // Simplified Chinese
     $.timeago.settings = {
@@ -387,25 +376,44 @@ user leave
         allowFuture: false,
         localeTitle: false,
         cutoff:0,
+        // strings: {
+        //     prefixAgo: null,
+        //     prefixFromNow: "从现在开始",
+        //     suffixAgo: "之前",
+        //     suffixFromNow: null,
+        //     seconds: "刚刚",
+        //     minute: "大约 1 分钟",
+        //     minutes: "%d 分钟",
+        //     hour: "大约 1 小时",
+        //     hours: "大约 %d 小时",
+        //     day: "1 天",
+        //     days: "%d 天",
+        //     month: "大约 1 个月",
+        //     months: "%d 月",
+        //     year: "大约 1 年",
+        //     years: "%d 年",
+        //     numbers: [],
+        //     wordSeparator: ""
+        // }
         strings: {
             prefixAgo: null,
-            prefixFromNow: "从现在开始",
-            suffixAgo: "之前",
-            suffixFromNow: null,
-            seconds: "刚刚",
-            minute: "大约 1 分钟",
-            minutes: "%d 分钟",
-            hour: "大约 1 小时",
-            hours: "大约 %d 小时",
-            day: "1 天",
-            days: "%d 天",
-            month: "大约 1 个月",
-            months: "%d 月",
-            year: "大约 1 年",
-            years: "%d 年",
-            numbers: [],
-            wordSeparator: ""
-        }
+            prefixFromNow: null,
+            suffixAgo: "ago",
+            suffixFromNow: "from now",
+            seconds: "less than a minute",
+            minute: "about a minute",
+            minutes: "%d minutes",
+            hour: "about an hour",
+            hours: "about %d hours",
+            day: "a day",
+            days: "%d days",
+            month: "about a month",
+            months: "%d months",
+            year: "about a year",
+            years: "%d years",
+            wordSeparator: " ",
+            numbers: []
+          }
     }
 
 
@@ -474,6 +482,6 @@ user leave
     }
 
     function focusInput() {
-        $(".chat-input input.text").focus();
+        $(".chat-input textarea").focus();
     }
 });

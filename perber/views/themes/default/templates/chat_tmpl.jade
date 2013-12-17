@@ -1,26 +1,16 @@
 script#chat_box(type='text/html')
-  .chat-box(data-user='{{ nickname }}', data-provider='{{ provider }}', data-type='{{ type }}')
-    
-    if provider  = douban
-      div(class="avatar avatar-{{ provider }}")
-        // img(src="{{ avatar }}")
-        a(href="https://{{ provider }}.com/people/{{ nickname }}", target='_blank')
-    else
-      div(class="avatar avatar-{{ provider }}")
-        // img(src='http://avatars.io/{{ provider }}/{{ nickname }}')
-        a(href="https://{{ provider }}.com/{{ nickname }}", target='_blank')
-      | {{ nickname }}
+  .chat-box
     {{> chat_box_text }}
 
 script#chat_box_text(type='text/html')
   p
-    time.time(datetime="{{ time }}") {{ time }}
     | {{ msg }}
+    time.time(datetime="{{ time }}") {{ time }}
 
 script#chat_notice(type='text/html')
   .notice(data-user="{{ user }}")
-    time.time {{ time }}
     |  {{ noticeMsg }}
+    time.time(datetime="{{ time }}") {{ time }}
 
 script#people_box(type='text/html')
   a(class='{{ status }}', href='#', data-username='{{ nickname }}', data-provider='{{ provider }}')

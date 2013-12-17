@@ -101,24 +101,12 @@ body {
     height: 100%
 }
 
-body {
-    font-family: "Roboto", "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    margin: 0px;
-    padding: 0px;
-    color: #555555;
-    min-width: 310px;
-
-    font-weight: 300;
-    /*letter-spacing: 1px;*/
-    text-rendering: optimizeLegibility;
-}
-
 h1,
 h2,
 h3,
 h4,
 h5 {
-  font-family: "Roboto", "Source Sans Pro", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   font-weight: 400;
   letter-spacing: 0;
   color:#fff;
@@ -221,5 +209,74 @@ a:hover {
              Pages
 *******************************/
 
+body{
+    height: auto;
+    font-family: "Roboto", "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    margin: 0px;
+    padding: 0px;
+    color: #555555;
+    min-width: 310px;
+    font-weight: 300;
+    text-rendering: optimizeLegibility;
+    text-align: center;
+    background: #bad5d8;
+    font-size: 14px;
+    line-height: 1;
+    /*overflow: hidden;*/
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+.wrap{
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+    padding-top: 20px;
+}
 
-.timeago{padding-right: 20px;}
+.chat-box{
+    display: inline-block;
+    min-width: 100px;
+    max-width: 290px;
+    background: #fff;
+    border-radius: 5px;
+    padding: 20px 30px;
+    margin: 5px;
+    vertical-align: top;
+    font-size: 24px;
+    font-weight: 100;
+    line-height: 1.48;
+    color: #514f47;
+    box-sizing:border-box;
+}
+
+.chat-box .time{
+    display: block;
+    text-align: right;
+    color: #bbb;
+    font-size: 10px;
+}
+
+.chat-input{
+    padding: 40px 0;
+}
+.chat-input .ui.form textarea{
+    resize:none;
+    border-radius: 5px;
+    border: none;
+    box-shadow: none;
+    background: rgba(255,255,255,0.6);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-17 15:32:54
+* @Last Modified time: 2013-12-17 22:18:19
 */
 
 
@@ -82,7 +82,7 @@ function Sockets (app, server) {
             nickname = '' // todo: random
 
             // provider = hs.perber.user.provider,
-            provider = 'douban' // todo:random
+            provider = '' // todo:random
 
             // avatar = hs.perber.user.avatar,
             // avatar = ''

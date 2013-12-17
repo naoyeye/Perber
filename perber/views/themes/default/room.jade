@@ -9,8 +9,10 @@ block content
                 .current
 
 
-            div(class="chat-input ui input")
-                input.text(type="text", name="", placeholder="Say somthing", value="")
+            div.chat-input
+                div.ui.form
+                    div.field
+                        textarea(placeholder="Say somthing")
 
 
     include templates/chat_tmpl
