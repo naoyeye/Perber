@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:06
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-17 15:34:10
+* @Last Modified time: 2013-12-19 18:54:10
 */
 
 
@@ -63,7 +63,9 @@ module.exports = function(client) {
   /*
    * Create 'chats' dir
    */
-  // fs.mkdir('./chats');
+  fs.mkdir('./chats');
+
+  console.log('!!!')
 
 };
 

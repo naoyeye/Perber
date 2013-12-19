@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:41:38
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-17 16:27:25
+* @Last Modified time: 2013-12-19 18:56:05
 */
 
 
@@ -35,7 +35,7 @@ require('./config')(app);
  * Clean db and create folder
  */
 
-// init(app.get('redisClient'));
+init(app.get('redisClient'));
 
 /*
  * Passportjs auth strategy

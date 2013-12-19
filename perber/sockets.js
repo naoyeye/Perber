@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-19 17:53:00
+* @Last Modified time: 2013-12-19 18:52:02
 */
 
 
@@ -95,7 +95,7 @@ function Sockets (app, server) {
             // Chat Log handler
             // need change to sql
 
-            chatlogFileName = 'chats/' + (now.getFullYear()) + (now.getMonth() + 1) + (now.getDate()) + ".txt";
+            chatlogFileName = './chats/' + (now.getFullYear()) + (now.getMonth() + 1) + (now.getDate()) + ".txt";
             chatlogWriteStream = fs.createWriteStream(chatlogFileName, {'flags': 'a'});
         socket.join(room_id);
 
