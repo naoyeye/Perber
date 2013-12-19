@@ -12,9 +12,9 @@
     "redis": "0.7.2",
     "connect-redis": "1.4.x",
     "passport": "~0.1.17",
-    // "passport-facebook": "~0.1.5",
-    // "passport-twitter": "~0.1.5",
-    // "passport-douban": "~0.0.1",
+    "passport-facebook": "~0.1.5",
+    "passport-twitter": "~0.1.5",
+    "passport-douban": "~0.0.1",
     "type-component": "0.0.1",
     "validator": "2.0.0"
   },
