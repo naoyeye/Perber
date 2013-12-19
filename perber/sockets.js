@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-18 14:25:55
+* @Last Modified time: 2013-12-19 17:53:00
 */
 
 
@@ -91,9 +91,11 @@ function Sockets (app, server) {
             room_id = hs.perber.room,
             now = new Date(),
 
-            
+
             // Chat Log handler
-            chatlogFileName = './chats/' + room_id + (now.getFullYear()) + (now.getMonth() + 1) + (now.getDate()) + ".txt";
+            // need change to sql
+
+            chatlogFileName = 'chats/' + (now.getFullYear()) + (now.getMonth() + 1) + (now.getDate()) + ".txt";
             chatlogWriteStream = fs.createWriteStream(chatlogFileName, {'flags': 'a'});
         socket.join(room_id);
 
@@ -136,7 +138,7 @@ function Sockets (app, server) {
                     // avatar: avatar,
                     provider: provider,
                     msg: data.msg,
-                    en : false
+                    en: data.en
                 });
             }
         });

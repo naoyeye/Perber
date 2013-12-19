@@ -3,7 +3,7 @@ script#chat_box(type='text/html')
     {{> chat_box_text }}
 
 script#chat_box_text(type='text/html')
-  p
+  p(class="{{ en }}")
     | {{ msg }}
     
     time.time(datetime="{{ time }}") {{ time }}

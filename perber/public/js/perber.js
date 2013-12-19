@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-18 14:24:16
+* @Last Modified time: 2013-12-19 17:48:21
 */
 
 
@@ -203,6 +203,8 @@ new msg
         data.type = 'chat';
         data.time = time;
 
+        console.log(data)
+
         if($lastInput.hasClass('chat-box') && lastInputUserKey === data.provider + ':' + data.nickname) {
             $lastInput.append(parseChatBoxMsg(ich.chat_box_text(data)));
         } else {
@@ -285,9 +287,16 @@ user leave
 
             for(var i = 0; i<len; i++) {
 
+                // if(isChinese(data.msg)){
+                //     data.en = false
+                // } else {
+                //     data.en = true
+                // }
+        
                 // todo check isChinese
                 socket.emit('my msg', {
-                    msg: chunks[i]
+                    msg: chunks[i],
+                    en: false
                 });
             }
 
@@ -366,7 +375,7 @@ user leave
 
     var isChinese = function(text){
         if(/.*[\u4e00-\u9fa5]+.*$/.test(text)){
-            return true;
+            return false;
        }
     }
 
