@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-17 22:18:19
+* @Last Modified time: 2013-12-18 14:25:55
 */
 
 
@@ -90,6 +90,8 @@ function Sockets (app, server) {
             userKey = provider + ":" + nickname,
             room_id = hs.perber.room,
             now = new Date(),
+
+            
             // Chat Log handler
             chatlogFileName = './chats/' + room_id + (now.getFullYear()) + (now.getMonth() + 1) + (now.getDate()) + ".txt";
             chatlogWriteStream = fs.createWriteStream(chatlogFileName, {'flags': 'a'});
@@ -125,29 +127,32 @@ function Sockets (app, server) {
                     withData: data.msg
                 }
 
+                // 存入文本
+                // todo: save to sql
                 chatlogWriteStream.write(JSON.stringify(chatlogRegistry) + "\n");
             
                 io.sockets.in(room_id).emit('new msg', {
                     nickname: nickname,
                     // avatar: avatar,
                     provider: provider,
-                    msg: data.msg
+                    msg: data.msg,
+                    en : false
                 });
             }
         });
 
-        socket.on('set status', function(data) {
-            var status = data.status;
+        // socket.on('set status', function(data) {
+        //     var status = data.status;
 
-            client.set('users:' + userKey + ':status', status, function(err, statusSet) {
-                io.sockets.emit('user-info update', {
-                    username: nickname,
-                    // avatar: avatar,
-                    provider: provider,
-                    status: status
-                });
-            });
-        });
+        //     client.set('users:' + userKey + ':status', status, function(err, statusSet) {
+        //         io.sockets.emit('user-info update', {
+        //             username: nickname,
+        //             // avatar: avatar,
+        //             provider: provider,
+        //             status: status
+        //         });
+        //     });
+        // });
 
         socket.on('history request', function() {
             var history = [];

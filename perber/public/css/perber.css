@@ -59,19 +59,22 @@ Y88888b         `888888888b,      `""""^                `Y8888888P'       d888I
 *******************************/
 
 ::-webkit-selection {
-  background-color: #FFFFCC;
-  color: #555555;
+    background: #111;
+    color: #FFF;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 ::-moz-selection {
-  background-color: #FFFFCC;
-  color: #555555;
+    background: #111;
+    color: #FFF;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 ::selection {
-  background-color: #FFFFCC;
-  color: #555555;
+    background: #111;
+    color: #FFF;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
-h1::-moz-selection,
+/*h1::-moz-selection,
 h2::-moz-selection,
 h3::-moz-selection {
   background-color: #F1C1C2;
@@ -82,13 +85,13 @@ h2::selection,
 h3::selection {
   background-color: #F1C1C2;
   color: #222222;
-}
-.ui *::-moz-selection {
+}*/
+/*.ui *::-moz-selection {
   background-color: #CCE2FF;
 }
 .ui *::selection {
   background-color: #CCE2FF;
-}
+}*/
 
 /*******************************
              Global
@@ -211,7 +214,8 @@ a:hover {
 
 body{
     height: auto;
-    font-family: "Roboto", "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    /*"Open Sans", "Helvetica Neue"*/
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     margin: 0px;
     padding: 0px;
     color: #555555;

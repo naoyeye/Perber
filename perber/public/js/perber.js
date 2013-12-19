@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-17 23:22:39
+* @Last Modified time: 2013-12-18 14:24:16
 */
 
 
@@ -102,7 +102,7 @@ history respinse
                 $('.chat').scrollTop($('.chat').prop('scrollHeight'));
             });
 
-            $('time.time').timeago();
+            $('.time').timeago();
 
         }
     });
@@ -111,39 +111,39 @@ history respinse
 /*
 new user
 */
-    socket.on('new user', function(data) {
-        var message = "$username has joined the room.";
+    // socket.on('new user', function(data) {
+    //     var message = "$username has joined the room.";
 
-        //If user is not 'there'
-        if(!$('.people a[data-username="' + data.nickname + '"][data-provider="' + data.provider + '"]').length) {
-            //Then add it
-            $('.online .people').prepend(ich.people_box(data));
-            USERS[data.provider + ":" + data.nickname] = 1;
+    //     //If user is not 'there'
+    //     if(!$('.people a[data-username="' + data.nickname + '"][data-provider="' + data.provider + '"]').length) {
+    //         //Then add it
+    //         $('.online .people').prepend(ich.people_box(data));
+    //         USERS[data.provider + ":" + data.nickname] = 1;
 
-            // Chat notice
-            message = message.replace('$username', data.nickname);
+    //         // Chat notice
+    //         message = message.replace('$username', data.nickname);
 
-            // Check update time
-            var time = new Date(),
-                noticeBoxData = {
-                user: data.nickname,
-                noticeMsg: message,
-                time: time
-            };
+    //         // Check update time
+    //         var time = new Date(),
+    //             noticeBoxData = {
+    //             user: data.nickname,
+    //             noticeMsg: message,
+    //             time: time
+    //         };
 
-            var $lastChatInput = $('.chat .current').children().last();
+    //         var $lastChatInput = $('.chat .current').children().last();
 
-            if($lastChatInput.hasClass('notice') && $lastChatInput.data('user') === data.nickname) {
-                $lastChatInput.replaceWith(ich.chat_notice(noticeBoxData));
-            } else {
-                $('.chat .current').append(ich.chat_notice(noticeBoxData));
-                $('.chat').scrollTop($('.chat').prop('scrollHeight'));
-            }
-        } else {
-            //Instead, just check him as 'back'
-            USERS[data.provider + ":" + data.nickname] = 1;
-        }
-    });
+    //         if($lastChatInput.hasClass('notice') && $lastChatInput.data('user') === data.nickname) {
+    //             $lastChatInput.replaceWith(ich.chat_notice(noticeBoxData));
+    //         } else {
+    //             $('.chat .current').append(ich.chat_notice(noticeBoxData));
+    //             $('.chat').scrollTop($('.chat').prop('scrollHeight'));
+    //         }
+    //     } else {
+    //         //Instead, just check him as 'back'
+    //         USERS[data.provider + ":" + data.nickname] = 1;
+    //     }
+    // });
 
 
 
@@ -277,7 +277,6 @@ user leave
 =================
 */
 
-    // todo clear
     $(".chat-input textarea").keypress(function(e) {
         var inputText = $(this).val().trim();
         if(e.which == 13 && inputText) {
@@ -285,6 +284,8 @@ user leave
             len = chunks.length;
 
             for(var i = 0; i<len; i++) {
+
+                // todo check isChinese
                 socket.emit('my msg', {
                     msg: chunks[i]
                 });
@@ -303,7 +304,7 @@ user leave
     // });
 
     var textParser = function(text) {
-        text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href=\"$1\" target='_blank'>$1</a>").replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"https://www.twitter.com/$2\" target=\"_blank\">$1$2</a>");
+        text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href=\"$1\" target='_blank'>$1</a>").replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
 
         return injectEmoticons(text);
     };
@@ -366,15 +367,31 @@ user leave
     var isChinese = function(text){
         if(/.*[\u4e00-\u9fa5]+.*$/.test(text)){
             return true;
-        }
+       }
     }
 
+    Date.prototype.format = function(format){
+        var o = {
+            "M+" : this.getMonth()+1, //month
+            "d+" : this.getDate(), //day
+            "h+" : this.getHours(), //hour
+            "m+" : this.getMinutes(), //minute
+            "s+" : this.getSeconds(), //second
+            "q+" : Math.floor((this.getMonth()+3)/3), //quarter
+            "S" : this.getMilliseconds() //millisecond
+        }
+
+        if(/(y+)/.test(format)) format=format.replace(RegExp.$1,(this.getFullYear()+"").substr(4- RegExp.$1.length));
+        for(var k in o)if(new RegExp("("+ k +")").test(format))
+            format = format.replace(RegExp.$1,RegExp.$1.length==1? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+        return format;
+    }
 
     // Simplified Chinese
     $.timeago.settings = {
         refreshMillis : 1000,
         allowFuture: false,
-        localeTitle: false,
+        localeTitle: true,
         cutoff:0,
         // strings: {
         //     prefixAgo: null,

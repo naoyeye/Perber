@@ -103,14 +103,23 @@
     },
     parse: function(iso8601) {
       var s = $.trim(iso8601);
+      // console.log(s)
       s = s.replace(/\.\d+/,""); // remove milliseconds
       s = s.replace(/-/,"/").replace(/-/,"/");
-      s = s.replace(/T/," ").replace(/Z/," UTC");
+
+      // todo fix
+      // s = s.replace(/T/," ").replace(/Z/," UTC");
+
       s = s.replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2"); // -04:00 -> -0400
+      
+      // console.log(s)
+      // console.log(new Date(s))
       return new Date(s);
     },
     datetime: function(elem) {
       var iso8601 = $t.isTime(elem) ? $(elem).attr("datetime") : $(elem).attr("title");
+      // console.log(iso8601)
+      // console.log($t.parse(iso8601))
       return $t.parse(iso8601);
     },
     isTime: function(elem) {
@@ -156,8 +165,9 @@
   function refresh() {
     var data = prepareData(this);
     var $s = $t.settings;
-
+    // console.log(data)
     if (!isNaN(data.datetime)) {
+      // console.log($s.cutoff)
       if ( $s.cutoff == 0 || distance(data.datetime) < $s.cutoff) {
         $(this).text(inWords(data.datetime));
       }
@@ -167,9 +177,14 @@
 
   function prepareData(element) {
     element = $(element);
+    // console.log(element)
+
     if (!element.data("timeago")) {
+      // console.log($t.datetime(element))
       element.data("timeago", { datetime: $t.datetime(element) });
+
       var text = $.trim(element.text());
+
       if ($t.settings.localeTitle) {
         element.attr("title", element.data('timeago').datetime.toLocaleString());
       } else if (text.length > 0 && !($t.isTime(element) && element.attr("title"))) {

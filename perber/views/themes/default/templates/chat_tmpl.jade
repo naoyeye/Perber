@@ -5,12 +5,13 @@ script#chat_box(type='text/html')
 script#chat_box_text(type='text/html')
   p
     | {{ msg }}
+    
     time.time(datetime="{{ time }}") {{ time }}
 
 script#chat_notice(type='text/html')
   .notice(data-user="{{ user }}")
     |  {{ noticeMsg }}
-    time.time(datetime="{{ time }}") {{ time }}
+    time.time {{ time }}
 
 script#people_box(type='text/html')
   a(class='{{ status }}', href='#', data-username='{{ nickname }}', data-provider='{{ provider }}')
