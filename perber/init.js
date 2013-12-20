@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:06
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-20 02:01:27
+* @Last Modified time: 2013-12-20 12:00:37
 */
 
 
@@ -64,7 +64,7 @@ module.exports = function(client) {
    * Create 'chats' dir
    */
   // only creat once when first run
-  // fs.mkdir('./chats');
+  fs.mkdir('./chats');
 
 };
 

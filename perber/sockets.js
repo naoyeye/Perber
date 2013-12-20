@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-20 01:59:54
+* @Last Modified time: 2013-12-20 12:02:50
 */
 
 
@@ -139,8 +139,11 @@ function Sockets (app, server) {
 
                 // 存入文本
                 // todo: save to sql
+
                 chatlogWriteStream.write(JSON.stringify(chatlogRegistry) + "\n");
-            
+                
+                // console.log('chatlogWriteStream')
+
                 io.sockets.in(room_id).emit('new msg', {
                     nickname: nickname,
                     // avatar: avatar,
