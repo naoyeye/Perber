@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-19 17:48:21
+* @Last Modified time: 2013-12-20 02:31:44
 */
 
 
@@ -56,11 +56,11 @@ $(function() {
     });
 
     socket.on('error', function (reason){
-        console.error('Unable to connect Socket.IO', reason);
+        console.error('Unable to connect Socket.IO !!', reason);
     });
 
     socket.on('connect', function (){
-        console.info('successfully established a working connection');
+        // console.info('successfully established a working connection');
         if($('.chat .chat-box').length == 0) {
             socket.emit('history request');
         }
@@ -203,7 +203,7 @@ new msg
         data.type = 'chat';
         data.time = time;
 
-        console.log(data)
+        // console.log(data)
 
         if($lastInput.hasClass('chat-box') && lastInputUserKey === data.provider + ':' + data.nickname) {
             $lastInput.append(parseChatBoxMsg(ich.chat_box_text(data)));
@@ -227,46 +227,46 @@ new msg
 /*
 user leave
 */
-    socket.on('user leave', function(data) {
-        var nickname = $('#username').text(),
-            message = "$username has left the room.";
+    // socket.on('user leave', function(data) {
+    //     var nickname = $('#username').text(),
+    //         message = "$username has left the room.";
 
-        for (var userKey in USERS) {
-            if(userKey === data.provider + ":" + data.nickname && data.nickname != nickname) {
-                //Mark user as leaving
-                USERS[userKey] = 0;
+    //     for (var userKey in USERS) {
+    //         if(userKey === data.provider + ":" + data.nickname && data.nickname != nickname) {
+    //             //Mark user as leaving
+    //             USERS[userKey] = 0;
 
-                //Wait a little before removing user
-                setTimeout(function() {
-                    //If not re-connected
-                    if (!USERS[userKey]) {
-                        //Remove it and notify
-                        $('.people a[data-username="' + data.nickname + '"][data-provider="' + data.provider + '"]').remove();
+    //             //Wait a little before removing user
+    //             setTimeout(function() {
+    //                 //If not re-connected
+    //                 if (!USERS[userKey]) {
+    //                     //Remove it and notify
+    //                     $('.people a[data-username="' + data.nickname + '"][data-provider="' + data.provider + '"]').remove();
 
-                        // Chat notice
-                        message = message.replace('$username', data.nickname);
+    //                     // Chat notice
+    //                     message = message.replace('$username', data.nickname);
 
-                        // Check update time
-                        var time = new Date(),
-                        noticeBoxData = {
-                            user: data.nickname,
-                            noticeMsg: message,
-                            time: time
-                        };
+    //                     // Check update time
+    //                     var time = new Date(),
+    //                     noticeBoxData = {
+    //                         user: data.nickname,
+    //                         noticeMsg: message,
+    //                         time: time
+    //                     };
 
-                        var $lastChatInput = $('.chat .current').children().last();
+    //                     var $lastChatInput = $('.chat .current').children().last();
 
-                        if($lastChatInput.hasClass('notice') && $lastChatInput.data('user') === data.nickname) {
-                            $lastChatInput.replaceWith(ich.chat_notice(noticeBoxData));
-                        } else {
-                            $('.chat .current').append(ich.chat_notice(noticeBoxData));
-                            $('.chat').scrollTop($('.chat').prop('scrollHeight'));
-                        }
-                    };
-                }, 2000);
-            }
-        }
-    });
+    //                     if($lastChatInput.hasClass('notice') && $lastChatInput.data('user') === data.nickname) {
+    //                         $lastChatInput.replaceWith(ich.chat_notice(noticeBoxData));
+    //                     } else {
+    //                         $('.chat .current').append(ich.chat_notice(noticeBoxData));
+    //                         $('.chat').scrollTop($('.chat').prop('scrollHeight'));
+    //                     }
+    //                 };
+    //             }, 2000);
+    //         }
+    //     }
+    // });
 
 
 
@@ -292,7 +292,7 @@ user leave
                 // } else {
                 //     data.en = true
                 // }
-        
+
                 // todo check isChinese
                 socket.emit('my msg', {
                     msg: chunks[i],
@@ -373,12 +373,16 @@ user leave
         return text;
     }
 
+
+
+    // todo
     var isChinese = function(text){
         if(/.*[\u4e00-\u9fa5]+.*$/.test(text)){
             return false;
        }
     }
 
+    // todo
     Date.prototype.format = function(format){
         var o = {
             "M+" : this.getMonth()+1, //month
@@ -499,10 +503,13 @@ user leave
     function updateTitle() {
         // On chrome, we have to add a timer for updating the title after the focus event
         // else the title will not update
+        
+        // console.log('updateTitle!!')
+
         window.setTimeout(function () {
             $('title').html(ich.title_template({
                 count: afkDeliveredMessages,
-                roomName: roomName
+                // roomName: roomName
             }, true));
         },100);
     }

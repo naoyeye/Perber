@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:06
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-19 18:54:10
+* @Last Modified time: 2013-12-20 02:01:27
 */
 
 
@@ -34,7 +34,7 @@ module.exports = function(client) {
   // Delete all users sockets from their lists
     client.keys('sockets:for:*', function(err, keys) {
         if(keys.length) client.del(keys);
-        console.log('Deletion of sockets reference for each user >> ', err || "Done!");
+        // console.log('Deletion of sockets reference for each user >> ', err || "Done!");
     });
 
     // No one is online when starting up
@@ -51,21 +51,20 @@ module.exports = function(client) {
             client.hset(key, 'online', 0);
         });
 
-        console.log('Deletion of online users from rooms >> ', err || "Done!");
+        // console.log('Deletion of online users from rooms >> ', err || "Done!");
     });
 
   // Delete all socket.io's sockets data from Redis
     client.smembers('socketio:sockets', function(err, sockets) {
         if(sockets.length) client.del(sockets);
-        console.log('Deletion of socket.io stored sockets data >> ', err || "Done!");
+        // console.log('Deletion of socket.io stored sockets data >> ', err || "Done!");
     });
 
   /*
    * Create 'chats' dir
    */
-  fs.mkdir('./chats');
-
-  console.log('!!!')
+  // only creat once when first run
+  // fs.mkdir('./chats');
 
 };
 

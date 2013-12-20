@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-19 18:52:02
+* @Last Modified time: 2013-12-20 01:59:54
 */
 
 
@@ -36,7 +36,12 @@ function Sockets (app, server) {
     var client = app.get('redisClient');
     var sessionStore = app.get('sessionStore');
 
-    var io = sio.listen(server);
+    var io = sio.listen(server,{
+        log: false,
+        // 'debug': false,
+        // 'log level' : 0
+        // 0 - error, 1 - warn, 2 - info, 3 - debug
+    });
 
     io.set('authorization', function (hsData, accept) {
         if(hsData.headers.cookie) {
@@ -47,8 +52,8 @@ function Sockets (app, server) {
                 if(err || !session) {
                     return accept('Error retrieving session!', false);
                 }
-                console.log('session', session)
-                console.log(' session.passport ' , session.passport)
+                // console.log('session', session)
+                // console.log(' session.passport ' , session.passport)
 
                 hsData.perber = {
                     user: session.passport.user,
@@ -97,6 +102,9 @@ function Sockets (app, server) {
 
             chatlogFileName = './chats/' + (now.getFullYear()) + (now.getMonth() + 1) + (now.getDate()) + ".txt";
             chatlogWriteStream = fs.createWriteStream(chatlogFileName, {'flags': 'a'});
+
+            // console.log(chatlogWriteStream)
+
         socket.join(room_id);
 
         client.sadd('sockets:for:' + userKey + ':at:' + room_id, socket.id, function(err, socketAdded) {

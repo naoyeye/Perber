@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:41:38
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-19 18:56:05
+* @Last Modified time: 2013-12-20 01:57:01
 */
 
 
@@ -56,11 +56,11 @@ require('./routes')(app);
 
 if(app.get('config').credentials) {
     exports.server = require('https').createServer(app.get('config').credentials, app).listen(app.get('port'), function() {
-        console.log('Perber started on port %d', app.get('port'));
+        // console.log('Perber started on port %d', app.get('port'));
     });
 } else {
     exports.server = require('http').createServer(app).listen(app.get('port'), function() {
-        console.log('Perber started on port %d', app.get('port'));
+        // console.log('Perber started on port %d', app.get('port'));
     });
 }
 
