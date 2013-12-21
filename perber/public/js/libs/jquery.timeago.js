@@ -24,6 +24,7 @@
   }
 }(function ($) {
   $.timeago = function(timestamp) {
+    // console.log('start', timestamp)
     if (timestamp instanceof Date) {
       return inWords(timestamp);
     } else if (typeof timestamp === "string") {
@@ -103,14 +104,14 @@
     },
     parse: function(iso8601) {
       var s = $.trim(iso8601);
-      // console.log(s)
+      // console.log('==========', s)
       s = s.replace(/\.\d+/,""); // remove milliseconds
       s = s.replace(/-/,"/").replace(/-/,"/");
 
       // todo fix
       // s = s.replace(/T/," ").replace(/Z/," UTC");
 
-      s = s.replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2"); // -04:00 -> -0400
+      s = s.replace(/([\+\-]\d\d)\:?(\d\d)/,"$1$2"); // -04:00 -> -0400
       
       // console.log(s)
       // console.log(new Date(s))
@@ -177,7 +178,7 @@
 
   function prepareData(element) {
     element = $(element);
-    // console.log(element)
+    // console.log(element.data("timeago"))
 
     if (!element.data("timeago")) {
       // console.log($t.datetime(element))

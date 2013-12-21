@@ -3,16 +3,19 @@ extends layout
 block content
     .wrap
         .content(role='main')
-            .chat
-                .history
 
-                .current
-
-
-            div.chat-input
-                div.ui.form
-                    div.field
+            .chat-input
+                .ui.form
+                    .field
                         textarea(placeholder="Say somthing")
+
+            .chat-list
+                .chat
+
+                    .current
+
+                    .history
+
 
 
     include templates/chat_tmpl

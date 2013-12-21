@@ -2,15 +2,15 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-20 02:31:44
+* @Last Modified time: 2013-12-21 11:47:55
 */
 
 
 $(function() {
     var USERS = window.USERS = {},
-    windowStatus,
-    afkDeliveredMessages = 0,
-    roomName = $('#room_name').text();
+        windowStatus,
+        afkDeliveredMessages = 0,
+        roomName = $('#room_name').text();
 
     // First update the title with room's name
     updateTitle();
@@ -60,9 +60,13 @@ $(function() {
     });
 
     socket.on('connect', function (){
-        // console.info('successfully established a working connection');
+        console.info('successfully established a working connection');
+
         if($('.chat .chat-box').length == 0) {
+            // console.log('加载历史记录')
             socket.emit('history request');
+        } else {
+            // console.log('有数据11')
         }
     });
 
@@ -72,9 +76,17 @@ $(function() {
 history respinse
 */
     socket.on('history response', function(data) {
+
         if(data.history && data.history.length) {
+
+            if(data.history.length == 0){
+                // $('.chat').prepend(ich.nullbox())
+            }
+
             var $lastInput,
-            lastInputUser;
+                lastInputUser;
+
+            // console.log(data.history.length)
 
             data.history.forEach(function(historyLine) {
                 var time = new Date(historyLine.atTime),
@@ -86,8 +98,10 @@ history respinse
                     provider: provider,
                     msg: historyLine.withData,
                     type: 'history',
-                    time: time
+                    time: time.format("yyyy-MM-dd hh:mm:ss")
                 };
+
+                // console.log(historyLine)
 
 
                 $lastInput = $('.chat .history').children().last();
@@ -103,7 +117,9 @@ history respinse
             });
 
             $('.time').timeago();
-
+            masonryHistory($('.history'));
+            hideLoading();
+            // console.log('loading hiden')
         }
     });
 
@@ -206,14 +222,17 @@ new msg
         // console.log(data)
 
         if($lastInput.hasClass('chat-box') && lastInputUserKey === data.provider + ':' + data.nickname) {
-            $lastInput.append(parseChatBoxMsg(ich.chat_box_text(data)));
+            $lastInput.prepend(parseChatBoxMsg(ich.chat_box_text(data)));
         } else {
-            $('.chat .current').append(parseChatBox(ich.chat_box(data)));
+            $('.chat .current').prepend(parseChatBox(ich.chat_box(data)));
         }
 
         $('.chat').scrollTop($('.chat').prop('scrollHeight'));
 
         $(".time").timeago();
+        masonryHistory($('.current'));
+
+        removeNull()
 
         //update title if window is hidden
         if(windowStatus == "hidden") {
@@ -383,6 +402,7 @@ user leave
     }
 
     // todo
+    // time.format("yyyy-MM-dd hh:mm:ss")
     Date.prototype.format = function(format){
         var o = {
             "M+" : this.getMonth()+1, //month
@@ -517,4 +537,30 @@ user leave
     function focusInput() {
         $(".chat-input textarea").focus();
     }
+
+    //masonry history
+    function masonryHistory(wrap){
+        wrap.masonry({
+            // columnWidth: 290,
+            'itemSelector': '.chat-box',
+            // 'gutter': 5,
+            // isResizeBound: false,
+            visibleStyle: { opacity: 1, transform: 'scale(1)' },
+            isAnimated: true,
+            animationOptions: {
+                duration: 750,
+                easing: 'linear',
+                queue: false
+            }
+        });
+    }
+
+    function hideLoading(){
+        $('.chat .loading').hide();
+    }
+
+    function removeNull(){
+        $('.chat .nullbox').remove();
+    }
+
 });

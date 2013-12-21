@@ -6,17 +6,30 @@ script#chat_box_text(type='text/html')
   p(class="{{ en }}")
     | {{ msg }}
     
-    time.time(datetime="{{ time }}") {{ time }}
+    span.time(title="{{ time }}") {{ time }}
 
 script#chat_notice(type='text/html')
   .notice(data-user="{{ user }}")
     |  {{ noticeMsg }}
-    time.time {{ time }}
+    span.time(title="{{ time }}") {{ time }}
 
 script#people_box(type='text/html')
   a(class='{{ status }}', href='#', data-username='{{ nickname }}', data-provider='{{ provider }}')
     b
     | {{ nickname }}
+
+
+
+script#loading(type="text/html")
+    .loading
+        i.fa.fa-spinner.fa-spin
+
+script#nullbox(type="text/html")
+    .nullbox.header.ui.icon
+        i.inbox.circular.icon
+        |这里还是空的
+
+
 
 script#title_template(type='text/html')
   | {{#count}} ({{ count }}) {{/count}} {{ roomName }} Perber

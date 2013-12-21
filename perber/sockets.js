@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-20 12:02:50
+* @Last Modified time: 2013-12-20 20:28:34
 */
 
 
@@ -168,22 +168,44 @@ function Sockets (app, server) {
         // });
 
         socket.on('history request', function() {
+
             var history = [];
-            var tail = require('child_process').spawn('tail', ['-n', 5, chatlogFileName]);
+            var tail = require('child_process').spawn('tac', [chatlogFileName]);
+
+
+            console.log('have a history request======!')
+
+
             tail.stdout.on('data', function (data) {
+
                 var lines = data.toString('utf-8').split("\n");
 
+                // console.log(lines.length)
+
+                // for(var i=0; i<lines.length; i++){
                 lines.forEach(function(line, index) {
                     if(line.length) {
+                        // console.log(index, line)
+                        // console.log('哈哈哈')
+
                         var historyLine = JSON.parse(line);
                         history.push(historyLine);
-                    }
+                    } else {
+                        // console.log('sad!!!')
+                    };
                 });
+                // };
+
+                // console.log(history)
 
                 socket.emit('history response', {
                     history: history
                 });
+
+                console.log('push a history response======!')
+
             });
+
         });
 
         // socket.on('disconnect', function() {
