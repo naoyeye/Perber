@@ -1,8 +1,8 @@
 /* 
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
-* @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-20 20:28:34
+* @Last Modified by:   J.Y Han
+* @Last Modified time: 2013-12-24 01:05:40
 */
 
 
@@ -148,8 +148,7 @@ function Sockets (app, server) {
                     nickname: nickname,
                     // avatar: avatar,
                     provider: provider,
-                    msg: data.msg,
-                    en: data.en
+                    msg: data.msg
                 });
             }
         });
@@ -173,7 +172,7 @@ function Sockets (app, server) {
             var tail = require('child_process').spawn('tac', [chatlogFileName]);
 
 
-            console.log('have a history request======!')
+            // console.log('have a history request======!')
 
 
             tail.stdout.on('data', function (data) {
@@ -202,7 +201,7 @@ function Sockets (app, server) {
                     history: history
                 });
 
-                console.log('push a history response======!')
+                // console.log('push a history response======!')
 
             });
 

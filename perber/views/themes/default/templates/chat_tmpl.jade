@@ -3,7 +3,7 @@ script#chat_box(type='text/html')
     {{> chat_box_text }}
 
 script#chat_box_text(type='text/html')
-  p(class="{{ en }}")
+  p(class="{{ lang }}")
     | {{ msg }}
     
     span.time(title="{{ time }}") {{ time }}
@@ -32,4 +32,4 @@ script#nullbox(type="text/html")
 
 
 script#title_template(type='text/html')
-  | {{#count}} ({{ count }}) {{/count}} {{ roomName }} Perber
+  | {{#count}} ({{ count }}) {{/count}} Perber

@@ -1,8 +1,8 @@
 /* 
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
-* @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-21 11:47:55
+* @Last Modified by:   J.Y Han
+* @Last Modified time: 2013-12-24 01:49:11
 */
 
 
@@ -79,45 +79,52 @@ history respinse
 
         if(data.history && data.history.length) {
 
-            if(data.history.length == 0){
-                // $('.chat').prepend(ich.nullbox())
-            }
-
             var $lastInput,
                 lastInputUser;
 
             // console.log(data.history.length)
 
             data.history.forEach(function(historyLine) {
+
+                // check lang
+                var lang;
+
+                if(isChinese(historyLine.withData)){
+                    lang = 'en';
+                } else {
+                    lang = 'cn';
+                }
+
                 var time = new Date(historyLine.atTime),
-                msnData = historyLine.from.split(':'),
-                nickname = msnData.length > 1 ? msnData[1] : msnData[0],
-                provider = msnData.length > 1 ? msnData[0] : "twitter",
-                chatBoxData = {
-                    nickname: nickname,
-                    provider: provider,
-                    msg: historyLine.withData,
-                    type: 'history',
-                    time: time.format("yyyy-MM-dd hh:mm:ss")
-                };
+                    msnData = historyLine.from.split(':'),
+                    nickname = msnData.length > 1 ? msnData[1] : msnData[0],
+                    provider = msnData.length > 1 ? msnData[0] : "twitter",
+                    chatBoxData = {
+                        nickname: nickname,
+                        provider: provider,
+                        msg: historyLine.withData,
+                        type: 'history',
+                        lang : lang,
+                        time: time.format("yyyy-MM-dd hh:mm:ss")
+                    };
 
                 // console.log(historyLine)
 
 
-                $lastInput = $('.chat .history').children().last();
-                lastInputUserKey = $lastInput.data('provider') + ':' + $lastInput.data('user');
+                // $lastInput = $('.chat .history').children().last();
+                // lastInputUserKey = $lastInput.data('provider') + ':' + $lastInput.data('user');
 
-                if($lastInput.hasClass('chat-box') && lastInputUserKey === chatBoxData.provider + ':' + chatBoxData.nickname) {
-                    $lastInput.append(parseChatBoxMsg(ich.chat_box_text(chatBoxData)));
-                } else {
-                    $('.chat .history').append(parseChatBox(ich.chat_box(chatBoxData)));
-                }
+                // if($lastInput.hasClass('chat-box') && lastInputUserKey === chatBoxData.provider + ':' + chatBoxData.nickname) {
+                    // $lastInput.append(parseChatBoxMsg(ich.chat_box_text(chatBoxData)));
+                // } else {
+                    $('.chat').append(parseChatBox(ich.chat_box(chatBoxData)));
+                // }
 
                 $('.chat').scrollTop($('.chat').prop('scrollHeight'));
             });
 
             $('.time').timeago();
-            masonryHistory($('.history'));
+            masonryHistory($('.chat'));
             hideLoading();
             // console.log('loading hiden')
         }
@@ -212,27 +219,42 @@ user-info update
 new msg
 */
     socket.on('new msg', function(data) {
-        var time = new Date(),
-            $lastInput = $('.chat .current').children().last(),
-            lastInputUserKey = $lastInput.data('provider') + ':' + $lastInput.data('user');
+        var time = new Date();
+        // var $lastInput = $('.chat .current').children().last(),
+        //     lastInputUserKey = $lastInput.data('provider') + ':' + $lastInput.data('user');
 
         data.type = 'chat';
         data.time = time;
 
-        // console.log(data)
+        // check lang
 
-        if($lastInput.hasClass('chat-box') && lastInputUserKey === data.provider + ':' + data.nickname) {
-            $lastInput.prepend(parseChatBoxMsg(ich.chat_box_text(data)));
+        if(isChinese(data.msg)){
+            data.lang = 'en';
         } else {
-            $('.chat .current').prepend(parseChatBox(ich.chat_box(data)));
+            data.lang = 'cn';
         }
+
+
+        // if($lastInput.hasClass('chat-box') && lastInputUserKey === data.provider + ':' + data.nickname) {
+            // $lastInput.prepend(parseChatBoxMsg(ich.chat_box_text(data)));
+        // } else {
+            // $('.chat').prepend(parseChatBox(ich.chat_box(data)));
+        // }
+
+        var $boxes = parseChatBox(ich.chat_box(data));
+        if($('.chat .chat-box').length == 0) {
+             $('.chat').prepend( $boxes )
+         } else {
+            $('.chat').prepend( $boxes ).masonry('prepended', $boxes)
+         }
+
+         masonryHistory($('.chat'));
 
         $('.chat').scrollTop($('.chat').prop('scrollHeight'));
 
         $(".time").timeago();
-        masonryHistory($('.current'));
 
-        removeNull()
+        // removeNull()
 
         //update title if window is hidden
         if(windowStatus == "hidden") {
@@ -298,31 +320,47 @@ user leave
 =================
 */
 
-    $(".chat-input textarea").keypress(function(e) {
-        var inputText = $(this).val().trim();
-        if(e.which == 13 && inputText) {
-            var chunks = inputText.match(/.{1,1024}/g),
-            len = chunks.length;
+    $(".chat-input textarea").keypress(function(event) {
+        // todo
+        var inputText = $(this).val().trim()//.replace('\n', '').replace('\r','').replace(' ','');
+        // console.log(inputText)
 
-            for(var i = 0; i<len; i++) {
 
-                // if(isChinese(data.msg)){
-                //     data.en = false
-                // } else {
-                //     data.en = true
-                // }
+        switch (event.keyCode) {
+            case 13:
+                // console.log('回车')
+                if (!event.shiftKey && inputText){
+                    // var inputText = $(this).val().trim()
+                    // console.log('发送信息')
+                    // Activity.addActivity($scope.message);
 
-                // todo check isChinese
-                socket.emit('my msg', {
-                    msg: chunks[i],
-                    en: false
-                });
-            }
+                    socket.emit('my msg', {
+                        msg: inputText
+                    });
+                    // $timeout(function(){
+                    //     $scope.message = '';
+                    // })
+                    $(this).val('');
 
-            $(this).val('');
-
-            return false;
+                    return false;
+                }
+                break;
+            case 8: // 退格 backspace
+            case 46: // 删除 delete
         }
+
+        // if(e.which == 13 && inputText) {
+        //     var chunks = inputText.match(/.{1,1024}/g),
+        //     len = chunks.length;
+
+        //     for(var i = 0; i<len; i++) {
+        //         socket.emit('my msg', {
+        //             msg: chunks[i]
+        //         });
+        //     }
+
+
+        // }
     });
 
     // $('.dropdown-status .list a.status').click(function(e) {
@@ -332,6 +370,7 @@ user leave
     // });
 
     var textParser = function(text) {
+        // link
         text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href=\"$1\" target='_blank'>$1</a>").replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
 
         return injectEmoticons(text);
@@ -398,7 +437,9 @@ user leave
     var isChinese = function(text){
         if(/.*[\u4e00-\u9fa5]+.*$/.test(text)){
             return false;
-       }
+        } else {
+            return true;
+        }
     }
 
     // todo
