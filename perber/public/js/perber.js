@@ -1,8 +1,8 @@
 /* 
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
-* @Last Modified by:   J.Y Han
-* @Last Modified time: 2013-12-24 01:49:11
+* @Last Modified by:   hanjiyun
+* @Last Modified time: 2013-12-24 16:04:11
 */
 
 
@@ -322,7 +322,7 @@ user leave
 
     $(".chat-input textarea").keypress(function(event) {
         // todo
-        var inputText = $(this).val().trim()//.replace('\n', '').replace('\r','').replace(' ','');
+        var inputText = $(this).val().trim().replace(/\r\n/gi, '');//.replace('\n', '').replace('\r','').replace(' ','');
         // console.log(inputText)
 
 
