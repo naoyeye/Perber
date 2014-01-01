@@ -251,7 +251,9 @@ body{
     /*bottom: 0;*/
     /*overflow: auto;*/
     /*box-sizing:border-box;*/
+    position: relative;
     padding: 5px 0;
+    min-height: 95px;
 }
 .chat{
     /**/
@@ -276,11 +278,11 @@ body{
     padding:20px 0;
     margin: 0 auto;
     text-align: center;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.7);
 }
 .ui.header.nullbox i.icon{
     font-size: 50px!important;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.7);
     font-family: 'Icons';
     -webkit-box-shadow: 0 0 0 5px rgba(255, 255, 255, .4) inset;
     box-shadow: 0 0 0 5px rgba(255, 255, 255, .4) inset;

@@ -1,8 +1,8 @@
 /* 
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
-* @Last Modified by:   J.Y Han
-* @Last Modified time: 2013-12-24 01:05:40
+* @Last Modified by:   hanjiyun
+* @Last Modified time: 2013-12-27 10:58:47
 */
 
 
@@ -173,9 +173,14 @@ function Sockets (app, server) {
 
 
             // console.log('have a history request======!')
+            // console.log(tail)
+            // console.log('======!')
 
 
             tail.stdout.on('data', function (data) {
+                console.log('===start===!')
+                console.log('data:', data.length)
+                console.log('===end===!')
 
                 var lines = data.toString('utf-8').split("\n");
 
@@ -190,13 +195,12 @@ function Sockets (app, server) {
                         var historyLine = JSON.parse(line);
                         history.push(historyLine);
                     } else {
-                        // console.log('sad!!!')
+                        // console.log('空的!!!')
                     };
                 });
                 // };
 
                 // console.log(history)
-
                 socket.emit('history response', {
                     history: history
                 });

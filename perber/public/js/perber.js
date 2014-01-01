@@ -2,15 +2,15 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-24 16:04:11
+* @Last Modified time: 2013-12-27 10:58:29
 */
 
 
 $(function() {
-    var USERS = window.USERS = {},
-        windowStatus,
-        afkDeliveredMessages = 0,
-        roomName = $('#room_name').text();
+    var windowStatus,
+        afkDeliveredMessages = 0;
+        //USERS = window.USERS = {},
+        // roomName = $('#room_name').text();
 
     // First update the title with room's name
     updateTitle();
@@ -19,31 +19,31 @@ $(function() {
 
 
     // Then check users online!
-    $('.people a').each(function(index, element) {
-        USERS[$(element).data('provider') + ":" + $(element).data('username')] = 1;
-    });
+    // $('.people a').each(function(index, element) {
+    //     USERS[$(element).data('provider') + ":" + $(element).data('username')] = 1;
+    // });
 
   //View handlers
-    $(".dropdown a.selected").click(function() {
-        $('.create-room').show().next("form .text").hide();
-        $(this).toggleClass("active");
-        $(this).next(".dropdown-options").toggle();
-    });
+    // $(".dropdown a.selected").click(function() {
+    //     $('.create-room').show().next("form .text").hide();
+    //     $(this).toggleClass("active");
+    //     $(this).next(".dropdown-options").toggle();
+    // });
 
-    $(".create-room").click(function() {
-        $(this).hide();
-        $(this).next(".text").fadeIn();
-    });
+    // $(".create-room").click(function() {
+    //     $(this).hide();
+    //     $(this).next(".text").fadeIn();
+    // });
 
-    $(".lock").click(function() {
-        $(this).toggleClass('active');
-    });
+    // $(".lock").click(function() {
+    //     $(this).toggleClass('active');
+    // });
 
     // $(".fancybox").fancybox({'margin': 0, 'padding': 0});
 
-    $(".invite-people").click(function(){
-        $(this).hide().after('<p class="inviting-people">Inviting peple, please wait.</p>').delay(2000).hide().after('something');
-    });
+    // $(".invite-people").click(function(){
+    //     $(this).hide().after('<p class="inviting-people">Inviting peple, please wait.</p>').delay(2000).hide().after('something');
+    // });
 
 /*
 =================
@@ -64,6 +64,7 @@ $(function() {
 
         if($('.chat .chat-box').length == 0) {
             // console.log('加载历史记录')
+            // $('.chat').append(parseChatBox(ich.chat_box(chatBoxData)));
             socket.emit('history request');
         } else {
             // console.log('有数据11')
@@ -108,25 +109,25 @@ history respinse
                         time: time.format("yyyy-MM-dd hh:mm:ss")
                     };
 
-                // console.log(historyLine)
-
-
-                // $lastInput = $('.chat .history').children().last();
+                // todo clear
+                // $lastInput = $('.chat').children().last();
                 // lastInputUserKey = $lastInput.data('provider') + ':' + $lastInput.data('user');
 
                 // if($lastInput.hasClass('chat-box') && lastInputUserKey === chatBoxData.provider + ':' + chatBoxData.nickname) {
                     // $lastInput.append(parseChatBoxMsg(ich.chat_box_text(chatBoxData)));
                 // } else {
-                    $('.chat').append(parseChatBox(ich.chat_box(chatBoxData)));
+                $('.chat').append(parseChatBox(ich.chat_box(chatBoxData)));
+                
                 // }
 
-                $('.chat').scrollTop($('.chat').prop('scrollHeight'));
+                // $('.chat').scrollTop($('.chat').prop('scrollHeight'));
             });
 
             $('.time').timeago();
             masonryHistory($('.chat'));
             hideLoading();
-            // console.log('loading hiden')
+        } else {
+            console.log('00000')
         }
     });
 
@@ -243,14 +244,14 @@ new msg
 
         var $boxes = parseChatBox(ich.chat_box(data));
         if($('.chat .chat-box').length == 0) {
-             $('.chat').prepend( $boxes )
-         } else {
+            $('.chat').prepend( $boxes )
+        } else {
             $('.chat').prepend( $boxes ).masonry('prepended', $boxes)
-         }
+        }
 
          masonryHistory($('.chat'));
 
-        $('.chat').scrollTop($('.chat').prop('scrollHeight'));
+        // $('.chat').scrollTop($('.chat').prop('scrollHeight'));
 
         $(".time").timeago();
 
@@ -432,8 +433,6 @@ user leave
     }
 
 
-
-    // todo
     var isChinese = function(text){
         if(/.*[\u4e00-\u9fa5]+.*$/.test(text)){
             return false;
@@ -442,7 +441,6 @@ user leave
         }
     }
 
-    // todo
     // time.format("yyyy-MM-dd hh:mm:ss")
     Date.prototype.format = function(format){
         var o = {
@@ -597,7 +595,7 @@ user leave
     }
 
     function hideLoading(){
-        $('.chat .loading').hide();
+        $('.chat-list .loading').hide();
     }
 
     function removeNull(){
