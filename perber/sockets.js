@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-27 10:58:47
+* @Last Modified time: 2014-01-02 02:03:47
 */
 
 
@@ -169,7 +169,8 @@ function Sockets (app, server) {
         socket.on('history request', function() {
 
             var history = [];
-            var tail = require('child_process').spawn('tac', [chatlogFileName]);
+            // var tail = require('child_process').spawn('tac', [chatlogFileName]);
+            var tail = require('child_process').spawn('tail', ['-r', chatlogFileName]);
 
 
             // console.log('have a history request======!')
