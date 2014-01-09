@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-27 10:58:29
+* @Last Modified time: 2014-01-09 15:00:36
 */
 
 
@@ -261,6 +261,7 @@ new msg
         if(windowStatus == "hidden") {
             afkDeliveredMessages +=1;
             updateTitle();
+            $('#chatAudio')[0].play();
         }
     });
 
