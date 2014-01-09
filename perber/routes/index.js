@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2013-12-17 17:30:13
+* @Last Modified time: 2014-01-02 04:01:32
 */
 
 
@@ -110,13 +110,13 @@ app.get('/rooms', utils.restrict, function(req, res) {
 * Create a rooom
 */
 
-app.post('/create', utils.restrict, function(req, res) {
-    utils.validRoomName(req, res, function(roomKey) {
-        utils.roomExists(req, res, client, function() {
-            utils.createRoom(req, res, client);
-        });
-    });
-});
+// app.post('/create', utils.restrict, function(req, res) {
+//     utils.validRoomName(req, res, function(roomKey) {
+//         utils.roomExists(req, res, client, function() {
+//             utils.createRoom(req, res, client);
+//         });
+//     });
+// });
 
 /*
 * Join a room

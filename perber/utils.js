@@ -3,14 +3,14 @@
 * @Date:   2013-11-08 16:32:13
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2013-12-17 17:27:52
+* @Last Modified time: 2014-01-02 04:00:32
 */
 
 
 
 var crypto = require('crypto'),
-    type = require('type-component'),
-    sanitize = require('validator').sanitize; //hanjiyun fix
+    type = require('type-component'); //,
+    // sanitize = require('validator').sanitize; //hanjiyun fix
 
 /*
  * Restrict paths
@@ -35,16 +35,16 @@ var crypto = require('crypto'),
  * Room name is valid
  */
 
- exports.validRoomName = function(req, res, fn) {
-    req.body.room_name = sanitize(req.body.room_name).trim();
-    var nameLen = req.body.room_name.length;
+//  exports.validRoomName = function(req, res, fn) {
+//     req.body.room_name = sanitize(req.body.room_name).trim();
+//     var nameLen = req.body.room_name.length;
 
-    if(nameLen < 255 && nameLen >0) {
-        fn();
-    } else {
-        res.redirect('back');
-    }
-};
+//     if(nameLen < 255 && nameLen >0) {
+//         fn();
+//     } else {
+//         res.redirect('back');
+//     }
+// };
 
 /*
  * Checks if room exists

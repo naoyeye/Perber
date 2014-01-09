@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-02 02:03:47
+* @Last Modified time: 2014-01-02 04:03:03
 */
 
 
@@ -177,11 +177,11 @@ function Sockets (app, server) {
             // console.log(tail)
             // console.log('======!')
 
-
+            // todo 
             tail.stdout.on('data', function (data) {
-                console.log('===start===!')
-                console.log('data:', data.length)
-                console.log('===end===!')
+                // console.log('===start===!')
+                // console.log('data:', data.length)
+                // console.log('===end===!')
 
                 var lines = data.toString('utf-8').split("\n");
 
