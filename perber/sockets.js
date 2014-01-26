@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-02 04:03:03
+* @Last Modified time: 2014-01-22 23:15:43
 */
 
 
@@ -80,7 +80,7 @@ function Sockets (app, server) {
         io.enable('browser client gzip');
     });
 
-
+// connection
     io.sockets.on('connection', function (socket) {
         var hs = socket.handshake,
             // nickname = hs.perber.user.username,
@@ -127,11 +127,14 @@ function Sockets (app, server) {
             }
         });
 
+// new message
         socket.on('my msg', function(data) {
             var no_empty = data.msg.replace("\n","");
+            var id = 0;
             if(no_empty.length > 0) {
                 var chatlogRegistry = {
-                    type: 'message',
+                    id : id+1,
+                    // type: 'message',
                     from: userKey,
                     atTime: new Date(),
                     withData: data.msg
@@ -141,31 +144,22 @@ function Sockets (app, server) {
                 // todo: save to sql
 
                 chatlogWriteStream.write(JSON.stringify(chatlogRegistry) + "\n");
-                
-                // console.log('chatlogWriteStream')
 
                 io.sockets.in(room_id).emit('new msg', {
                     nickname: nickname,
-                    // avatar: avatar,
                     provider: provider,
                     msg: data.msg
                 });
             }
         });
 
-        // socket.on('set status', function(data) {
-        //     var status = data.status;
+// delete message
+        socket.on('delete message', function(data) {
+            console.log('delete message!!!')
+        });
 
-        //     client.set('users:' + userKey + ':status', status, function(err, statusSet) {
-        //         io.sockets.emit('user-info update', {
-        //             username: nickname,
-        //             // avatar: avatar,
-        //             provider: provider,
-        //             status: status
-        //         });
-        //     });
-        // });
 
+// history message
         socket.on('history request', function() {
 
             var history = [];

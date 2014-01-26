@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-13 22:20:31
+* @Last Modified time: 2014-01-24 17:41:33
 */
 
 
@@ -126,6 +126,10 @@ history respinse
             $('.time').timeago();
             masonryHistory($('.chat'));
             hideLoading();
+
+            // 绑定删除事件
+            bindDeleteMes();
+
         } else {
             console.log('00000')
         }
@@ -256,6 +260,7 @@ new msg
         $(".time").timeago();
 
         // removeNull()
+        // bindDeleteMes();
 
         //update title if window is hidden
         if(windowStatus == "hidden") {
@@ -364,12 +369,6 @@ user leave
 
         // }
     });
-
-    // $('.dropdown-status .list a.status').click(function(e) {
-    //     socket.emit('set status', {
-    //         status: $(this).data('status')
-    //     });
-    // });
 
     var textParser = function(text) {
         // link
@@ -602,6 +601,15 @@ user leave
 
     function removeNull(){
         $('.chat .nullbox').remove();
+    }
+
+    function bindDeleteMes(){
+        $('.chat').on('click', '.chat-box', function(e) {
+            socket.emit('delete message', {
+                id: $(this).data('id')
+            });
+            console.log('test!');
+        });
     }
 
 });
