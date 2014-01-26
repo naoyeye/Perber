@@ -19,6 +19,7 @@ var log = require('debug')('perber:config'),
 
 module.exports = Config;
 
+
 /**
  * Applies configurations settings
  * for application.
@@ -48,20 +49,36 @@ function Config (app) {
     // log('Setting view engine as %s', 'jade');
     app.set('view engine', 'jade');
 
+//mysql
+// ==========
+    app.set('mysqlConf', config.mysqlConf);
+
+    var mysqlConfig = config.mysqlConf;
+
+    var mysqlClient = require('mysql').createConnection(mysqlConfig);
+
+    app.set('mysqlClient', mysqlClient);
+
+    console.log('Connected to MySQL automatically');
+
+
+
+// redis
+// ==========
     // log('Setting redisURL', config.redisURL);
     app.set('redisURL', config.redisURL);
 
-    // log('Opening a redis client connection');
+    // log('Opening a redis mysql connection');
     // This should be moved to a db.js module
     var redisConfig = url.parse(config.redisURL);
     var redisClient = redis.createClient(redisConfig.port, redisConfig.hostname);
   
     redisClient.on('error', function(err) {
-        // log('Error connecting to redis %j', err);
+        log('Error connecting to redis %j', err);
     }).on('connect', function() {
-        // log('Connected to redis.');
+        log('Connected to redis.');
     }).on('ready', function() {
-        // log('Redis client ready.');
+        log('Redis mysql ready.');
     });
 
     if (redisConfig.auth) {
@@ -72,8 +89,11 @@ function Config (app) {
     // log('Saving redisClient connection in app');
     app.set('redisClient', redisClient);
 
-    // log('Creating and saving a session store instance with redis client.');
-    app.set('sessionStore', new RedisStore({client: redisClient}));
+    // log('Creating and saving a session store instance with redis mysql.');
+    app.set('sessionStore', new RedisStore({mysql: redisClient}));
+
+
+
 
     // log('Setting views lookup root path.');
     app.set('views', path.join(__dirname, '..', '/views/themes/', config.theme.name));

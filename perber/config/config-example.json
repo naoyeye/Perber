@@ -1,6 +1,13 @@
 {
     "redisURL": "http://localhost/",
 
+    "mysqlConf": {
+        "host" : "localhost",
+        "port" : 3306,
+        "user" : "your db user",
+        "password" : "your db pwd"
+    },
+
     "auth": {
         "twitter": {
             "consumerkey" : "your consumerkey",

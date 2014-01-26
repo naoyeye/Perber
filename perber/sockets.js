@@ -2,7 +2,11 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
+<<<<<<< HEAD
 * @Last Modified time: 2014-01-22 23:15:43
+=======
+* @Last Modified time: 2014-01-26 19:55:20
+>>>>>>> 5386f1231f466952355cc820cda52b51262f9d0c
 */
 
 
@@ -34,6 +38,7 @@ module.exports = Sockets;
 function Sockets (app, server) {
     var config = app.get('config');
     var client = app.get('redisClient');
+    var mysql = app.get('mysqlClient');
     var sessionStore = app.get('sessionStore');
 
     var io = sio.listen(server,{
@@ -89,23 +94,24 @@ function Sockets (app, server) {
             // provider = hs.perber.user.provider,
             provider = '' // todo:random
 
-            // avatar = hs.perber.user.avatar,
-            // avatar = ''
-
             userKey = provider + ":" + nickname,
             room_id = hs.perber.room,
             now = new Date(),
 
 
-            // Chat Log handler
-            // need change to sql
-
-            chatlogFileName = './chats/' + (now.getFullYear()) + (now.getMonth() + 1) + (now.getDate()) + ".txt";
-            chatlogWriteStream = fs.createWriteStream(chatlogFileName, {'flags': 'a'});
-
-            // console.log(chatlogWriteStream)
-
         socket.join(room_id);
+
+
+        // Mysql Connected
+        mysql.query('USE perber', function(error, results) {
+            if(error) {
+                console.log('mysqlConnectionReady Error: ' + error.message);
+                mysql.end();
+                return;
+            }
+            // console.log('MySQL Connected!!')
+        });
+
 
         client.sadd('sockets:for:' + userKey + ':at:' + room_id, socket.id, function(err, socketAdded) {
             if(socketAdded) {
@@ -132,6 +138,7 @@ function Sockets (app, server) {
             var no_empty = data.msg.replace("\n","");
             var id = 0;
             if(no_empty.length > 0) {
+<<<<<<< HEAD
                 var chatlogRegistry = {
                     id : id+1,
                     // type: 'message',
@@ -139,15 +146,43 @@ function Sockets (app, server) {
                     atTime: new Date(),
                     withData: data.msg
                 }
+=======
+                var chatlogRegistry = [
+                    data.msg,
+                    new Date(),
+                ]
+>>>>>>> 5386f1231f466952355cc820cda52b51262f9d0c
 
                 // 存入文本
                 // todo: save to sql
 
+<<<<<<< HEAD
                 chatlogWriteStream.write(JSON.stringify(chatlogRegistry) + "\n");
+=======
+                // chatlogWriteStream.write(JSON.stringify(chatlogRegistry) + "\n");
 
+                mysql.query('INSERT INTO Messages SET message = ?, creation_ts = ?', chatlogRegistry, function(error, results) {
+                    if(error) {
+                        console.log("mysqlReady Error: " + error.message);
+                        mysql.end();
+                        return;
+                    }
+                    // console.log('Inserted: ' + results.affectedRows + ' row.');
+                    // console.log('Id inserted: ' + results.insertId);
+                });
+
+>>>>>>> 5386f1231f466952355cc820cda52b51262f9d0c
+
+                // todo clear
                 io.sockets.in(room_id).emit('new msg', {
+<<<<<<< HEAD
                     nickname: nickname,
                     provider: provider,
+=======
+                    // nickname: nickname,
+                    // avatar: avatar,
+                    // provider: provider,
+>>>>>>> 5386f1231f466952355cc820cda52b51262f9d0c
                     msg: data.msg
                 });
             }
@@ -163,46 +198,64 @@ function Sockets (app, server) {
         socket.on('history request', function() {
 
             var history = [];
+
             // var tail = require('child_process').spawn('tac', [chatlogFileName]);
-            var tail = require('child_process').spawn('tail', ['-r', chatlogFileName]);
-
-
-            // console.log('have a history request======!')
-            // console.log(tail)
-            // console.log('======!')
+            // var tail = require('child_process').spawn('tail', ['-r', chatlogFileName]); // fixed
 
             // todo 
-            tail.stdout.on('data', function (data) {
-                // console.log('===start===!')
-                // console.log('data:', data.length)
-                // console.log('===end===!')
+            // tail.stdout.on('data', function (data) {
+            //     // console.log('===start===!')
+            //     // console.log('data:', data.length)
+            //     // console.log('===end===!')
 
-                var lines = data.toString('utf-8').split("\n");
+            //     var lines = data.toString('utf-8').split("\n");
 
-                // console.log(lines.length)
+            //     // console.log(lines.length)
 
-                // for(var i=0; i<lines.length; i++){
-                lines.forEach(function(line, index) {
-                    if(line.length) {
-                        // console.log(index, line)
-                        // console.log('哈哈哈')
+            //     // for(var i=0; i<lines.length; i++){
+            //     lines.forEach(function(line, index) {
+            //         if(line.length) {
+            //             // console.log(index, line)
+            //             // console.log('哈哈哈')
 
-                        var historyLine = JSON.parse(line);
-                        history.push(historyLine);
-                    } else {
-                        // console.log('空的!!!')
-                    };
-                });
-                // };
+            //             var historyLine = JSON.parse(line);
+            //             history.push(historyLine);
+            //         } else {
+            //             // console.log('空的!!!')
+            //         };
+            //     });
+            //     // };
 
-                // console.log(history)
-                socket.emit('history response', {
-                    history: history
-                });
+            //     // console.log(history)
+            //     socket.emit('history response', {
+            //         history: history
+            //     });
 
-                // console.log('push a history response======!')
+            //     // console.log('push a history response======!')
 
+            // });
+
+            mysql.query( 'SELECT * FROM Messages ORDER BY id DESC', function selectCb(error, results, fields) {
+                if (error) {  
+                    console.log('GetData Error: ' + error.message);
+                    mysql.end();
+                    return;
+                }
+
+               // if(results.length > 0){
+                    // results.forEach(function(line, index) {
+                    //     history.push(line);
+                    // });
+                    socket.emit('history response', {
+                        history: results
+                    });
+               // }
             });
+
+
+
+            // mysql.end();
+            // console.log('Connection closed');
 
         });
 
