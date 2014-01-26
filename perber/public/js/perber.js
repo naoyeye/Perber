@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-26 20:34:47
+* @Last Modified time: 2014-01-26 22:04:14
 */
 
 
@@ -399,6 +399,11 @@ user leave
             }, true));
         },100);
     }
+
+
+
+
+
 
     function focusInput() {
         $(".chat-input textarea").focus();
