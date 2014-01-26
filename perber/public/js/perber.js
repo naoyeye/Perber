@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-26 22:04:14
+* @Last Modified time: 2014-01-26 22:30:21
 */
 
 
@@ -432,6 +432,15 @@ user leave
 
     function removeNull(){
         $('.chat .nullbox').remove();
+    }
+
+    function bindDeleteMes(){
+        $('.chat').on('click', '.chat-box', function(e) {
+            socket.emit('delete message', {
+                id: $(this).data('id')
+            });
+            console.log('test!');
+        });
     }
 
 });
