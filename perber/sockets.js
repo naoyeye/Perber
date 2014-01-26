@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-26 22:30:47
+* @Last Modified time: 2014-01-26 23:31:57
 */
 
 
@@ -131,42 +131,47 @@ function Sockets (app, server) {
 
 // new message
         socket.on('my msg', function(data) {
+
             var no_empty = data.msg.replace("\n","");
+
             if(no_empty.length > 0) {
                 var chatlogRegistry = [
                     data.msg,
                     new Date(),
                 ]
 
-                // 存入文本
-                // todo: save to sql
-
-                // chatlogWriteStream.write(JSON.stringify(chatlogRegistry) + "\n");
-
                 mysql.query('INSERT INTO Messages SET message = ?, creation_ts = ?', chatlogRegistry, function(error, results) {
                     if(error) {
-                        console.log("mysqlReady Error: " + error.message);
+                        console.log("mysql INSERT Error: " + error.message);
                         mysql.end();
                         return;
                     }
                     // console.log('Inserted: ' + results.affectedRows + ' row.');
                     // console.log('Id inserted: ' + results.insertId);
+
+                    io.sockets.in(room_id).emit('new msg', {
+                        id: results.insertId,
+                        msg: data.msg
+                    });
                 });
 
-
-                // todo clear
-                io.sockets.in(room_id).emit('new msg', {
-                    // nickname: nickname,
-                    // avatar: avatar,
-                    // provider: provider,
-                    msg: data.msg
-                });
             }
         });
 
 // delete message
         socket.on('delete message', function(data) {
-            console.log('delete message!!!')
+            console.log('delete', data.id)
+            mysql.query('DELETE FROM Messages WHERE id = ?', data.id, function(error, results) {
+                if(error) {
+                    console.log("mysql delete Error: " + error.message);
+                    mysql.end();
+                    return;
+                }
+            });
+
+            io.sockets.in(room_id).emit('message deleted', {
+                id: data.id
+            });
         });
 
 

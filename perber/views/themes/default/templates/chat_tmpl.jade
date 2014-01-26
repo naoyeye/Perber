@@ -1,9 +1,9 @@
 script#chat_box(type='text/html')
-    .chat-box
+    .chat-box(data-id="{{ id }}")
         {{> chat_box_text }}
 
 script#chat_box_text(type='text/html')
-    p(data-id="{{ id }}", class="{{ lang }}")
+    p(class="{{ lang }}")
         | {{ msg }}
 
         span.time(title="{{ time }}") {{ time }}

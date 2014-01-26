@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-26 22:30:21
+* @Last Modified time: 2014-01-26 23:31:14
 */
 
 
@@ -71,6 +71,7 @@ history respinse
                     $('.chat').append(parseChatBox(ich.chat_box(chatBoxData)));
                 });
 
+                bindDeleteMes();
                 $('.time').timeago();
                 masonryHistory($('.chat'));
                 hideLoading();
@@ -87,8 +88,6 @@ new msg
 */
     socket.on('new msg', function(data) {
         var time = new Date();
-
-        data.type = 'chat';
         data.time = time;
 
         if(isChinese(data.msg)){
@@ -98,17 +97,17 @@ new msg
         }
 
         var $boxes = parseChatBox(ich.chat_box(data));
+
         if($('.chat .chat-box').length == 0) {
             $('.chat').prepend( $boxes )
         } else {
             $('.chat').prepend( $boxes ).masonry('prepended', $boxes)
         }
 
-         masonryHistory($('.chat'));
-
+        masonryHistory($('.chat'));
+        // bindDeleteMes();
         $(".time").timeago();
-
-        removeNull()
+        removeNull();
 
         //update title if window is hidden
         if(windowStatus === "hidden") {
@@ -117,6 +116,19 @@ new msg
             $('#chatAudio')[0].play();
         }
     });
+
+
+/*
+delete msg
+*/
+    socket.on('message deleted', function(data) {
+        $('.chat-box').each(function(){
+            el=$(this);
+            if(el.data('id') === data.id){
+                $('.chat').masonry( 'remove', el )
+            }
+        })
+    })
 
 
 
@@ -436,10 +448,11 @@ user leave
 
     function bindDeleteMes(){
         $('.chat').on('click', '.chat-box', function(e) {
+            var id = $(this).data('id');
             socket.emit('delete message', {
-                id: $(this).data('id')
+                id: id
             });
-            console.log('test!');
+            console.log('删除')
         });
     }
 
