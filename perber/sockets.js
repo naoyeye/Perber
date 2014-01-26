@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-26 23:31:57
+* @Last Modified time: 2014-01-26 23:41:44
 */
 
 
@@ -167,11 +167,11 @@ function Sockets (app, server) {
                     mysql.end();
                     return;
                 }
+                io.sockets.in(room_id).emit('message deleted', {
+                    id: data.id
+                });
             });
 
-            io.sockets.in(room_id).emit('message deleted', {
-                id: data.id
-            });
         });
 
 
