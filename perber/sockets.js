@@ -3,7 +3,7 @@
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
 <<<<<<< HEAD
-* @Last Modified time: 2014-01-22 23:15:43
+* @Last Modified time: 2014-01-26 21:03:30
 =======
 * @Last Modified time: 2014-01-26 19:55:20
 >>>>>>> 5386f1231f466952355cc820cda52b51262f9d0c
@@ -136,29 +136,15 @@ function Sockets (app, server) {
 // new message
         socket.on('my msg', function(data) {
             var no_empty = data.msg.replace("\n","");
-            var id = 0;
             if(no_empty.length > 0) {
-<<<<<<< HEAD
-                var chatlogRegistry = {
-                    id : id+1,
-                    // type: 'message',
-                    from: userKey,
-                    atTime: new Date(),
-                    withData: data.msg
-                }
-=======
                 var chatlogRegistry = [
                     data.msg,
                     new Date(),
                 ]
->>>>>>> 5386f1231f466952355cc820cda52b51262f9d0c
 
                 // 存入文本
                 // todo: save to sql
 
-<<<<<<< HEAD
-                chatlogWriteStream.write(JSON.stringify(chatlogRegistry) + "\n");
-=======
                 // chatlogWriteStream.write(JSON.stringify(chatlogRegistry) + "\n");
 
                 mysql.query('INSERT INTO Messages SET message = ?, creation_ts = ?', chatlogRegistry, function(error, results) {
@@ -171,18 +157,12 @@ function Sockets (app, server) {
                     // console.log('Id inserted: ' + results.insertId);
                 });
 
->>>>>>> 5386f1231f466952355cc820cda52b51262f9d0c
 
                 // todo clear
                 io.sockets.in(room_id).emit('new msg', {
-<<<<<<< HEAD
-                    nickname: nickname,
-                    provider: provider,
-=======
                     // nickname: nickname,
                     // avatar: avatar,
                     // provider: provider,
->>>>>>> 5386f1231f466952355cc820cda52b51262f9d0c
                     msg: data.msg
                 });
             }
