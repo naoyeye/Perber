@@ -4,7 +4,7 @@
 * @Last Modified by:   hanjiyun
 <<<<<<< HEAD
 <<<<<<< HEAD
-* @Last Modified time: 2014-01-26 20:44:35
+* @Last Modified time: 2014-01-26 21:08:20
 =======
 * @Last Modified time: 2014-01-26 19:51:35
 >>>>>>> 5386f1231f466952355cc820cda52b51262f9d0c
@@ -116,12 +116,7 @@ new msg
 
         $(".time").timeago();
 
-<<<<<<< HEAD
-        // removeNull()
-        // bindDeleteMes();
-=======
         removeNull()
->>>>>>> 5386f1231f466952355cc820cda52b51262f9d0c
 
         //update title if window is hidden
         if(windowStatus === "hidden") {
