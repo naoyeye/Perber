@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:06
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-20 12:00:37
+* @Last Modified time: 2014-01-26 19:32:10
 */
 
 
@@ -59,12 +59,6 @@ module.exports = function(client) {
         if(sockets.length) client.del(sockets);
         // console.log('Deletion of socket.io stored sockets data >> ', err || "Done!");
     });
-
-  /*
-   * Create 'chats' dir
-   */
-  // only creat once when first run
-  fs.mkdir('./chats');
 
 };
 

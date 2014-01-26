@@ -1,34 +1,35 @@
 script#chat_box(type='text/html')
-  .chat-box
-    {{> chat_box_text }}
+    .chat-box
+        {{> chat_box_text }}
 
 script#chat_box_text(type='text/html')
-  p(class="{{ lang }}")
-    | {{ msg }}
-    
-    span.time(title="{{ time }}") {{ time }}
+    p(data-id="{{ id }}", class="{{ lang }}")
+        | {{ msg }}
+
+        span.time(title="{{ time }}") {{ time }}
 
 script#chat_notice(type='text/html')
-  .notice(data-user="{{ user }}")
-    |  {{ noticeMsg }}
-    span.time(title="{{ time }}") {{ time }}
+    .notice(data-user="{{ user }}")
+        |  {{ noticeMsg }}
+        span.time(title="{{ time }}") {{ time }}
 
 script#people_box(type='text/html')
-  a(class='{{ status }}', href='#', data-username='{{ nickname }}', data-provider='{{ provider }}')
-    b
-    | {{ nickname }}
+    a(class='{{ status }}', href='#', data-username='{{ nickname }}', data-provider='{{ provider }}')
+        b
+        | {{ nickname }}
 
 
 
-// script#loading(type="text/html")
-//    .loading
-//        i.fa.fa-spinner.fa-spin
+script#loading(type="text/html")
+   .loading
+       i.fa.fa-spinner.fa-spin
 
-// script#nullbox(type="text/html")
-//     .nullbox.header.ui.icon
-//         i.circular.icon 这里还是空的
+script#nullbox(type="text/html")
+    .nullbox.header.ui.icon
+        i.circular.icon.circle
+        今日无事
 
 
 
 script#title_template(type='text/html')
-  | {{#count}} ({{ count }}) {{/count}} Perber
+    | {{#count}} ({{ count }}) {{/count}} Perber

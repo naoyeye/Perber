@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-13 22:20:31
+* @Last Modified time: 2014-01-26 19:51:35
 */
 
 
@@ -78,57 +78,61 @@ history respinse
 */
     socket.on('history response', function(data) {
 
-        if(data.history && data.history.length) {
+        $('.chat').append(ich.loading());
 
-            var $lastInput,
-                lastInputUser;
+        setTimeout(function(){
+            if(data.history && data.history.length) {
 
-            // console.log(data.history.length)
+                var $lastInput,
+                    lastInputUser;
 
-            data.history.forEach(function(historyLine) {
+                data.history.forEach(function(historyLine) {
 
-                // check lang
-                var lang;
+                    // check lang
+                    var lang;
 
-                if(isChinese(historyLine.withData)){
-                    lang = 'en';
-                } else {
-                    lang = 'cn';
-                }
+                    if(isChinese(historyLine.withData)){
+                        lang = 'en';
+                    } else {
+                        lang = 'cn';
+                    }
 
-                var time = new Date(historyLine.atTime),
-                    msnData = historyLine.from.split(':'),
-                    nickname = msnData.length > 1 ? msnData[1] : msnData[0],
-                    provider = msnData.length > 1 ? msnData[0] : "twitter",
-                    chatBoxData = {
-                        nickname: nickname,
-                        provider: provider,
-                        msg: historyLine.withData,
-                        type: 'history',
-                        lang : lang,
-                        time: time.format("yyyy-MM-dd hh:mm:ss")
-                    };
+                    var time = new Date(historyLine.creation_ts),
+                        // msnData = historyLine.from.split(':'),
+                        // nickname = msnData.length > 1 ? msnData[1] : msnData[0],
+                        // provider = msnData.length > 1 ? msnData[0] : "twitter",
+                        chatBoxData = {
+                            // nickname: nickname,
+                            // provider: provider,
+                            id: historyLine.id,
+                            msg: historyLine.message,
+                            // type: 'history',
+                            lang : lang,
+                            time: time.format("yyyy-MM-dd hh:mm:ss")
+                        };
 
-                // todo clear
-                // $lastInput = $('.chat').children().last();
-                // lastInputUserKey = $lastInput.data('provider') + ':' + $lastInput.data('user');
+                    // todo clear
+                    // $lastInput = $('.chat').children().last();
+                    // lastInputUserKey = $lastInput.data('provider') + ':' + $lastInput.data('user');
 
-                // if($lastInput.hasClass('chat-box') && lastInputUserKey === chatBoxData.provider + ':' + chatBoxData.nickname) {
-                    // $lastInput.append(parseChatBoxMsg(ich.chat_box_text(chatBoxData)));
-                // } else {
-                $('.chat').append(parseChatBox(ich.chat_box(chatBoxData)));
-                
-                // }
+                    // if($lastInput.hasClass('chat-box') && lastInputUserKey === chatBoxData.provider + ':' + chatBoxData.nickname) {
+                        // $lastInput.append(parseChatBoxMsg(ich.chat_box_text(chatBoxData)));
+                    // } else {
+                    $('.chat').append(parseChatBox(ich.chat_box(chatBoxData)));
+                    
+                    // }
 
-                // $('.chat').scrollTop($('.chat').prop('scrollHeight'));
-            });
+                    // $('.chat').scrollTop($('.chat').prop('scrollHeight'));
+                });
 
-            $('.time').timeago();
-            masonryHistory($('.chat'));
-            hideLoading();
-        } else {
-            console.log('00000')
-        }
+                $('.time').timeago();
+                masonryHistory($('.chat'));
+                hideLoading();
+            } else {
+                hideLoading();
+                $('.chat').append(ich.nullbox());
+            }
+        }, 1000)
     });
 
 
@@ -255,7 +259,7 @@ new msg
 
         $(".time").timeago();
 
-        // removeNull()
+        removeNull()
 
         //update title if window is hidden
         if(windowStatus == "hidden") {
