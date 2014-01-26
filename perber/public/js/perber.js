@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-27 10:58:29
+* @Last Modified time: 2014-01-13 22:20:31
 */
 
 
@@ -261,6 +261,7 @@ new msg
         if(windowStatus == "hidden") {
             afkDeliveredMessages +=1;
             updateTitle();
+            $('#chatAudio')[0].play();
         }
     });
 
@@ -374,7 +375,8 @@ user leave
         // link
         text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href=\"$1\" target='_blank'>$1</a>").replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
 
-        return injectEmoticons(text);
+        // return injectEmoticons(text); // no Emoticons 2014-1-13
+        return text;
     };
 
     var parseChatBox = function(chatBox) {
