@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-26 23:59:37
+* @Last Modified time: 2014-01-27 13:33:47
 */
 
 
@@ -124,17 +124,21 @@ delete msg
     socket.on('message deleted', function(data) {
         $('.chat-box').each(function(){
             var el = $(this);
+
             if(el.data('id') === data.id){
-                // $('.chat').masonry( 'remove', el );
-                el.remove();
+                $('.chat').masonry( 'remove', el);
+                $('.chat').masonry();
+                // el.remove();
                 // console.log('remove!')
             }
+        });
+        setTimeout(function(){
             if($('.chat-box').size() === 0){
                 // console.log('删完了')
                 $('.chat').masonry('destroy');
                 $('.chat .nullbox').show();
             }
-        })
+        }, 500)
     })
 
 
