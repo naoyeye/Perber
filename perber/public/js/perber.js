@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-27 13:33:47
+* @Last Modified time: 2014-01-29 23:23:10
 */
 
 
@@ -143,53 +143,6 @@ delete msg
 
 
 
-/*
-user leave
-*/
-    // socket.on('user leave', function(data) {
-    //     var nickname = $('#username').text(),
-    //         message = "$username has left the room.";
-
-    //     for (var userKey in USERS) {
-    //         if(userKey === data.provider + ":" + data.nickname && data.nickname != nickname) {
-    //             //Mark user as leaving
-    //             USERS[userKey] = 0;
-
-    //             //Wait a little before removing user
-    //             setTimeout(function() {
-    //                 //If not re-connected
-    //                 if (!USERS[userKey]) {
-    //                     //Remove it and notify
-    //                     $('.people a[data-username="' + data.nickname + '"][data-provider="' + data.provider + '"]').remove();
-
-    //                     // Chat notice
-    //                     message = message.replace('$username', data.nickname);
-
-    //                     // Check update time
-    //                     var time = new Date(),
-    //                     noticeBoxData = {
-    //                         user: data.nickname,
-    //                         noticeMsg: message,
-    //                         time: time
-    //                     };
-
-    //                     var $lastChatInput = $('.chat .current').children().last();
-
-    //                     if($lastChatInput.hasClass('notice') && $lastChatInput.data('user') === data.nickname) {
-    //                         $lastChatInput.replaceWith(ich.chat_notice(noticeBoxData));
-    //                     } else {
-    //                         $('.chat .current').append(ich.chat_notice(noticeBoxData));
-    //                         $('.chat').scrollTop($('.chat').prop('scrollHeight'));
-    //                     }
-    //                 };
-    //             }, 2000);
-    //         }
-    //     }
-    // });
-
-
-
-
 
 
 /*
@@ -201,7 +154,6 @@ user leave
     $(".chat-input textarea").keypress(function(event) {
         // todo
         var inputText = $(this).val().trim().replace(/\r\n/gi, '');//.replace('\n', '').replace('\r','').replace(' ','');
-
 
         switch (event.keyCode) {
             case 13:
@@ -221,10 +173,8 @@ user leave
 
     var textParser = function(text) {
         // link
-        text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href=\"$1\" target='_blank'>$1</a>").replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
-
-        // return injectEmoticons(text); // no Emoticons 2014-1-13
-        return text;
+        // text = injectEmoticons(text); // no Emoticons 2014-1-13
+        return text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href=\"$1\" target='_blank'>$1</a>").replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
     };
 
     var parseChatBox = function(chatBox) {
@@ -466,6 +416,6 @@ user leave
             // console.log('删除')
         });
     }
-    bindDeleteMes()
+    // bindDeleteMes()
 
 });
