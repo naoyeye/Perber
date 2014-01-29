@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-29 23:23:10
+* @Last Modified time: 2014-01-30 01:31:31
 */
 
 
@@ -30,7 +30,7 @@ $(function() {
     });
 
     socket.on('connect', function (){
-        console.info('successfully established a working connection');
+        // console.info('successfully established a working connection');
 
         if($('.chat .chat-box').length === 0) {
             socket.emit('history request');
@@ -54,7 +54,7 @@ history respinse
 
                 data.history.forEach(function(historyLine) {
                     var lang;
-                    if(isChinese(historyLine.withData)){
+                    if(isChinese(historyLine.message)){
                         lang = 'en';
                     } else {
                         lang = 'cn';
@@ -134,9 +134,9 @@ delete msg
         });
         setTimeout(function(){
             if($('.chat-box').size() === 0){
-                // console.log('删完了')
-                $('.chat').masonry('destroy');
+                console.log('空')
                 $('.chat .nullbox').show();
+                $('.chat').masonry('destroy');
             }
         }, 500)
     })
@@ -407,15 +407,73 @@ delete msg
         $('.chat .nullbox').hide();
     }
 
+
+// todo
     function bindDeleteMes(){
-        $('.chat-list').on('click', '.chat-box', function(e) {
-            var id = $(this).data('id');
-            socket.emit('delete message', {
-                id: id
-            });
-            // console.log('删除')
+        var list = $('.chat-list'),
+            timer;
+
+        console.log('bindDeleteMes')
+
+        list.delegate('.chat-box', 'mousedown', function(e) {
+            // var id = $(this).data('id');
+            // socket.emit('delete message', {
+            //     id: id
+            // });
+            // $('#deletedAudio')[0].play();
+            // // console.log('删除')
+
+
+            // var $e = $(e.currentTarget);
+
+            // $e.(2000,function(x,y){
+            //         alert("x:"+x+',y:'+y);
+            // })
+
+            console.log('down')
+
+            timer = setTimeout(RUsure, 1000);
+
         });
+
+
+        list.on('mouseup', '.chat-box', function(e) {
+            console.log('up')
+            clearTimeout(timer);
+        })
+
+        function RUsure(){
+            console.log('R U Sure?')
+        }
     }
+
+
     // bindDeleteMes()
 
 });
+
+
+
+
+// (function($) {
+//     $.extend($.fn, {
+//         longPress : function(time,callBack){
+//            time = time || 1000;
+//            var timer = null;
+//            $(this).mousedown(function(e){
+//                 var i = 0;
+//                 var _this = $(this);
+//                 timer = setInterval(function(){
+//                     i+=10;
+//                     if(i >= time) {
+//                         clearTimeout(timer);
+//                         var positionX = e.pageX - _this.offset().left || 0;
+//                         var positionY = e.pageY - _this.offset().top  || 0;
+//                         typeof callBack == 'function' && callBack.call(this,positionX,positionY);
+//                     }
+//                 },10)
+//            }).mouseup(function(){clearTimeout(timer);})
+//         }
+//     });
+// }) (jQuery);
+

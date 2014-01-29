@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-26 23:41:44
+* @Last Modified time: 2014-01-30 01:39:04
 */
 
 
@@ -215,8 +215,10 @@ function Sockets (app, server) {
             //     // console.log('push a history response======!')
 
             // });
+            
 
-            mysql.query( 'SELECT * FROM Messages ORDER BY id DESC', function selectCb(error, results, fields) {
+            // todo // limit 20
+            mysql.query( 'SELECT * FROM Messages ORDER BY id DESC LIMIT 20', function selectCb(error, results, fields) {
                 if (error) {  
                     console.log('GetData Error: ' + error.message);
                     mysql.end();
