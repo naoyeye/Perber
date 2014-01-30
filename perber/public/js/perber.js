@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-30 01:31:31
+* @Last Modified time: 2014-01-31 00:07:58
 */
 
 
@@ -107,7 +107,7 @@ new msg
         masonryHistory($('.chat'));
         // bindDeleteMes();
         $(".time").timeago();
-        removeNull();
+        hideNull();
 
         //update title if window is hidden
         if(windowStatus === "hidden") {
@@ -126,15 +126,21 @@ delete msg
             var el = $(this);
 
             if(el.data('id') === data.id){
+                // todo maybe no need to clear?
+                if(el.find('.progressWrapper').size() > 0){
+                    clearTimeout(el.delTime)
+                }
                 $('.chat').masonry( 'remove', el);
                 $('.chat').masonry();
-                // el.remove();
-                // console.log('remove!')
+
+                if(windowStatus === "hidden") {
+                    $('#deletedAudio')[0].play();
+                }
             }
         });
         setTimeout(function(){
             if($('.chat-box').size() === 0){
-                console.log('空')
+                // console.log('空k')
                 $('.chat .nullbox').show();
                 $('.chat').masonry('destroy');
             }
@@ -142,6 +148,43 @@ delete msg
     })
 
 
+
+/*
+=================
+   Delete
+=================
+*/
+    $('.chat-list').hammer({
+        hold_timeout: 1000 // hold time setting
+    }).on('hold', '.chat-box', function(event) {
+        if($(this).hasClass('waiting')) return;
+
+        // 显示删除按钮
+        var $e = $(this);
+        $e.append(ich.confirm_template());
+        $e.addClass('waiting animate');
+
+        // 绑定 删除事件
+        $e.find('.delete').click(function(){
+            showProgress($e);
+            $del = $(this);
+            $del.hide();
+            $e.delTime = setTimeout(function(){
+                var id = $e.data('id');
+                socket.emit('delete message', {
+                    id: id
+                });
+            }, 10000)
+        })
+
+        // 绑定 取消删除事件
+        $e.find('.cancel').click(function(){
+            $e.removeClass('waiting animate');
+            $e.find('.confirm').remove();
+            $e.find('.progressWrapper').remove();
+            clearTimeout($e.delTime)
+        })
+    })
 
 
 
@@ -403,77 +446,14 @@ delete msg
         $('.chat-list .loading').hide();
     }
 
-    function removeNull(){
+    function hideNull(){
         $('.chat .nullbox').hide();
     }
 
-
-// todo
-    function bindDeleteMes(){
-        var list = $('.chat-list'),
-            timer;
-
-        console.log('bindDeleteMes')
-
-        list.delegate('.chat-box', 'mousedown', function(e) {
-            // var id = $(this).data('id');
-            // socket.emit('delete message', {
-            //     id: id
-            // });
-            // $('#deletedAudio')[0].play();
-            // // console.log('删除')
-
-
-            // var $e = $(e.currentTarget);
-
-            // $e.(2000,function(x,y){
-            //         alert("x:"+x+',y:'+y);
-            // })
-
-            console.log('down')
-
-            timer = setTimeout(RUsure, 1000);
-
-        });
-
-
-        list.on('mouseup', '.chat-box', function(e) {
-            console.log('up')
-            clearTimeout(timer);
-        })
-
-        function RUsure(){
-            console.log('R U Sure?')
-        }
+    function showProgress($e){
+        $e.find('p').append(ich.progress());
     }
-
-
-    // bindDeleteMes()
 
 });
 
-
-
-
-// (function($) {
-//     $.extend($.fn, {
-//         longPress : function(time,callBack){
-//            time = time || 1000;
-//            var timer = null;
-//            $(this).mousedown(function(e){
-//                 var i = 0;
-//                 var _this = $(this);
-//                 timer = setInterval(function(){
-//                     i+=10;
-//                     if(i >= time) {
-//                         clearTimeout(timer);
-//                         var positionX = e.pageX - _this.offset().left || 0;
-//                         var positionY = e.pageY - _this.offset().top  || 0;
-//                         typeof callBack == 'function' && callBack.call(this,positionX,positionY);
-//                     }
-//                 },10)
-//            }).mouseup(function(){clearTimeout(timer);})
-//         }
-//     });
-// }) (jQuery);
 
