@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-01-26 17:05:11
+* @Last Modified time: 2014-01-31 17:58:13
 */
 
 
@@ -11,7 +11,7 @@
 * Module dependencies
 */
 
-var passport = require('passport'),
+var /*passport = require('passport'),*/
     utils = require('../utils');
 
 /**
@@ -36,74 +36,55 @@ function Routes (app) {
 */
 
 app.get('/', function(req, res, next) {
-    // if(!req.isAuthenticated()){
-        // client.hmset(
-        //     'users:' + req.user.provider + ":" + req.user.username,
-        //     req.user
-        // );
-        // res.redirect('/rooms');
-
-        // utils.getPublicRoomsInfo(client, function(rooms) {
-        //     res.render('room_list', { rooms: rooms });
-        // });
-
-        // res.redirect('/04a496')
-        res.render('room');
-    // } else{
-        // res.render('index');
-    // }
+    res.render('room');
 });
 
 /*
 * Authentication routes
 */
 
-if(config.auth.twitter.consumerkey.length) {
-    app.get('/auth/twitter', passport.authenticate('twitter'));
+// if(config.auth.twitter.consumerkey.length) {
+//     app.get('/auth/twitter', passport.authenticate('twitter'));
 
-    app.get('/auth/twitter/callback', 
-        passport.authenticate('twitter', {
-            successRedirect: '/',
-            failureRedirect: '/'
-        })
-    );
-}
+//     app.get('/auth/twitter/callback', 
+//         passport.authenticate('twitter', {
+//             successRedirect: '/',
+//             failureRedirect: '/'
+//         })
+//     );
+// }
 
-if(config.auth.facebook.clientid.length) {
-    app.get('/auth/facebook', passport.authenticate('facebook'));
+// if(config.auth.facebook.clientid.length) {
+//     app.get('/auth/facebook', passport.authenticate('facebook'));
 
-    app.get('/auth/facebook/callback', 
-        passport.authenticate('facebook', {
-            successRedirect: '/',
-            failureRedirect: '/'
-        })
-    );
-}
+//     app.get('/auth/facebook/callback', 
+//         passport.authenticate('facebook', {
+//             successRedirect: '/',
+//             failureRedirect: '/'
+//         })
+//     );
+// }
 
-if(config.auth.douban.clientid.length) {
-    app.get('/auth/douban', passport.authenticate('douban'));
+// if(config.auth.douban.clientid.length) {
+//     app.get('/auth/douban', passport.authenticate('douban'));
 
-    app.get('/auth/douban/callback', 
-        passport.authenticate('douban', {
-            successRedirect: '/',
-            failureRedirect: '/'
-        })
-    );
-}
+//     app.get('/auth/douban/callback', 
+//         passport.authenticate('douban', {
+//             successRedirect: '/',
+//             failureRedirect: '/'
+//         })
+//     );
+// }
 
-app.get('/logout', function(req, res){
-    req.logout();
-    res.redirect('/');
-});
+// app.get('/logout', function(req, res){
+//     req.logout();
+//     res.redirect('/');
+// });
 
-/*
-* Rooms list
-*/
 
-app.get('/rooms', utils.restrict, function(req, res) {
-    utils.getPublicRoomsInfo(client, function(rooms) {
-        res.render('room_list', { rooms: rooms });
-    });
+
+app.get('/happynewyaer', function(req, res) {
+    res.render('room');
 });
 
 /*
@@ -118,20 +99,15 @@ app.get('/rooms', utils.restrict, function(req, res) {
 //     });
 // });
 
+
 /*
 * Join a room
 */
 
-app.get('/:id', utils.restrict, function(req, res) {
-    // utils.getRoomInfo(req, res, client, function(room) {
-        // utils.getUsersInRoom(req, res, client, room, function(users) {
-            // utils.getPublicRoomsInfo(client, function(rooms) {
-                utils.getUserStatus(req.user, client, function(status) {
-                    utils.enterRoom(req, res, room, users, rooms, status);
-                });
-            // });
-        // });
-    // });
-});
+// app.get('/:id', utils.restrict, function(req, res) {
+//     utils.getUserStatus(req.user, client, function(status) {
+//         utils.enterRoom(req, res, room, users, rooms, status);
+//     });
+// });
 
 }

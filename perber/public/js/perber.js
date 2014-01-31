@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-31 17:37:56
+* @Last Modified time: 2014-01-31 21:43:22
 */
 
 
@@ -122,7 +122,10 @@ new msg
 delete msg
 */
     socket.on('message deleted', function(data) {
-        $('.chat-box').each(function(){
+
+        var chat = $('.chat-box');
+
+        chat.each(function(){
             var el = $(this);
 
             if(el.data('id') === data.id){
@@ -138,12 +141,18 @@ delete msg
                 }
             }
         });
-        setTimeout(function(){
-            if($('.chat-box').size() === 0){
+
+        // todo 
+        // 判断是否删光了. ps: 上面的 masonry 不支持回调，只好在这里 setTimeout 了 :( 
+        // 这里的处理还不是很完善
+        var sadTime = setTimeout(function(){
+            console.log(chat.size())
+            if(chat.size() === 0){
                 // console.log('空k')
                 $('.chat .nullbox').show();
                 $('.chat').masonry('destroy');
             }
+            clearTimeout(sadTime);
         }, 500)
     })
 
@@ -181,11 +190,17 @@ upload image
             showProgress($e);
             $del = $(this);
             $del.hide();
+
+            // 10秒动画后向socket发出删除命令
+            // 这里的时间需要和css那边的动画时间一致
             $e.delTime = setTimeout(function(){
                 var id = $e.data('id');
                 socket.emit('delete message', {
                     id: id
                 });
+                $('.chat').masonry( 'remove', $e);
+                $('.chat').masonry();
+                clearTimeout($e.delTime)
             }, 10000)
         })
 
@@ -252,8 +267,6 @@ upload image
         // replace img
         var sinaImgReg = /(http:\/\/ww[0-9]{1}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g,
             linkReg = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-
-        // var text = text.replace(sinaImgReg, '');
 
         // replace link and image
         text = text.replace(linkReg, function(e){
@@ -326,38 +339,6 @@ upload image
         }
         return text;
     }
-
-    var parseImg = function(text){
-        // imgs = re.findall('(http://ww[0-9]{1}.sinaimg.cn/[a-zA-Z0-9]+/[a-zA-Z0-9]+.[a-z]{3})\s?', value)
-        // for img in imgs:
-        //     value = value.replace(img, '<a href="' + img + '" target="_blank"><img src="' + img + '" class="imgly" border="0" /></a>')
-        // baidu_imgs = re.findall('(http://(bcs.duapp.com|img.xiachufang.com|i.xiachufang.com)/([a-zA-Z0-9\.\-\_\/]+).jpg)\s?', value)
-
-        // for img in baidu_imgs:
-        //     value = value.replace(img[0], '<a href="' + img[0] + '" target="_blank"><img src="' + img[0] + '" class="imgly" border="0" /></a>')
-        // return value
-
-
-        // for(var img in text) {
-        //     text = text.replace(patterns[emotic],emoticHTML.replace("$emotic", "emoticon-" + emotic));
-        // }
-        // return text;
-
-
-        // Parse image
-        /*
-        1 http://ww3.sinaimg.cn/thumbnail/b9bbb388jw1ed26gg8n6xj20dc0hsdii.jpg
-        2 http://photo.weibo.com/1498961394/wbphotos/large/mid/3672595267888197/pid/595855f2gw1ed20um17gxj20et0m8jsk
-        3 http://ww3.sinaimg.cn/large/b9bbb388jw1ed26gg8n6xj20dc0hsdii.jpg
-        */
-
-        // var sinaImgReg = /(http:\/\/ww[0-9]{1}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g;
-
-        // var text = text.replace(sinaImgReg, '<div class="imgbox"><img src="$1"></div>');
-
-        return text;
-    }
-
 
     var isChinese = function(text){
         if(/.*[\u4e00-\u9fa5]+.*$/.test(text)){

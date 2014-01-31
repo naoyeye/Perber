@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-30 01:39:04
+* @Last Modified time: 2014-01-31 21:07:23
 */
 
 
@@ -160,7 +160,7 @@ function Sockets (app, server) {
 
 // delete message
         socket.on('delete message', function(data) {
-            console.log('delete', data.id)
+            // console.log('delete', data.id)
             mysql.query('DELETE FROM Messages WHERE id = ?', data.id, function(error, results) {
                 if(error) {
                     console.log("mysql delete Error: " + error.message);
