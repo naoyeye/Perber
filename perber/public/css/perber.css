@@ -105,6 +105,12 @@ body {
     height: 100%
 }
 
+audio{
+    font-size: 0;
+    line-height: 0;
+    position: absolute;
+    top: -2000px;
+}
 h1,
 h2,
 h3,
@@ -332,9 +338,9 @@ body{
 .chat-box .time{
     display: block;
     text-align: right;
-    color: #bbb;
+    color: #999;
     padding-top: 5px;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 
@@ -527,9 +533,9 @@ body{
     background: #c00;
     opacity: 0.8;
     position: absolute;
-    -moz-animation: fullexpand 10s 1 ease-out;
-    -webkit-animation: fullexpand 10s 1 ease-out;
-    -o-animation: fullexpand 10s 1 ease-out;
+    -moz-animation: fullexpand 5s 1 ease-out;
+    -webkit-animation: fullexpand 5s 1 ease-out;
+    -o-animation: fullexpand 5s 1 ease-out;
 }
 
 /* Full Width Animation Bar */

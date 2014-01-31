@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-31 23:12:44
+* @Last Modified time: 2014-02-01 00:23:52
 */
 
 
@@ -201,7 +201,7 @@ upload image
                 $('.chat').masonry( 'remove', $e);
                 $('.chat').masonry();
                 clearTimeout($e.delTime)
-            }, 10000)
+            }, 5000)
         })
 
         // 绑定 取消删除事件
