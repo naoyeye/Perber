@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-31 21:43:22
+* @Last Modified time: 2014-01-31 22:12:28
 */
 
 
@@ -146,7 +146,7 @@ delete msg
         // 判断是否删光了. ps: 上面的 masonry 不支持回调，只好在这里 setTimeout 了 :( 
         // 这里的处理还不是很完善
         var sadTime = setTimeout(function(){
-            console.log(chat.size())
+            // console.log(chat.size())
             if(chat.size() === 0){
                 // console.log('空k')
                 $('.chat .nullbox').show();

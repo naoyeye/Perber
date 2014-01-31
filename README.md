@@ -35,6 +35,9 @@ then: `forever start perer/app.js`
 ![Perber fullscreen in Chrome](http://ww1.sinaimg.cn/large/61b8bbf4jw1ebuwldzijuj20zk0m8450.jpg)
 
 
+## Starting point
+http://www.douban.com/group/topic/45262966/
+
 ## License
 
 This code is distributed under the terms and conditions of the [MIT license](LICENSE).
