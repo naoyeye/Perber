@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-31 22:45:35
+* @Last Modified time: 2014-01-31 23:12:44
 */
 
 
@@ -266,13 +266,14 @@ upload image
 
         // replace img
         var sinaImgReg = /(http:\/\/ww[0-9]{1}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g,
-            doubanImgReg = /(http:\/\/img[0-9]{1}.douban.com\/view\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/public\/[a-zA-Z0-9]+.[a-z]{3})/g
+            doubanImgReg = /(http:\/\/img[0-9]{1}.douban.com\/view\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/public\/[a-zA-Z0-9]+.[a-z]{3})/g,
+            instagramImgReg = /(http:\/\/distilleryimage[0-9]{1,2}.ak.instagram.com\/[a-zA-Z0-9_]+.jpg)/g,
             linkReg = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 
         // replace link and image
         text = text.replace(linkReg, function(e){
             var result;
-            if(sinaImgReg.test(e) || doubanImgReg.test(e)){
+            if(sinaImgReg.test(e) || instagramImgReg.test(e)){
                 result = '<div class="imgbox"><img src="'+ e +'"></div>';
             } else {
                 result = '<a href="' + e + '" target="_blank">'+ e +'</a>';
