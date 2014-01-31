@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-31 21:07:23
+* @Last Modified time: 2014-01-31 22:17:35
 */
 
 
@@ -14,8 +14,7 @@
 
 var sio = require('socket.io'),
     parseCookies = require('connect').utils.parseSignedCookies,
-    cookie = require('cookie'),
-    fs = require('fs');
+    cookie = require('cookie');
 
 /**
 * Expose Sockets initialization
@@ -217,8 +216,8 @@ function Sockets (app, server) {
             // });
             
 
-            // todo // limit 20
-            mysql.query( 'SELECT * FROM Messages ORDER BY id DESC LIMIT 20', function selectCb(error, results, fields) {
+            // todo // limit 100
+            mysql.query( 'SELECT * FROM Messages ORDER BY id DESC LIMIT 100', function selectCb(error, results, fields) {
                 if (error) {  
                     console.log('GetData Error: ' + error.message);
                     mysql.end();

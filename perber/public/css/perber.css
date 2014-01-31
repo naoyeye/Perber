@@ -317,10 +317,15 @@ body{
 
 .imgbox{
     position: relative;
-    min-height: 200px;
+    height: 300px;
     margin-bottom: 5px;
-    line-height: 100%;
+    line-height: 300px;
     text-align: center;
+}
+
+.imgbox img{
+    max-height: 100%;
+    vertical-align: middle;
 }
 
 .chat-box .time{

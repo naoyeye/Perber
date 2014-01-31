@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-01-31 17:58:13
+* @Last Modified time: 2014-01-31 22:16:04
 */
 
 
@@ -39,75 +39,5 @@ app.get('/', function(req, res, next) {
     res.render('room');
 });
 
-/*
-* Authentication routes
-*/
-
-// if(config.auth.twitter.consumerkey.length) {
-//     app.get('/auth/twitter', passport.authenticate('twitter'));
-
-//     app.get('/auth/twitter/callback', 
-//         passport.authenticate('twitter', {
-//             successRedirect: '/',
-//             failureRedirect: '/'
-//         })
-//     );
-// }
-
-// if(config.auth.facebook.clientid.length) {
-//     app.get('/auth/facebook', passport.authenticate('facebook'));
-
-//     app.get('/auth/facebook/callback', 
-//         passport.authenticate('facebook', {
-//             successRedirect: '/',
-//             failureRedirect: '/'
-//         })
-//     );
-// }
-
-// if(config.auth.douban.clientid.length) {
-//     app.get('/auth/douban', passport.authenticate('douban'));
-
-//     app.get('/auth/douban/callback', 
-//         passport.authenticate('douban', {
-//             successRedirect: '/',
-//             failureRedirect: '/'
-//         })
-//     );
-// }
-
-// app.get('/logout', function(req, res){
-//     req.logout();
-//     res.redirect('/');
-// });
-
-
-
-app.get('/happynewyaer', function(req, res) {
-    res.render('room');
-});
-
-/*
-* Create a rooom
-*/
-
-// app.post('/create', utils.restrict, function(req, res) {
-//     utils.validRoomName(req, res, function(roomKey) {
-//         utils.roomExists(req, res, client, function() {
-//             utils.createRoom(req, res, client);
-//         });
-//     });
-// });
-
-
-/*
-* Join a room
-*/
-
-// app.get('/:id', utils.restrict, function(req, res) {
-//     utils.getUserStatus(req.user, client, function(status) {
-//         utils.enterRoom(req, res, room, users, rooms, status);
-//     });
-// });
 
 }
