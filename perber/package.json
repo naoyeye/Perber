@@ -17,9 +17,9 @@
     "passport-douban": "~0.0.1",
     "type-component": "0.0.1",
     "validator": "2.0.0",
-    "validator": "2.0.0",
     "mysql": "2.0.1",
-    "node-mysql" : "0.3.4"
+    "node-mysql" : "0.3.4",
+    "node-qiniu" : "6.1.4",
   },
   "engines": {
     "node": ">= 0.8.0",

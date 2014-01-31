@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-31 00:07:58
+* @Last Modified time: 2014-01-31 17:37:56
 */
 
 
@@ -148,14 +148,26 @@ delete msg
     })
 
 
+/*
+upload image
+*/
+
+// todo
+
+
+
+
+// ========================
+
 
 /*
 =================
-   Delete
+   Delete msg
 =================
 */
     $('.chat-list').hammer({
-        hold_timeout: 1000 // hold time setting
+        hold_timeout: 1000, // hold time setting
+        stop_browser_behavior: { userSelect: "" }
     }).on('hold', '.chat-box', function(event) {
         if($(this).hasClass('waiting')) return;
 
@@ -186,7 +198,25 @@ delete msg
         })
     })
 
+/*
+=================
+   drop upload image
+=================
+*/
 
+// upload image to qiniu
+    // imagesBucket.putFile(
+    //     'exampleKey2', // new file name
+    //     '/Users/hanjiyun/Google Drive/Project/Perber/perber/public/apple-touch-icon-114x114-precomposed.png' // file path
+    // ).then(
+    //     function(reply){
+    //         // 上传成功
+    //         console.dir(reply);
+    //     },
+    //     function(err){
+    //         console.log(err);
+    //     }
+    // )
 
 /*
 =================
@@ -195,7 +225,7 @@ delete msg
 */
 
     $(".chat-input textarea").keypress(function(event) {
-        // todo
+        // nl2br
         var inputText = $(this).val().trim().replace(/\r\n/gi, '');//.replace('\n', '').replace('\r','').replace(' ','');
 
         switch (event.keyCode) {
@@ -215,9 +245,31 @@ delete msg
     });
 
     var textParser = function(text) {
-        // link
-        // text = injectEmoticons(text); // no Emoticons 2014-1-13
-        return text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href=\"$1\" target='_blank'>$1</a>").replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
+
+        // replace emoticons
+        // text = injectEmoticons(text);
+
+        // replace img
+        var sinaImgReg = /(http:\/\/ww[0-9]{1}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g,
+            linkReg = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+
+        // var text = text.replace(sinaImgReg, '');
+
+        // replace link and image
+        text = text.replace(linkReg, function(e){
+            var result;
+            if(sinaImgReg.test(e)){
+                result = '<div class="imgbox"><img src="'+ e +'"></div>';
+            } else {
+                result = '<a href="' + e + '" target="_blank">'+ e +'</a>';
+            }
+            return result;
+        })
+
+        //replace @ twitter
+        text = text.replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
+
+        return text;
     };
 
     var parseChatBox = function(chatBox) {
@@ -270,8 +322,39 @@ delete msg
 
     var injectEmoticons = function(text) {
         for(var emotic in patterns) {
-            text = text.replace(patterns[emotic],emoticHTML.replace("$emotic", "emoticon-" + emotic));
+            text = text.replace(patterns[emotic], emoticHTML.replace("$emotic", "emoticon-" + emotic));
         }
+        return text;
+    }
+
+    var parseImg = function(text){
+        // imgs = re.findall('(http://ww[0-9]{1}.sinaimg.cn/[a-zA-Z0-9]+/[a-zA-Z0-9]+.[a-z]{3})\s?', value)
+        // for img in imgs:
+        //     value = value.replace(img, '<a href="' + img + '" target="_blank"><img src="' + img + '" class="imgly" border="0" /></a>')
+        // baidu_imgs = re.findall('(http://(bcs.duapp.com|img.xiachufang.com|i.xiachufang.com)/([a-zA-Z0-9\.\-\_\/]+).jpg)\s?', value)
+
+        // for img in baidu_imgs:
+        //     value = value.replace(img[0], '<a href="' + img[0] + '" target="_blank"><img src="' + img[0] + '" class="imgly" border="0" /></a>')
+        // return value
+
+
+        // for(var img in text) {
+        //     text = text.replace(patterns[emotic],emoticHTML.replace("$emotic", "emoticon-" + emotic));
+        // }
+        // return text;
+
+
+        // Parse image
+        /*
+        1 http://ww3.sinaimg.cn/thumbnail/b9bbb388jw1ed26gg8n6xj20dc0hsdii.jpg
+        2 http://photo.weibo.com/1498961394/wbphotos/large/mid/3672595267888197/pid/595855f2gw1ed20um17gxj20et0m8jsk
+        3 http://ww3.sinaimg.cn/large/b9bbb388jw1ed26gg8n6xj20dc0hsdii.jpg
+        */
+
+        // var sinaImgReg = /(http:\/\/ww[0-9]{1}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g;
+
+        // var text = text.replace(sinaImgReg, '<div class="imgbox"><img src="$1"></div>');
+
         return text;
     }
 
@@ -349,6 +432,7 @@ delete msg
     }
 
 
+
 /*
 =================
     TITLE notifications
@@ -411,13 +495,13 @@ delete msg
         window.setTimeout(function () {
             $('title').html(ich.title_template({
                 count: afkDeliveredMessages,
-                // roomName: roomName
             }, true));
         },100);
     }
 
 
 
+//===============
 
 
 
@@ -455,5 +539,4 @@ delete msg
     }
 
 });
-
 

@@ -11,6 +11,7 @@ var log = require('debug')('perber:config'),
         url = require('url'),
         config = {},
         env = require('./env'),
+        qiniu = require('node-qiniu'),
         utils = require('../utils');
 
 /**
@@ -49,7 +50,7 @@ function Config (app) {
     // log('Setting view engine as %s', 'jade');
     app.set('view engine', 'jade');
 
-//mysql
+// mysql
 // ==========
     app.set('mysqlConf', config.mysqlConf);
 
@@ -62,6 +63,15 @@ function Config (app) {
     console.log('Connected to MySQL automatically');
 
 
+// qiniu
+// ==========
+    qiniu.config({
+        access_key: config.qiniuConfig.access_key,
+        secret_key: config.qiniuConfig.secret_key
+    });
+    var imagesBucket = qiniu.bucket(config.qiniuConfig.bucket_name);
+
+    app.set('imagesBucket', imagesBucket);
 
 // redis
 // ==========

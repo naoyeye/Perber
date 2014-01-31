@@ -8,6 +8,12 @@
         "password" : "your db pwd"
     },
 
+    "qiniuConfig": {
+        "bucket_name": "your qiniu bucket name",
+        "access_key" : "your qiniu access key",
+        "secret_key" : "your qiniu secret key"
+    },
+
     "auth": {
         "twitter": {
             "consumerkey" : "your consumerkey",
