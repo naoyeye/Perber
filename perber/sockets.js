@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-01-31 22:17:35
+* @Last Modified time: 2014-02-01 22:36:09
 */
 
 
@@ -150,7 +150,8 @@ function Sockets (app, server) {
 
                     io.sockets.in(room_id).emit('new msg', {
                         id: results.insertId,
-                        msg: data.msg
+                        msg: data.msg,
+                        retained: data.retained
                     });
                 });
 

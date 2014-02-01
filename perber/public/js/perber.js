@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-01 09:49:37
+* @Last Modified time: 2014-02-02 03:21:33
 */
 
 
@@ -14,6 +14,8 @@ $(function() {
     updateTitle();
 
     focusInput();
+
+    $('.chat').append(ich.loading());
 
 /*
 =================
@@ -31,22 +33,17 @@ $(function() {
 
     socket.on('connect', function (){
         // console.info('successfully established a working connection');
-
         if($('.chat .chat-box').length === 0) {
             socket.emit('history request');
         }
     });
-
-
 
 /*
 history respinse
 */
     socket.on('history response', function(data) {
 
-        $('.chat').append(ich.loading());
-
-        setTimeout(function(){
+        // setTimeout(function(){
             if(data.history && data.history.length) {
 
                 var $lastInput,
@@ -65,9 +62,10 @@ history respinse
                             id: historyLine.id,
                             msg: historyLine.message,
                             lang : lang,
+                            retained : historyLine.retained,
                             time: time.format("yyyy-MM-dd hh:mm:ss")
                         };
-
+                    // console.log(chatBoxData)
                     $('.chat').append(parseChatBox(ich.chat_box(chatBoxData)));
                 });
 
@@ -79,7 +77,7 @@ history respinse
                 hideLoading();
                 $('.chat').append(ich.nullbox());
             }
-        }, 1000)
+        // }, 1000)
     });
 
 
@@ -178,10 +176,11 @@ upload image
         hold_timeout: 1000, // hold time setting
         stop_browser_behavior: { userSelect: "" }
     }).on('hold', '.chat-box', function(event) {
-        if($(this).hasClass('waiting')) return;
+        var $e = $(this);
+        //准备删除时 和 固定条目
+        if($e.hasClass('waiting') || $e.data('retained') === 1) return;
 
         // 显示删除按钮
-        var $e = $(this);
         $e.append(ich.confirm_template());
         $e.addClass('waiting animate');
 
@@ -274,7 +273,7 @@ upload image
         text = text.replace(linkReg, function(e){
             var result;
             if(sinaImgReg.test(e) || instagramImgReg.test(e)){
-                result = '<div class="imgbox" style="background-image:url('+ e +');background-size: cover;"></div>';
+                result = '<div class="imgbox"><div style="background-image:url('+ e +');background-size: cover;"></div></div>';
             } else {
                 result = '<a href="' + e + '" target="_blank">'+ e +'</a>';
             }
@@ -485,7 +484,37 @@ upload image
 
 
 //===============
+    
+    $('#Tips i').popup({
+        easing:'',
+        debug:false
+    })
 
+    // open intro
+    $('#Tips li').click(function(){
+        var elementId = $(this).attr('id');
+
+        if(elementId === 'about'){
+            $('body').append(ich.about_content_template());
+        } else if(elementId === 'how2play'){
+            $('body').append(ich.how2play_content_template());
+        }
+
+        
+        setTimeout(function(){
+            $('body').addClass('intro-wrap-open');
+        },0)
+    })
+
+    // close intro
+    $('body').on('click', '.intro-wrap-close', function(){
+        $('.intro-wrap').addClass('intro-wrap-closing');
+        
+        setTimeout(function(){
+            $('body').removeClass('intro-wrap-open');
+            $('.intro-wrap').remove();
+        }, 300)
+    })
 
 
     function focusInput() {
@@ -497,12 +526,13 @@ upload image
         wrap.masonry({
             // columnWidth: 290,
             'itemSelector': '.chat-box',
+            'stamp' : '.retained_1',
             // 'gutter': 5,
             // isResizeBound: false,
             visibleStyle: { opacity: 1, transform: 'scale(1)' },
             isAnimated: true,
             animationOptions: {
-                duration: 750,
+                duration: 550,
                 easing: 'linear',
                 queue: false
             }

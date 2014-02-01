@@ -1,6 +1,23 @@
 extends layout
 
 block content
+    .wrap
+        .content(role="main")
+
+            ul#Tips
+                li(id="about")
+                    i(class="fa fa-circle-o", title="这是什么网站？")
+                li(id="how2play")
+                    i(class="fa fa-question-circle", title="怎么玩儿？")
+
+            .chat-input
+                .ui.form
+                    .field
+                        textarea(placeholder="Say something")
+
+            .chat-list
+                .chat
+
     audio(id="chatAudio")
         source(src="/audio/notify.ogg", type="audio/ogg")
         source(src="/audio/notify.mp3", type="audio/mpeg")
@@ -9,34 +26,11 @@ block content
         source(src="/audio/del.ogg", type="audio/ogg")
         source(src="/audio/del.mp3", type="audio/mpeg")
         source(src="/audio/del.wav", type="audio/wav")
-    .wrap
-        .content(role='main')
-
-            .chat-input
-                .ui.form
-                    .field
-                        textarea(placeholder="Say something")
-
-            .chat-list
-                // .loading
-                //     i.fa.fa-spinner.fa-spin
-
-                .chat
-
-                    //.current
-                    //.history
-
-
 
     include templates/chat_tmpl
 
-    script(type="text/javascript",src="/js/libs/jquery.timeago.js")
-    // script(type="text/javascript",src="/js/libs/retina.js")
-    script(type="text/javascript",src="/js/libs/hammer.min.js")
-    script(type="text/javascript",src="/js/libs/jquery.hammer.min.js")
-
-    script(defer, src="/js/plugins.js")
     script(defer, src="/js/libs/ICanHaz.min.js")
     script(src="/socket.io/socket.io.js")
 
+    script(defer, src="/js/plugins.js")
     script(defer, src="/js/perber.js")

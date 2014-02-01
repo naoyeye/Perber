@@ -33,7 +33,8 @@
     },
 
     "session" : {
-        "secret" : "yourbestsecret"
+        "secret" : "yourbestsecret",
+        "age" : 0
     },
     "app": {
         "port": 6789
