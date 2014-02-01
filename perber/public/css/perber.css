@@ -328,6 +328,7 @@ body{
     line-height: 300px;
     text-align: center;
     font-size: 0;
+    background:url(../img/loader-medium.gif) center center no-repeat;
 }
 
 .imgbox img{

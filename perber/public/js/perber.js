@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-01 00:23:52
+* @Last Modified time: 2014-02-01 09:49:37
 */
 
 
@@ -274,7 +274,7 @@ upload image
         text = text.replace(linkReg, function(e){
             var result;
             if(sinaImgReg.test(e) || instagramImgReg.test(e)){
-                result = '<div class="imgbox"><img src="'+ e +'"></div>';
+                result = '<div class="imgbox" style="background-image:url('+ e +');background-size: cover;"></div>';
             } else {
                 result = '<a href="' + e + '" target="_blank">'+ e +'</a>';
             }
