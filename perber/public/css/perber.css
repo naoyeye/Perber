@@ -323,7 +323,7 @@ body{
     height: auto;
     margin: 0 0 5px 0;
 
-    font: 12px "Helvetica Neue",Helvetica,"Lucida Grande","Luxi Sans",Arial,"Hiragino Sans GB",STHeiti,"Microsoft YaHei","Wenquanyi Micro Hei","WenQuanYi Micro Hei Mono","WenQuanYi Zen Hei","WenQuanYi Zen Hei Mono",LiGothicMed;
+    font: 14px "Helvetica Neue",Helvetica,"Lucida Grande","Luxi Sans",Arial,"Hiragino Sans GB",STHeiti,"Microsoft YaHei","Wenquanyi Micro Hei","WenQuanYi Micro Hei Mono","WenQuanYi Zen Hei","WenQuanYi Zen Hei Mono",LiGothicMed;
     line-height: 1.5;
 }
 
@@ -340,9 +340,6 @@ body{
 
 .chat-box p.cn{
     font-size: 14px;
-}
-.chat-box.retained_1 p.cn{
-    font-size: 12px;
 }
 
 .imgbox{
