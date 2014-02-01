@@ -349,6 +349,7 @@ body{
 }
 .imgbox > div{
     height: 100%;
+    background:center center no-repeat; 
 }
 
 .chat-box .time{
