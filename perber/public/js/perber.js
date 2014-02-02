@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-02 13:35:00
+* @Last Modified time: 2014-02-03 00:38:25
 */
 
 
@@ -13,7 +13,7 @@ $(function() {
     // First update the title with room's name
     updateTitle();
 
-    focusInput();
+    // focusInput();
 
     $('.chat').append(ich.loading());
 
