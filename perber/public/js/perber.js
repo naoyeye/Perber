@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-02 03:55:24
+* @Last Modified time: 2014-02-02 13:35:00
 */
 
 
@@ -283,7 +283,7 @@ upload image
         //replace @ twitter
         text = text.replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
 
-        text = text.replace(/(\n)/g, '<br>');
+        text = text.replace(/(\n)/g, '<hr>');
 
         return text;
     };

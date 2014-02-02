@@ -246,6 +246,14 @@ body{
     overflow: hidden;
 }
 
+#Logo{
+    text-align: center;
+    margin-bottom: 50px;
+}
+#Logo i{
+    font-size: 100px;
+    font-weight: 100;
+}
 
 /*===========*/
 
@@ -301,7 +309,7 @@ body{
     min-width: 150px;
     max-width: 310px;
     width: 300px;
-    margin: 5px 5px 5px 10px;
+    margin: 5px 5px 10px 10px;
     vertical-align: top;
     font-size: 24px;
     font-weight: 100;
@@ -340,6 +348,13 @@ body{
 
 .chat-box p.cn{
     font-size: 14px;
+    line-height: 1.7;
+}
+
+.chat-box p hr{
+    display: block;
+    height: 1px;
+    border:none; 
 }
 
 .imgbox{
@@ -703,6 +718,7 @@ body{
 #IntroInner{
     display: inline-block;
     padding: 20px;
+    margin-top: -40px;
     vertical-align: middle;
     outline: 0;
     overflow: hidden;
@@ -998,7 +1014,7 @@ Responsive
             padding-left: 0px;
         }
         .chat-box{
-            margin: 5px 5px 5px 12px;
+            margin: 5px 5px 10px 12px;
         }
     }
 
