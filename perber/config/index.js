@@ -120,10 +120,7 @@ function Config (app) {
     // log('Use of express session middleware.');
     app.use(express.session({
         key: "perber",
-        store: app.get('sessionStore'),
-        cookie: {
-            maxAge: config.session.age || null
-        }
+        store: app.get('sessionStore')
     }));
   
     // log('Use of passport middlewares.');
