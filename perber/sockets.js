@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-01 22:36:09
+* @Last Modified time: 2014-02-02 23:59:28
 */
 
 
@@ -218,7 +218,7 @@ function Sockets (app, server) {
             
 
             // todo // limit 100
-            mysql.query( 'SELECT * FROM Messages ORDER BY id DESC LIMIT 100', function selectCb(error, results, fields) {
+            mysql.query( 'SELECT * FROM Messages ORDER BY id DESC LIMIT 500', function selectCb(error, results, fields) {
                 if (error) {  
                     console.log('GetData Error: ' + error.message);
                     mysql.end();
