@@ -40,7 +40,7 @@ $(function() {
     });
 
 /*
-history respinse
+history response
 */
     socket.on('history response', function(data) {
 
