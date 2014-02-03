@@ -2,20 +2,21 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-03 00:38:25
+* @Last Modified time: 2014-02-03 18:22:30
 */
 
 
 $(function() {
     var windowStatus,
         afkDeliveredMessages = 0;
+    var chat = $('.chat');
 
     // First update the title with room's name
     updateTitle();
 
     // focusInput();
 
-    $('.chat').append(ich.loading());
+    chat.append(ich.loading());
 
 /*
 =================
@@ -33,7 +34,7 @@ $(function() {
 
     socket.on('connect', function (){
         // console.info('successfully established a working connection');
-        if($('.chat .chat-box').length === 0) {
+        if(chat.find('.chat-box').length === 0) {
             socket.emit('history request');
         }
     });
@@ -65,17 +66,15 @@ history respinse
                             retained : historyLine.retained,
                             time: time.format("yyyy-MM-dd hh:mm:ss")
                         };
-                    // console.log(chatBoxData)
-                    $('.chat').append(parseChatBox(ich.chat_box(chatBoxData)));
+                    chat.append(parseChatBox(ich.chat_box(chatBoxData)));
                 });
 
-                // bindDeleteMes();
                 $('.time').timeago();
-                masonryHistory($('.chat'));
+                masonryAllItems(chat);
                 hideLoading();
             } else {
                 hideLoading();
-                $('.chat').append(ich.nullbox());
+                chat.append(ich.nullbox());
             }
         // }, 1000)
     });
@@ -85,31 +84,38 @@ history respinse
 new msg
 */
     socket.on('new msg', function(data) {
+        // 时间
         var time = new Date();
         data.time = time;
 
+        // 固定
+        data.retained = 0;
+
+        // 语言
         if(isChinese(data.msg)){
             data.lang = 'en';
         } else {
             data.lang = 'cn';
         }
 
+        // 模板处理
         var $boxes = parseChatBox(ich.chat_box(data));
 
-        if($('.chat .chat-box').length == 0) {
-            $('.chat').prepend( $boxes )
+        if(chat.find('.chat-box').length === 0) {
+            chat.prepend( $boxes );
+            masonryAllItems(chat);
         } else {
-            $('.chat').prepend( $boxes ).masonry('prepended', $boxes)
+            console.log(1)
+            chat.prepend( $boxes ).masonry('prepended', $boxes);
         }
 
-        masonryHistory($('.chat'));
-        // bindDeleteMes();
+        // todo 优化性能
         $(".time").timeago();
         hideNull();
 
         //update title if window is hidden
         if(windowStatus === "hidden") {
-            afkDeliveredMessages +=1;
+            afkDeliveredMessages += 1;
             updateTitle();
             $('#chatAudio')[0].play();
         }
@@ -121,37 +127,35 @@ delete msg
 */
     socket.on('message deleted', function(data) {
 
-        var chat = $('.chat-box');
+        // 匹配删除目标
+        var target = $('.chat-box[data-id="'+data.id+'"]');
 
-        chat.each(function(){
-            var el = $(this);
+        // 如果要删除的目标正在被其他人删除，则clearTimeout以完成进度条动画
+        if(target.find('.progressWrapper').size() > 0){
+            clearTimeout(target.delTime)
+        }
 
-            if(el.data('id') === data.id){
-                // todo maybe no need to clear?
-                if(el.find('.progressWrapper').size() > 0){
-                    clearTimeout(el.delTime)
-                }
-                $('.chat').masonry( 'remove', el);
-                $('.chat').masonry();
+        // 移除
+        chat.masonry( 'remove', target);
 
-                if(windowStatus === "hidden") {
-                    $('#deletedAudio')[0].play();
-                }
+        // 重新布局 relayout
+        // todo : 如果不是在第一屏，就不用重新布局，以免找不到当前正在看的内容
+        chat.masonry();
+
+        // 重新布局完成后 判断是否已清空
+        chat.masonry( 'on', 'removeComplete', function( msnryInstance, removedItems ) {
+            console.log(msnryInstance.items.length)
+            if(msnryInstance.items.length === 0){
+                console.log('iii')
+                chat.append(ich.nullbox());
+                chat.masonry('destroy');
             }
-        });
+        })
 
-        // todo 
-        // 判断是否删光了. ps: 上面的 masonry 不支持回调，只好在这里 setTimeout 了 :( 
-        // 这里的处理还不是很完善
-        var sadTime = setTimeout(function(){
-            // console.log(chat.size())
-            if(chat.size() === 0){
-                // console.log('空k')
-                $('.chat .nullbox').show();
-                $('.chat').masonry('destroy');
-            }
-            clearTimeout(sadTime);
-        }, 500)
+        // 播放提示音
+        if(windowStatus === "hidden") {
+            $('#deletedAudio')[0].play();
+        }
     })
 
 
@@ -177,7 +181,7 @@ upload image
         stop_browser_behavior: { userSelect: "" }
     }).on('hold', '.chat-box', function(event) {
         var $e = $(this);
-        //准备删除时 和 固定条目
+        //如果已经在删除转台 或 此内容已被固定
         if($e.hasClass('waiting') || $e.data('retained') === 1) return;
 
         // 显示删除按钮
@@ -197,8 +201,8 @@ upload image
                 socket.emit('delete message', {
                     id: id
                 });
-                $('.chat').masonry( 'remove', $e);
-                $('.chat').masonry();
+                chat.masonry( 'remove', $e);
+                // $('.chat').masonry();
                 clearTimeout($e.delTime)
             }, 5000)
         })
@@ -473,9 +477,6 @@ upload image
     function updateTitle() {
         // On chrome, we have to add a timer for updating the title after the focus event
         // else the title will not update
-        
-        // console.log('updateTitle!!')
-
         window.setTimeout(function () {
             $('title').html(ich.title_template({
                 count: afkDeliveredMessages,
@@ -486,12 +487,6 @@ upload image
 
 
 //===============
-    
-    $('#Tips i').popup({
-        easing:'',
-        debug:false
-    })
-
     // open intro
     $('#Tips li').click(function(){
         var elementId = $(this).attr('id');
@@ -523,8 +518,21 @@ upload image
         $(".chat-input textarea").focus();
     }
 
+    $(".chat-input textarea").focus(function(){
+        // $('#Tips').removeClass('active');
+        $('#Tips').animate({
+            top: -50
+        },200)
+    }).blur(function(){
+        // $('#Tips').addClass('active');
+        $('#Tips').animate({
+            top: 0
+        },200)
+    });
+
+
     //masonry history
-    function masonryHistory(wrap){
+    function masonryAllItems(wrap){
         wrap.masonry({
             // columnWidth: 290,
             'itemSelector': '.chat-box',
@@ -542,11 +550,11 @@ upload image
     }
 
     function hideLoading(){
-        $('.chat-list .loading').hide();
+        $('.chat-list .loading').remove();
     }
 
     function hideNull(){
-        $('.chat .nullbox').hide();
+        $('.chat .nullbox').remove();
     }
 
     function showProgress($e){
