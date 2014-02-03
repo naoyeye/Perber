@@ -2,25 +2,33 @@
 
 I think it might be a meaningless thing(>_<), but just like a small experimental. I prefer to think of it as a hollow. The difference with hollow is: nobody knows who I am, but they can see what I said. when someone 'touch' my words, it'll disappear.
 
+Maybe you can think of Perber as a blackboard in the square, anyone can put on the cloak into the square, write text and paste picture on the blackboard, anyone can also put them cleared. 
+
+> "Not a community, not a forum, not a micro-blog, not a chat room."
+
+> "No follow, no timeline, no notification, no registration."
 
 > "All the words will gone, only the void forever lone."
 
+> "Any information published by anyone may also be deleted by anyone."
 
 ## Requirements
-node.js(express), socket.io, redis, jade, mysql(node-mysql)
+
+node.js(express), socket.io, redis, jade, mysql(node-mysql), node-qiniu
 
 ## Start
 
-`node perer/app.js`
+0 into the project root directory: `/Perber/`
 
-or 
+1 `npm install`
 
-install "supervisor" : `npm install supervisor -g`
+2 change the file `config-example.json` (in '/Perber/perber/config/' ) to `config.json`
 
-then: `supervisor perber/app.js`
+3 modify: `mysqlConf` in your `config.json` file.
 
+4 `node perer/app.js`
 
-If you want run Perber on Server, maybe you should install "forever" : `npm install forever -g`
+p.s. If you want run Perber on Server, maybe you should install "forever" : `npm install forever -g`
 
 then: `forever start perer/app.js`
 

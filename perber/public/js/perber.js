@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-04 01:07:42
+* @Last Modified time: 2014-02-04 03:10:30
 */
 
 
@@ -248,9 +248,20 @@ upload image
         switch (event.keyCode) {
             case 13:
                 if (!event.shiftKey && inputText){
-                    socket.emit('my msg', {
-                        msg: inputText
-                    });
+                    var chunks = inputText.match(/.{1,240}/g);//,
+                        //len = chunks.length;
+                    // console.log(chunks)
+
+                    // for(var i = 0; i<len; i++) {
+                        socket.emit('my msg', {
+                            msg: chunks[0]
+                        });
+                    // }
+                    
+                    // socket.emit('my msg', {
+                    //     msg: inputText
+                    // });
+
                     $(this).val('');
 
                     return false;
