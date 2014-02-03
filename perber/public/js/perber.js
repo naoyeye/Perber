@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-03 18:27:52
+* @Last Modified time: 2014-02-03 18:36:58
 */
 
 
@@ -143,7 +143,7 @@ delete msg
 
         // 重新布局完成后 判断是否已清空
         chat.masonry( 'on', 'removeComplete', function( msnryInstance, removedItems ) {
-            console.log(msnryInstance.items.length)
+            // console.log(msnryInstance.items.length)
             if(msnryInstance.items.length === 0){
                 console.log('iii')
                 chat.append(ich.nullbox());

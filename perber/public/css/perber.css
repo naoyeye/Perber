@@ -224,7 +224,7 @@ a:hover {
 body{
     height: auto;
     /*"Open Sans", "Helvetica Neue"*/
-    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     margin: 0px;
     padding: 0px;
     color: #555555;
@@ -375,7 +375,6 @@ body{
     color: #999;
     padding-top: 5px;
     font-size: 12px;
-    letter-spacing: 1px;
 }
 
 
