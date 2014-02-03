@@ -117,9 +117,8 @@ h3,
 h4,
 h5 {
   font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  font-weight: 400;
-  letter-spacing: 1px;
-  color:#fff;
+  font-weight: 300;
+  /*letter-spacing: 1px;*/
 }
 
 
@@ -224,7 +223,7 @@ a:hover {
 body{
     height: auto;
     /*"Open Sans", "Helvetica Neue"*/
-    font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     margin: 0px;
     padding: 0px;
     color: #555555;
@@ -245,12 +244,66 @@ body{
 }
 
 #Logo{
-    text-align: center;
     margin-bottom: 20px;
 }
 #Logo i{
     font-size: 60px;
     font-weight: 100;
+}
+#Logo span{
+    font-size: 50px;
+    padding-left: 20px;
+    font-weight: 200;
+    line-height: 1;
+    letter-spacing: 1px;
+    font-family: "Roboto", "Open Sans", "Helvetica Neue";
+}
+
+.author{
+    text-align: right;
+    margin-top: 20px;
+}
+.link{
+    margin-top: 20px;
+    padding-top: 10px;
+    text-align: left;
+    border-top: 1px solid #cecdc5;
+}
+.link a{
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 50%;
+    color: #e5e4db;
+    background-color: #514f47;
+    line-height: 26px;
+}
+.link a.trello{
+    height: 29px;
+    width: 29px;
+    text-align: center;
+}
+.link a.trello:hover{
+    background-color: #27709b;
+}
+.link a.trello i{
+    /*margin: 1px 0 0 1px;*/
+    font-size: 16px;
+}
+.link a.github{
+    background:none;
+    line-height: 0;
+    padding: 0;
+    border-radius: 0;
+    color: #514f47;
+}
+.link a.github i{
+    font-size: 32px;
+    margin: -1px 0 0 0;
+    vertical-align: middle;
+}
+
+.link a.github:hover{
+    color: #4183c4;
 }
 
 /*===========*/
@@ -268,9 +321,12 @@ body{
     padding: 5px 0;
     min-height: 95px;
     margin-top: 80px;
+    text-align: center;
 }
 .chat{
     /**/
+    margin: 0 auto;
+    text-align: left;
 }
 .loading{
     width: 310px; 
@@ -307,7 +363,7 @@ body{
     min-width: 150px;
     max-width: 310px;
     width: 300px;
-    margin: 5px 5px 5px 10px;
+    margin: 5px;
     vertical-align: top;
     font-size: 24px;
     font-weight: 100;
@@ -657,7 +713,7 @@ body{
     text-align: center;
     cursor: pointer;
     background: #bad5d8;
-    border-radius: 0 0 5px 5px;
+    /*border-radius: 0 0 5px 5px;*/
 }
 #Tips li i{
     margin-top: 7px;
@@ -677,6 +733,7 @@ body{
     line-height: 1;
     text-align: center;
     letter-spacing: 1px;
+    display: none;
 }
 #Tips li span:after{
     content: "";
@@ -699,6 +756,10 @@ body{
 }
 #Tips li:hover{
     background-color: #b1cbce;
+}
+#Tips li#about.active span,
+#Tips li:hover span{
+    display: block;
 }
 #Tips li:hover i{
     color: #f5f5f5;
@@ -764,16 +825,16 @@ body{
 
 #IntroInner{
     display: inline-block;
-    padding: 0 20px;
-    margin-top: -20px;
+    padding: 0 40px;
     vertical-align: middle;
     outline: 0;
     overflow: hidden;
     min-width: 300px;
     max-width: 650px;
-    font: 16px "Helvetica Neue",Helvetica,"Lucida Grande","Luxi Sans",Arial,"Hiragino Sans GB",STHeiti,"Microsoft YaHei","Wenquanyi Micro Hei","WenQuanYi Micro Hei Mono","WenQuanYi Zen Hei","WenQuanYi Zen Hei Mono",LiGothicMed;
+    /*"Roboto",Helvetica,"Lucida Grande","Luxi Sans",Arial,"Hiragino Sans GB",STHeiti,"Microsoft YaHei","Wenquanyi Micro Hei","WenQuanYi Micro Hei Mono","WenQuanYi Zen Hei","WenQuanYi Zen Hei Mono",LiGothicMed*/
+    font-size: 16px;
     color: #514f47;
-    line-height: 1.78;
+    line-height: 1.5;
     background: none;
     text-align: left;
     /*border-radius: 5px;*/
@@ -783,7 +844,6 @@ body{
     -webkit-font-smoothing: subpixel-antialiased;
 
 }
-
 .intro-wrap-content > .intro-wrap-close {
     display: none;
     width: 30px;
@@ -1035,13 +1095,21 @@ Responsive
 
 
     @media(min-width: 320px){
+        .chat{
+            width: 310px;
+        }
+        .chat-box{
+            font-weight: 300;
+        }
         .chat-box.retained_1{
-            margin: 0 0 5px 0;
             right: 10px;
             left: 10px;
         }
         #Tips li span{
             padding: 9px 10px 11px 10px
+        }
+        .time{
+            font-weight: 300;
         }
         .intro-wrap-content > .intro-wrap-close{
             width: 40px;
@@ -1052,28 +1120,33 @@ Responsive
             padding-top: 3px;
         }
     }
-
-    @media(min-width: 768px){
+    @media(min-width: 325px){
         .chat{
-            padding-left: 58px;
+            width: 310px;
         }
-        .chat-box{
-            margin: 5px;
+    }
+    @media(min-width: 625px){
+        .chat{
+            width: 620px;
         }
-        .chat-box.retained_1{
-            margin: 0 0 5px 0;
-            left: 12px;
-            right: 15px;
+        .time{
+            font-weight: 200;
         }
-        #Tips li span{color: #fff;}
     }
 
-    @media(min-width: 1221px){
-        .chat{
-            padding-left: 0px;
+    @media(min-width: 935px){
+        .chat{width: 930px;}
+        #IntroInner{
+            font-size: 20px;
+            font-weight: 100;
         }
-        .chat-box{
-            margin: 5px 5px 5px 12px;
+    }
+    @media(min-width: 1245px){
+        .chat{
+            width: 1240px;
+        }
+        .chat-box p.en{
+            font-weight: 100;
         }
     }
 

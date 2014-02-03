@@ -4,10 +4,13 @@ block content
     .wrap
         .content(role="main")
 
-            ul#Tips.active
-                li(id="about")
+            ul#Tips
+                li(id="about", class="active")
                     i(class="fa fa-circle-o")
                     span About Perber
+                li(id="usage")
+                    i(class="fa fa-question-circle")
+                    span Usage
 
             .chat-input
                 .ui.form

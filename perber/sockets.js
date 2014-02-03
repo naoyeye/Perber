@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-02 23:59:28
+* @Last Modified time: 2014-02-04 00:27:37
 */
 
 
@@ -142,7 +142,7 @@ function Sockets (app, server) {
                 mysql.query('INSERT INTO Messages SET message = ?, creation_ts = ?', chatlogRegistry, function(error, results) {
                     if(error) {
                         console.log("mysql INSERT Error: " + error.message);
-                        mysql.end();
+                        // mysql.end();
                         return;
                     }
                     // console.log('Inserted: ' + results.affectedRows + ' row.');
@@ -151,7 +151,6 @@ function Sockets (app, server) {
                     io.sockets.in(room_id).emit('new msg', {
                         id: results.insertId,
                         msg: data.msg,
-                        retained: data.retained
                     });
                 });
 
@@ -161,10 +160,10 @@ function Sockets (app, server) {
 // delete message
         socket.on('delete message', function(data) {
             // console.log('delete', data.id)
-            mysql.query('DELETE FROM Messages WHERE id = ?', data.id, function(error, results) {
+            mysql.query('DELETE FROM Messages WHERE id = ? and retained = 0', data.id, function(error, results) {
                 if(error) {
                     console.log("mysql delete Error: " + error.message);
-                    mysql.end();
+                    // mysql.end();
                     return;
                 }
                 io.sockets.in(room_id).emit('message deleted', {
@@ -217,7 +216,7 @@ function Sockets (app, server) {
             // });
             
 
-            // todo // limit 100
+            // todo // limit 500
             mysql.query( 'SELECT * FROM Messages ORDER BY id DESC LIMIT 500', function selectCb(error, results, fields) {
                 if (error) {  
                     console.log('GetData Error: ' + error.message);

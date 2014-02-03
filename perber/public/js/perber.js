@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-03 18:36:58
+* @Last Modified time: 2014-02-04 00:10:18
 */
 
 
@@ -492,8 +492,8 @@ upload image
 
         if(elementId === 'about'){
             $('body').append(ich.about_content_template());
-        } else if(elementId === 'how2play'){
-            $('body').append(ich.how2play_content_template());
+        } else if(elementId === 'usage'){
+            $('body').append(ich.usage_content_template());
         }
 
         
@@ -514,23 +514,40 @@ upload image
 
 
     function focusInput() {
-        $(".chat-input textarea").focus();
+        $('.chat-input textarea').focus();
     }
 
-    $(".chat-input textarea").focus(function(){
+
+    //var scrollTop = document.body.scrollTop;
+    
+    // Tips toggle
+    $('.chat-input textarea').focus(function(){
         // $('#Tips').removeClass('active');
-        $('#Tips').animate({
-            top: -50
+        
+        //console.log(scrollTop)
+        
+        // for iOS:
+        //$('.chat-input').css({'position':'absolute', 'top': scrollTop});
+        // console.log($('.chat-input').offset().top)
+
+        $('#Tips').stop().animate({
+            top: -100
         },200)
     }).blur(function(){
         // $('#Tips').addClass('active');
-        $('#Tips').animate({
+        //$('.chat-input').css({'position':'fixed','top':0});
+        $('#Tips').stop().animate({
             top: 0
         },200)
     });
 
+    // $(window).scroll(function(){
+    //     // console.log(1)
+    //     $('.chat-input').css({'position':'absolute','top':0});
+    // })
 
-    //masonry history
+
+    //masonry
     function masonryAllItems(wrap){
         wrap.masonry({
             // columnWidth: 290,

@@ -34,8 +34,30 @@ script#about_content_template(type='text/html')
             #IntroInner
                 #Logo
                     i(class="fa fa-circle-o")
-                | Perber不是社区，不是微博，不是论坛，不是博客，也不是聊天室。<br>Perber没有注册，没有follow，没有timeline，也没有提醒。<br><br>也许你可以把它想象成一个放置在广场上的黑板，任何人都可以披上隐身斗篷进入这个广场，并在黑板上写字、贴图片，甚至发小广告。同时，你也可以把黑板上的文字、图片清除掉 —— 即：<b>任何人发布的任何信息都可能被任何人删除</b>。
+                    span Perber
+                | Not a community, not a forum, not a micro-blog, not a chat room. <br>No follow, no timeline, no notification, no registration. <br><br>Maybe you can think of Perber as a blackboard in the square, anyone can put on the cloak into the square, write text and paste picture on the blackboard, anyone can also put them cleared. -- <b>any information published by anyone may also be deleted by anyone.</b>
+                //.author
+                //    | Made by J.Y Han
+                .link
+                    a(href="https://github.com/naoyeye/Perber", target="_blank", class="github", title="Github")
+                        i(class="fa fa-github")
+                    a(href="https://trello.com/b/uWKLCDxb/perber", target="_blank", class="trello", title="Trello")
+                        i(class="fa fa-trello")
             .intro-wrap-close
 
+script#usage_content_template(type='text/html')
+    .intro-wrap
+        .intro-wrap-overlay
+        .intro-wrap-content
+            #IntroInner
+                h3 'Hide yourselves, do cleanup'
+                | Tips:<br><br>
+                p
+                    | * Hold the white block can delete it.<br>
+                    | * When you keep Perber opening in your browser and  switch to another tab, Perber will remind the new messages.<br>
+                    | * Do not be evil. Do not send spam. Do not waste time.<br>
+                    | * How to post picture? That's a secret. :p
 
+
+            .intro-wrap-close
 
