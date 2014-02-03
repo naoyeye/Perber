@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-03 18:22:30
+* @Last Modified time: 2014-02-03 18:27:52
 */
 
 
@@ -105,7 +105,6 @@ new msg
             chat.prepend( $boxes );
             masonryAllItems(chat);
         } else {
-            console.log(1)
             chat.prepend( $boxes ).masonry('prepended', $boxes);
         }
 

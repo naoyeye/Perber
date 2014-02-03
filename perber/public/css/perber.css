@@ -632,7 +632,7 @@ body{
 #Tips{
     position: fixed;
     right: 0;
-    top: -50px;
+    top: 0px;
     width: 40px;
     height: 80px;
     padding-right: 17px;
