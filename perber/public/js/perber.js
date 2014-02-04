@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-04 03:10:30
+* @Last Modified time: 2014-02-04 16:34:28
 */
 
 
@@ -242,19 +242,19 @@ upload image
 */
 
     $(".chat-input textarea").keypress(function(event) {
-        // nl2br
+        // nl2
         var inputText = $(this).val().trim().replace(/\r\n/gi, '');//.replace('\n', '').replace('\r','').replace(' ','');
 
         switch (event.keyCode) {
             case 13:
                 if (!event.shiftKey && inputText){
-                    var chunks = inputText.match(/.{1,240}/g);//,
+                    var chunks = inputText.substring(0, 240);//,
                         //len = chunks.length;
                     // console.log(chunks)
 
                     // for(var i = 0; i<len; i++) {
                         socket.emit('my msg', {
-                            msg: chunks[0]
+                            msg: chunks
                         });
                     // }
                     
@@ -297,7 +297,7 @@ upload image
         //replace @ twitter
         text = text.replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
 
-        text = text.replace(/(\n)/g, '<hr>');
+        // text = text.replace(/(\n)/g, '<hr>');
 
         return text;
     };
@@ -358,7 +358,7 @@ upload image
     }
 
     var isChinese = function(text){
-        if(/.*[\u4e00-\u9fa5]+.*$/.test(text)){
+        if(/[^\x00-\xff]/g.test(text)){
             return false;
         } else {
             return true;
