@@ -365,7 +365,7 @@ body{
     width: 300px;
     margin: 5px;
     vertical-align: top;
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 100;
     line-height: 1.48;
     color: #514f47;
@@ -667,7 +667,7 @@ body{
     margin: 0 60px 0 10px;
 }
 .chat-input .ui.form textarea{
-    height: 80px;
+    height: 85px;
     max-height: 80px;
     min-height: 80px;
     padding: .85em 0.5em;
@@ -675,10 +675,84 @@ body{
     border-radius: 5px;
     border: none;
     box-shadow: none;
-    background: rgba(255,255,255,0.6);
+    background: none;
     font-size: 18px;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif!important;
     font-weight: 300;
+}
+
+/*图片上传*/
+.chat-input.dragOver{
+    background-color: #ccc;
+}
+#imagePreview{
+    position: absolute;
+    top: 85px;
+    left: 50%;
+    margin-left: -80px;
+    width: 150px;
+    height: 190px;
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    text-align: center;
+    z-index: 4;
+    /*overflow: hidden;*/
+}
+#imagePreview:before{
+    position: absolute;
+    top: 0em;
+    left: 50%;
+    content: "";
+    margin-left: -.5em;
+    width: 1em;
+    height: 1em;
+    background: #fff;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    z-index: 0;
+    margin-top: -.55em;
+    bottom: auto;
+    left: auto;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+    border-left: 1px solid rgba(0,0,0,.1);
+}
+#imagePreview .imgbox{
+    height: 150px;
+    margin: 0;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+}
+#previewControl{
+    height: 40px;
+    margin: 0 auto;
+}
+#previewControl .button{
+    width: 72px;
+    line-height: 1.1;
+    box-shadow: none;
+    border-radius: 0;
+}
+#previewControl .button.delete{
+    border-radius: 0 0 0 5px;
+}
+#previewControl .button.publish{
+    border-radius: 0 0 5px 0;
+}
+#previewControl .or{
+    font-size: 12px;
+    margin-top: 4px;
+    width: 0.5em;
+}
+#previewControl .or:before{
+    line-height: 1.9
+}
+
+.ui.bottom.attached.progress.green{
+    border-radius: 0;
 }
 
 

@@ -19,6 +19,23 @@ script#progress(type="text/html")
     .progressWrapper
         .progress
 
+script#upload_progress(type="text/html")
+    .ui.bottom.attached.progress.green
+        .bar
+
+script#image_preview(type="text/html")
+    #imagePreview
+        .imgbox
+            #previewInner(style="background-image:url({{ path }});background-size: cover;")
+        #previewControl
+            .buttons.ui
+                a(data-id="{{ key }}", class="button ui icon red delete", title='删除')
+                    i(class='fa fa-times')
+                .or
+                a(data-path="{{ path }}", class="ui button green icon publish", title='发布')
+                    i(class='fa fa-check')
+
+
 script#confirm_template(type='text/html')
     .confirm
         i(class='fa fa-times-circle delete', title='删除')

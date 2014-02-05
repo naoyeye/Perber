@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-04 16:34:28
+* @Last Modified time: 2014-02-06 00:51:21
 */
 
 
@@ -145,7 +145,7 @@ delete msg
         chat.masonry( 'on', 'removeComplete', function( msnryInstance, removedItems ) {
             // console.log(msnryInstance.items.length)
             if(msnryInstance.items.length === 0){
-                console.log('iii')
+                // console.log('iii')
                 chat.append(ich.nullbox());
                 chat.masonry('destroy');
             }
@@ -156,18 +156,6 @@ delete msg
             $('#deletedAudio')[0].play();
         }
     })
-
-
-/*
-upload image
-*/
-
-// todo
-
-
-
-
-// ========================
 
 
 /*
@@ -215,25 +203,6 @@ upload image
         })
     })
 
-/*
-=================
-   drop upload image
-=================
-*/
-
-// upload image to qiniu
-    // imagesBucket.putFile(
-    //     'exampleKey2', // new file name
-    //     '/Users/hanjiyun/Google Drive/Project/Perber/perber/public/apple-touch-icon-114x114-precomposed.png' // file path
-    // ).then(
-    //     function(reply){
-    //         // 上传成功
-    //         console.dir(reply);
-    //     },
-    //     function(err){
-    //         console.log(err);
-    //     }
-    // )
 
 /*
 =================
@@ -279,14 +248,15 @@ upload image
 
         // replace img
         var sinaImgReg = /(http:\/\/ww[0-9]{1}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g,
-            doubanImgReg = /(http:\/\/img[0-9]{1}.douban.com\/view\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/public\/[a-zA-Z0-9]+.[a-z]{3})/g,
+            perberImageReg = /(http:\/\/perber.qiniudn.com\/[a-zA-Z0-9]+)/g,
+            // doubanImgReg = /(http:\/\/img[0-9]{1}.douban.com\/view\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/public\/[a-zA-Z0-9]+.[a-z]{3})/g,
             instagramImgReg = /(http:\/\/distilleryimage[0-9]{1,2}.ak.instagram.com\/[a-zA-Z0-9_]+.jpg)/g,
             linkReg = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 
         // replace link and image
         text = text.replace(linkReg, function(e){
             var result;
-            if(sinaImgReg.test(e) || instagramImgReg.test(e)){
+            if(sinaImgReg.test(e) || instagramImgReg.test(e) || perberImageReg.test(e)){
                 result = '<div class="imgbox"><div style="background-image:url('+ e +');background-size: cover;"></div></div>';
             } else {
                 result = '<a href="' + e + '" target="_blank">'+ e +'</a>';
@@ -358,7 +328,7 @@ upload image
     }
 
     var isChinese = function(text){
-        if(/[^\x00-\xff]/g.test(text)){
+        if( /[\u4e00-\u9fa5]/g.test(text)){
             return false;
         } else {
             return true;
@@ -588,5 +558,185 @@ upload image
         $e.find('p').append(ich.progress());
     }
 
-});
+    function showUploadProgress(){
+        $('.chat-input').append(ich.upload_progress());
+    }
+
+    function hideUploadProgress(){
+        $('.chat-input .progress').remove();
+    }
+
+    function showPreview(img){
+        $('.chat-input').append(ich.image_preview(img));
+    }
+
+
+// =============filedrop==============
+
+    $('.chat-input').filedrop({
+        fallback_id: 'upload_button',
+        withCredentials: true,
+        // data: {
+        //     param1: 'value1',           // send POST variables
+        //     param2: function(){
+        //         return calculated_data; // calculate data at time of upload
+        //     },
+        // },
+        // headers: {          // Send additional request headers
+        //     'header': 'value'
+        // },
+        paramname:'PerberImage',
+        allowedfiletypes: ['image/jpeg','image/png','image/gif','image/bmp'],
+        allowedfileextensions: ['.jpg','.jpeg','.png','.gif'],
+        maxfiles: 1,
+        maxfilesize: 2, //最大2M
+        url: '/upload',
+
+        error: function(err, file) {
+            switch(err) {
+                case 'BrowserNotSupported':
+                    alert('browser does not support HTML5 drag and drop')
+                    break;
+                case 'TooManyFiles':
+                    // user uploaded more than 'maxfiles'
+                    alert('添加一张就可以了');
+                    break;
+                case 'FileTooLarge':
+                    // program encountered a file whose size is greater than 'maxfilesize'
+                    // FileTooLarge also has access to the file which was too large
+                    // use file.name to reference the filename of the culprit file
+                    alert(file.name+' 太大了，请上传不超过2M的');
+                    break;
+                case 'FileTypeNotAllowed':
+                    // The file type is not in the specified list 'allowedfiletypes'
+                    break;
+                case 'FileExtensionNotAllowed':
+                    // The file extension is not in the specified list 'allowedfileextensions'
+                    break;
+                default:
+                    break;
+            }
+        },
+
+        dragOver: function() {
+            // user dragging files over #dropzone
+            $(this).addClass('dragOver');
+            focusInput();
+        },
+        dragLeave: function() {
+            // user dragging files out of #dropzone
+            $(this).removeClass('dragOver');
+        },
+        
+        docOver: function(){
+
+        },
+
+        docLeave: function() {
+            // user dragging files out of the browser document window
+        },
+        drop: function() {
+            // user drops file
+            $(this).removeClass('dragOver');
+        },
+        uploadStarted: function(i, file, len){
+            // a file began uploading
+            // i = index => 0, 1, 2, 3, 4 etc
+            // file is the actual file of the index
+            // len = total files user dropped
+            // console.log('upload started')
+            showUploadProgress();
+        },
+        uploadFinished: function(i, file, response, time) {
+            // response is the data you got back from server in JSON format.
+            // console.log(response)
+
+            if(response.err){
+                console.log('上传出错', response.err)
+            }
+            if(response.key){
+                // console.log('上传完成,key=', response.key)
+                // 隐藏进度条
+                hideUploadProgress();
+                // 显示图片预览
+                var img = {
+                    key: response.key,
+                    path : 'http://perber.qiniudn.com/' + response.key
+                };
+                showPreview(img);
+                // $('.chat-input textarea').val();
+            }
+        },
+        progressUpdated: function(i, file, progress) {
+            // this function is used for large files and updates intermittently
+            // progress is the integer value of file being uploaded percentage to completion
+            // console.log('progress updated')
+            // console.log('progressUpdated progress', progress)
+            $('.chat-input .progress .bar').width(progress+"%");
+        },
+        globalProgressUpdated: function(progress) {
+            // progress for all the files uploaded on the current instance (percentage)
+            // ex: $('#progress div').width(progress+"%");
+            // console.log('globalProgressUpdated progress', progress)
+        },
+        speedUpdated: function(i, file, speed) {
+            // speed in kb/s
+        },
+        rename: function(name) {
+            // name in string format
+            // must return alternate name as string
+        },
+
+        beforeEach: function(file){
+            if(!file.type.match(/^image\//)){
+                alert('Only images are allowed!');
+                return false;
+            }
+        },
+
+        beforeSend: function(file, i, done) {
+            // file is a file object
+            // i is the file index
+            // call done() to start the upload
+            done();
+        },
+        afterAll: function() {
+            // console.log('afterAll')
+            // runs after all files have been uploaded or otherwise dealt with
+        }
+    });
+
+
+    // delete image
+    $('.chat-input').on('click', '#previewControl .delete', function(){
+        var $e = $(this),
+            key = $e.data('id');
+        // console.log(key);
+
+        $.ajax({ 
+            url: '/delete',
+            type: 'POST',
+            cache: false,
+            data: { key: key},
+            dataType : "json",
+            success: function(data){
+               $('#imagePreview').remove();
+            },
+            error: function(jqXHR, textStatus, err){
+                console.log(jqXHR)
+                console.log(textStatus)
+                console.log(err.error)
+                // todo error dialog
+            }
+        })
+    }).on('click', '#previewControl .publish', function(){
+        var $e = $(this),
+            path = $e.data('path');
+            socket.emit('my msg', {
+                msg: path
+            });
+            $('#imagePreview').remove();
+    });
+
+})
 
