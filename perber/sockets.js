@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-06 00:31:31
+* @Last Modified time: 2014-02-06 14:22:38
 */
 
 
@@ -35,6 +35,7 @@ function Sockets (app, server) {
     var client = app.get('redisClient');
     var mysql = app.get('mysqlClient');
     var sessionStore = app.get('sessionStore');
+    var imagesBucket = app.get('imagesBucket');
 
     var io = sio.listen(server,{
         log: false,
@@ -153,12 +154,50 @@ function Sockets (app, server) {
                         msg: data.msg,
                     });
                 });
+
+                // 如果带有qiniu图片key
+                if(data.imgKey){
+                    var key = data.imgKey;
+                    mysql.query('INSERT INTO Images SET imgKey = ?', key, function(error, results) {
+                        if(error) {
+                            console.log("mysql INSERT image key Error: " + error.message);
+                            // mysql.end();
+                            return;
+                        }
+                    })
+                }
             }
         });
 
 // delete message
         socket.on('delete message', function(data) {
             // console.log('delete', data.id)
+
+            // 判断是不是带有imgKey
+            if(data.imgKey){
+                var imgKey = [data.imgKey];
+
+                // 从数据库删除图片
+                mysql.query('DELETE FROM Images WHERE imgKey = ?', imgKey, function(error, results) {
+                    if(error) {
+                        console.log("mysql delete Image Error: " + error.message);
+                        // mysql.end();
+                        return;
+                    }
+                });
+
+                // 从qiniu删除图片
+                imagesBucket.key(imgKey).remove(
+                    function(err) {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            // console.log('成功从qiniu删除图片')
+                        }
+                    }
+                );
+            }
+
             mysql.query('DELETE FROM Messages WHERE id = ? and retained = 0', data.id, function(error, results) {
                 if(error) {
                     console.log("mysql delete Error: " + error.message);

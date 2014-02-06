@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-06 00:51:21
+* @Last Modified time: 2014-02-06 15:27:19
 */
 
 
@@ -168,7 +168,7 @@ delete msg
         stop_browser_behavior: { userSelect: "" }
     }).on('hold', '.chat-box', function(event) {
         var $e = $(this);
-        //如果已经在删除转台 或 此内容已被固定
+        //如果已经在删除中 或 此内容已被固定
         if($e.hasClass('waiting') || $e.data('retained') === 1) return;
 
         // 显示删除按钮
@@ -177,24 +177,35 @@ delete msg
 
         // 绑定 删除事件
         $e.find('.delete').click(function(){
-            showProgress($e);
-            $del = $(this);
-            $del.hide();
+            showProgress($e); // 显示等待进程
+            $(this).hide(); // 隐藏删除icon
+            var imgKey = $(this).parents('.chat-box').eq(0).find('.imgbox').data('key') // 如果带有qiniu图片, 得到图片key
 
-            // 10秒动画后向socket发出删除命令
+            // 5秒动画后向socket发出删除命令
             // 这里的时间需要和css那边的动画时间一致
             $e.delTime = setTimeout(function(){
                 var id = $e.data('id');
-                socket.emit('delete message', {
-                    id: id
-                });
+                
+                // 如果没有qiniu图片
+                if(!imgKey){
+                    // console.log('没有图片')
+                    socket.emit('delete message', {
+                        id: id
+                    });
+                } else {
+                    // console.log('有图片')
+                    socket.emit('delete message', {
+                        id: id,
+                        imgKey : imgKey.toString()
+                    })
+                }
                 chat.masonry( 'remove', $e);
                 // $('.chat').masonry();
                 clearTimeout($e.delTime)
             }, 5000)
         })
 
-        // 绑定 取消删除事件
+        // 绑定 "取消删除"事件
         $e.find('.cancel').click(function(){
             $e.removeClass('waiting animate');
             $e.find('.confirm').remove();
@@ -256,9 +267,21 @@ delete msg
         // replace link and image
         text = text.replace(linkReg, function(e){
             var result;
-            if(sinaImgReg.test(e) || instagramImgReg.test(e) || perberImageReg.test(e)){
+            // sina + instagram
+            if(sinaImgReg.test(e) || instagramImgReg.test(e)){
                 result = '<div class="imgbox"><div style="background-image:url('+ e +');background-size: cover;"></div></div>';
-            } else {
+            // qiniu image
+            } else if(perberImageReg.test(e)){
+                // 从qiniu的url中匹配中key, 删除时会用到
+                var keyReg = /([0-9]{13})/g,
+                    key;
+                e.replace(keyReg, function(s,value) {
+                    key = value;
+                });
+                result = '<div data-key="'+ key +'" class="imgbox"><div style="background-image:url('+ e +');background-size: cover;"></div></div>';
+            }
+            // link
+            else {
                 result = '<a href="' + e + '" target="_blank">'+ e +'</a>';
             }
             return result;
@@ -570,6 +593,29 @@ delete msg
         $('.chat-input').append(ich.image_preview(img));
     }
 
+    function notice(type, text, timeout){
+        var arry = {
+            type : type,
+            text : text
+        },
+        notice = $('.noticeWrap');
+        notice.append(ich.notice_template(arry)).addClass(type).animate({
+            top: 0
+        } , 200)
+
+        var noticeHeight = $('.noticeWrap').height();
+
+        // console.log(noticeHeight)
+
+        setTimeout(function(){
+            notice.stop().animate({
+                top: -noticeHeight
+            }, 300, function(){
+                notice.html('').attr('class','noticeWrap')
+            })
+        }, timeout)
+    }
+
 
 // =============filedrop==============
 
@@ -621,7 +667,7 @@ delete msg
         dragOver: function() {
             // user dragging files over #dropzone
             $(this).addClass('dragOver');
-            focusInput();
+            // focusInput();
         },
         dragLeave: function() {
             // user dragging files out of #dropzone
@@ -661,7 +707,7 @@ delete msg
                 // 显示图片预览
                 var img = {
                     key: response.key,
-                    path : 'http://perber.qiniudn.com/' + response.key
+                    path : 'http://perber.qiniudn.com/' + response.key + '?imageView/1/w/200/h/200'
                 };
                 showPreview(img);
                 // $('.chat-input textarea').val();
@@ -672,6 +718,8 @@ delete msg
             // progress is the integer value of file being uploaded percentage to completion
             // console.log('progress updated')
             // console.log('progressUpdated progress', progress)
+
+            // todo
             $('.chat-input .progress .bar').width(progress+"%");
         },
         globalProgressUpdated: function(progress) {
@@ -698,7 +746,13 @@ delete msg
             // file is a file object
             // i is the file index
             // call done() to start the upload
-            done();
+
+            // 判断是不是已经上传了图片并且未发布
+            if($('#imagePreview').size() > 0 ){
+                notice('error', '别着急，一个一个来', 2000)
+            } else {
+                done();
+            }
         },
         afterAll: function() {
             // console.log('afterAll')
@@ -729,11 +783,14 @@ delete msg
                 // todo error dialog
             }
         })
-    }).on('click', '#previewControl .publish', function(){
+    })
+    // 发布图片
+    .on('click', '#previewControl .publish', function(){
         var $e = $(this),
-            path = $e.data('path');
+            key = $e.data('id').toString();
             socket.emit('my msg', {
-                msg: path
+                msg: 'http://perber.qiniudn.com/' + key + '?imageView/1/w/500/h/500',
+                imgKey: key // 把图片key保存到数据库
             });
             $('#imagePreview').remove();
     });

@@ -32,7 +32,7 @@ script#image_preview(type="text/html")
                 a(data-id="{{ key }}", class="button ui icon red delete", title='删除')
                     i(class='fa fa-times')
                 .or
-                a(data-path="{{ path }}", class="ui button green icon publish", title='发布')
+                a(data-id="{{ key }}", class="ui button green icon publish", title='发布')
                     i(class='fa fa-check')
 
 
@@ -73,8 +73,13 @@ script#usage_content_template(type='text/html')
                     | * Hold the white block can delete it.<br>
                     | * When you keep Perber opening in your browser and  switch to another tab, Perber will remind the new messages.<br>
                     | * Do not be evil. Do not send spam. Do not waste time.<br>
-                    | * How to post picture? That's a secret. :p
-
-
+                    | * How to post picture? That is a secret. :p
             .intro-wrap-close
+
+script#notice_template(type='text/html')
+    .notice
+        .noticeInner
+            |{{ text }}
+        
+
 

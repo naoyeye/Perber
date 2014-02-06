@@ -117,7 +117,7 @@ h3,
 h4,
 h5 {
   font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  font-weight: 300;
+  font-weight: bold;
   /*letter-spacing: 1px;*/
 }
 
@@ -518,7 +518,10 @@ body{
     margin-right: 4px;
     opacity: 0;
     cursor: pointer;
-
+    border-radius: 50%;
+    padding: 2px 3px 1px 3px;
+    background-color: #fff;
+    box-shadow: 0 0 3px rgba(0,0,0,0.4);
     transition:all 0.3s ease;
 }
 .chat-box.waiting .confirm i{
@@ -681,7 +684,7 @@ body{
     font-weight: 300;
 }
 
-/*图片上传*/
+/* image upload*/
 .chat-input.dragOver{
     background-color: #ccc;
 }
@@ -757,7 +760,7 @@ body{
 
 
 
-/* Intro */
+/* Tips */
 #Tips{
     position: fixed;
     right: 0;
@@ -837,6 +840,36 @@ body{
 }
 #Tips li:hover i{
     color: #f5f5f5;
+}
+
+/* Notice */
+.noticeWrap{
+    position: fixed;
+    top: -80px;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    min-height: 80px;
+    text-align: center;
+    z-index: 5;
+    -webkit-transition: top .4s ease;
+    -moz-transition: top .4s ease;
+    -ms-transition: top .4s ease;
+    -o-transition: top .4s ease;
+    transition: top .4s ease;
+}
+.noticeWrap.error{
+    background-color: #b86158;
+}
+.notice{
+    display: table;
+    height: 80px;
+    margin: 0 auto;
+}
+.noticeInner{
+    display: table-cell;
+    vertical-align: middle;
+    color: #fff;
 }
 
 /*===========*/

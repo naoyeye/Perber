@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-02-06 00:45:37
+* @Last Modified time: 2014-02-06 14:25:17
 */
 
 
@@ -31,6 +31,7 @@ function Routes (app) {
     var config = app.get('config');
     var client = app.get('redisClient');
     var imagesBucket = app.get('imagesBucket');
+    var mysql = app.get('mysqlClient');
   
     /*
     * Homepage
@@ -40,7 +41,7 @@ function Routes (app) {
         res.render('room');
     });
 
-    // uoload image
+    // upload image
     app.post('/upload', function(req, res, next) {
         // // console.log('======================')
         // // console.log('req:==', req.files.PerberImage.name)
@@ -105,15 +106,32 @@ function Routes (app) {
     // delete image
     app.post('/delete', function(req, res, next){
         var key = req.body.key;
-        imagesBucket.key(key).remove(
-            function(err) {
-                if (err) {
-                    res.json(err)
-                } else {
-                    res.json({status:'success'})
-                }
+
+        var imgKey = [key];
+
+        // 先去数据库里查询此图片key是不是存在, 防止恶意批量删除
+        mysql.query( 'SELECT * FROM Images WHERE imgKey = ?', imgKey, function selectCb(error, results, fields) {
+            if (error) {  
+                console.log('GetData Error: ' + error.message);
+                mysql.end();
+                return;
             }
-        );
+
+            // console.log('results:', results);
+
+            if(results.length > 0) return;
+
+            imagesBucket.key(key).remove(
+                function(err) {
+                    if (err) {
+                        res.json(err)
+                    } else {
+                        res.json({status:'success'})
+                    }
+                }
+            );
+        });
+
     });
 
 
