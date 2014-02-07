@@ -29,17 +29,17 @@ script#image_preview(type="text/html")
             #previewInner(style="background-image:url({{ path }});background-size: cover;")
         #previewControl
             .buttons.ui
-                a(data-id="{{ key }}", class="button ui icon red delete", title='删除')
+                a(data-id="{{ key }}", class="button ui icon red delete", title='Delete')
                     i(class='fa fa-times')
                 .or
-                a(data-id="{{ key }}", class="ui button green icon publish", title='发布')
+                a(data-id="{{ key }}", class="ui button green icon publish", title='Publish')
                     i(class='fa fa-check')
 
 
 script#confirm_template(type='text/html')
     .confirm
-        i(class='fa fa-times-circle delete', title='删除')
-        i(class='fa fa-minus-circle cancel', title='取消')
+        i(class='fa fa-times-circle delete', title='Delete')
+        i(class='fa fa-minus-circle cancel', title='Cancel')
 
 script#title_template(type='text/html')
     | {{#count}} ({{ count }}) {{/count}} Perber
