@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-06 15:27:19
+* @Last Modified time: 2014-02-07 08:55:00
 */
 
 
@@ -697,9 +697,9 @@ delete msg
             // response is the data you got back from server in JSON format.
             // console.log(response)
 
-            if(response.err){
-                console.log('上传出错', response.err)
-            }
+            // if(response.err){
+            //     console.log('上传出错', response.err)
+            // }
             if(response.key){
                 // console.log('上传完成,key=', response.key)
                 // 隐藏进度条
@@ -712,6 +712,10 @@ delete msg
                 showPreview(img);
                 // $('.chat-input textarea').val();
             }
+            if( response.progress ){
+                console.log('progress' , progress)
+            }
+            console.log('response = ', response)
         },
         progressUpdated: function(i, file, progress) {
             // this function is used for large files and updates intermittently
@@ -720,7 +724,8 @@ delete msg
             // console.log('progressUpdated progress', progress)
 
             // todo
-            $('.chat-input .progress .bar').width(progress+"%");
+            console.log('progress = ', progress)
+            // $('.chat-input .progress .bar').width(progress+"%");
         },
         globalProgressUpdated: function(progress) {
             // progress for all the files uploaded on the current instance (percentage)
@@ -729,6 +734,7 @@ delete msg
         },
         speedUpdated: function(i, file, speed) {
             // speed in kb/s
+            console.log('speed = ', speed)
         },
         rename: function(name) {
             // name in string format

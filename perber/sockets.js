@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-06 14:22:38
+* @Last Modified time: 2014-02-07 09:00:40
 */
 
 
@@ -133,12 +133,19 @@ function Sockets (app, server) {
         socket.on('my msg', function(data) {
 
             var no_empty = data.msg.replace("\n","");
+            var msgID, havaImg = false;
+
+            if(data.imgKey){
+                havaImg = true;
+            }
 
             if(no_empty.length > 0) {
                 var chatlogRegistry = [
                     data.msg,
                     new Date(),
                 ]
+
+                var imgKey = data.imgKey;
 
                 mysql.query('INSERT INTO Messages SET message = ?, creation_ts = ?', chatlogRegistry, function(error, results) {
                     if(error) {
@@ -149,36 +156,38 @@ function Sockets (app, server) {
                     // console.log('Inserted: ' + results.affectedRows + ' row.');
                     // console.log('Id inserted: ' + results.insertId);
 
+                    msgID = results.insertId;
+
+                    // 如果带有qiniu图片key, 往图片表里增加记录
+                    if(havaImg){
+                        var sql = [imgKey, msgID];
+                        mysql.query('INSERT INTO Images SET imgKey = ?, msgID = ?', sql, function(error, results) {
+                            if(error) {
+                                console.log("mysql INSERT image key Error: " + error.message);
+                                // mysql.end();
+                                return;
+                            }
+                        })
+                    }
+
                     io.sockets.in(room_id).emit('new msg', {
-                        id: results.insertId,
+                        id: msgID,
                         msg: data.msg,
                     });
                 });
-
-                // 如果带有qiniu图片key
-                if(data.imgKey){
-                    var key = data.imgKey;
-                    mysql.query('INSERT INTO Images SET imgKey = ?', key, function(error, results) {
-                        if(error) {
-                            console.log("mysql INSERT image key Error: " + error.message);
-                            // mysql.end();
-                            return;
-                        }
-                    })
-                }
             }
         });
 
 // delete message
         socket.on('delete message', function(data) {
-            // console.log('delete', data.id)
 
             // 判断是不是带有imgKey
             if(data.imgKey){
-                var imgKey = [data.imgKey];
+
+                var command = [data.id, data.imgKey];
 
                 // 从数据库删除图片
-                mysql.query('DELETE FROM Images WHERE imgKey = ?', imgKey, function(error, results) {
+                mysql.query('DELETE FROM Images WHERE msgID = ? and imgKey = ?', command, function(error, results) {
                     if(error) {
                         console.log("mysql delete Image Error: " + error.message);
                         // mysql.end();
@@ -187,7 +196,7 @@ function Sockets (app, server) {
                 });
 
                 // 从qiniu删除图片
-                imagesBucket.key(imgKey).remove(
+                imagesBucket.key(data.imgKey).remove(
                     function(err) {
                         if (err) {
                             console.log(err)
