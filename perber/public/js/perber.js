@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-07 11:10:17
+* @Last Modified time: 2014-02-07 11:41:36
 */
 
 
@@ -724,7 +724,7 @@ delete msg
             // console.log('progressUpdated progress', progress)
 
             // todo
-            console.log('progress = ', progress)
+            // console.log('progress = ', progress)
             // $('.chat-input .progress .bar').width(progress+"%");
         },
         globalProgressUpdated: function(progress) {

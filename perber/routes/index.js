@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-02-07 11:11:41
+* @Last Modified time: 2014-02-07 11:46:20
 */
 
 
@@ -51,58 +51,60 @@ function Routes (app) {
         // console.log('key', key)
         // var image = imagesBucket.image(key);
 
-        // var puttingStream = imagesBucket.createPutStream(key);
-        // var readingStream = fs.createReadStream(data.path);
-        // var fileSize = req.headers['content-length'];
-        // var uploadedSize = 0;
+        var puttingStream = imagesBucket.createPutStream(key);
+        var readingStream = fs.createReadStream(data.path);
+        var fileSize = req.headers['content-length'];
+        var uploadedSize = 0;
 
-        // console.log('fileSize = ', fileSize)
+        console.log('fileSize = ', fileSize)
+
+        readingStream.pipe(puttingStream).on('data', function(chunk) {
+
+            console.log('chunk.length', chunk.length);
+
+            uploadedSize += chunk.length;
+            console.log('uploadedSize = ', uploadedSize)
+            uploadProgress = (uploadedSize/fileSize) * 100;
+            console.log('uploadProgress = ', Math.round(uploadProgress) + "%")
+            // res.write(Math.round(uploadProgress) + "%" + " uploaded\n" );
+            // var bufferStore = puttingStream.write(chunk);
+            // if(bufferStore == false) req.pause();
+
+            res.json({ progress : uploadProgress })
+
+        })
 
         // readingStream.pipe(puttingStream)
         // // .on('error', function(err) {
         // //     console.error(err);
         // //     res.json(err)
         // // })
-        // .on('data', function(chunk) {
-        //     // console.log('chunk.length', chunk.length);
-
-        //     uploadedSize += chunk.length;
-        //     console.log('uploadedSize = ', uploadedSize)
-        //     uploadProgress = (uploadedSize/fileSize) * 100;
-        //     console.log('uploadProgress = ', Math.round(uploadProgress) + "%")
-        //     // res.write(Math.round(uploadProgress) + "%" + " uploaded\n" );
-        //     // var bufferStore = puttingStream.write(chunk);
-        //     // if(bufferStore == false) req.pause();
-
-        //     res.json({ progress : uploadProgress })
-
-        // }).on('drain', function() {
+        // .on('drain', function() {
         //     req.resume();
         // })
         // .on('end', function() {
         //     // 上传成功
         //     // console.dir('reply', reply)
         //     // res.json(reply)
-
-        //     res.write('Upload done!');
-        //     res.end();
+        //     // res.write('Upload done!');
+        //     // res.end();
         // });
 
-        imagesBucket.putFile(
-            key, // new file name
-            data.path // file path
-        ).then(
-            function(reply){
-                // 上传成功
-                // console.dir(reply);
-                res.json(reply)
-                // imageProcess();
-            },
-            function(err){
-                // console.log(err);
-                res.json(err)
-            }
-        )
+        // imagesBucket.putFile(
+        //     key, // new file name
+        //     data.path // file path
+        // ).then(
+        //     function(reply){
+        //         // 上传成功
+        //         // console.dir(reply);
+        //         res.json(reply)
+        //         // imageProcess();
+        //     },
+        //     function(err){
+        //         // console.log(err);
+        //         res.json(err)
+        //     }
+        // )
 
         // imageProcess = function(){
         //     image.imageView({
