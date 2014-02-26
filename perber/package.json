@@ -11,15 +11,11 @@
     "socket.io": "~0.9.16",
     "redis": "0.7.2",
     "connect-redis": "1.4.x",
-    "passport": "~0.1.17",
-    "passport-facebook": "~0.1.5",
-    "passport-twitter": "~0.1.5",
-    "passport-douban": "~0.0.1",
     "type-component": "0.0.1",
     "validator": "2.0.0",
     "mysql": "2.0.1",
     "node-mysql" : "0.3.4",
-    "node-qiniu" : "6.1.4"
+    "qiniu" : "6.1.1"
   },
   "engines": {
     "node": ">= 0.8.0",

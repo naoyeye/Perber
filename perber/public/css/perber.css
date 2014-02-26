@@ -1384,3 +1384,104 @@ Responsive
 
 
 
+    thead {
+        background-color: #efefef;
+    }
+    .q_wrap {
+        width:800px;
+        margin: 0 auto;
+        margin-top: 50px;
+        margin-bottom: 100px;
+    }
+    .fileupload {
+        /*width: 300px;*/
+        margin: 0 auto;
+    }
+    .progress {
+        float: left;
+        width:350px;
+        height: 20px;
+        background: #eee;
+    }
+    .progress-bar {
+        /*width:300px;*/
+        margin-bottom: 0px;
+        height: 20px;
+        background: green;
+    }
+    .toolBar {
+        width:500px;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+    .bar {
+        text-align:left;
+    }
+    header {
+        text-align: center;
+    }
+    li {
+        list-style-type: none;
+    }
+    .td_fname {
+        width: 250px;
+        height: 70px;
+    }
+    td {
+        vertical-align:middle;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+    .pLabel {
+        position: absolute;
+        width: 300px;
+        text-align: center;
+        color: black;
+    }
+    .alert {
+        position: fixed;
+        bottom: 0px;
+    }
+    * {
+        margin:0;
+        padding:0;
+    }
+    a {
+        text-decoration:none;
+    }
+    .btn_addPic {
+        display: block;
+        position: relative;
+        cursor: pointer;
+        text-align: center;
+    }
+    .btn_addPic span {
+        display: block;
+    }
+    .btn_addPic em {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        overflow: hidden;
+        margin: 10px 5px 10px 0;
+        line-height: 20em;
+        vertical-align: middle;
+    }
+    .filePrew {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 400px;
+        height: 40px;
+        font-size: 100px;
+        /* 增大不同浏览器的可点击区域 */
+        opacity: 0;
+        /* 实现的关键点 */
+    }
+    .td_pro{
+        width: 400px;
+    }
+    footer{
+        text-align:center;
+    }

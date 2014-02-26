@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-02-07 11:46:20
+* @Last Modified time: 2014-02-26 20:40:51
 */
 
 
@@ -12,7 +12,8 @@
 */
 
 var utils = require('../utils'),
-    fs = require('fs');
+    fs = require('fs'),
+    qiniu = require('qiniu');
 
 /**
  * Expose routes
@@ -30,7 +31,7 @@ module.exports = Routes;
 function Routes (app) {
     var config = app.get('config');
     var client = app.get('redisClient');
-    var imagesBucket = app.get('imagesBucket');
+    // var qiniu = app.get('qiniu');
     var mysql = app.get('mysqlClient');
   
     /*
@@ -155,6 +156,66 @@ function Routes (app) {
         });
 
     });
+
+
+
+
+    app.post('/qiniu_upload', function(req, res, next){
+
+        // console.log('req=', req)
+
+        var bucketname = config.qiniuConfig.bucket_name;
+        var key = req.body.key;
+
+        var localFile = req.files.file.path;
+
+        console.log('localFile = ', localFile)
+
+        //生成 uptoken 
+        var token;
+
+        function uptoken(bucketname) {
+            var putPolicy = new qiniu.rs.PutPolicy(bucketname);
+            //putPolicy.callbackUrl = callbackUrl;
+            //putPolicy.callbackBody = callbackBody;
+            //putPolicy.returnUrl = returnUrl;
+            //putPolicy.returnBody = returnBody;
+            //putPolicy.asyncOps = asyncOps;
+            //putPolicy.expires = expires;
+
+            token = putPolicy.token();
+
+        }
+
+        uptoken(bucketname);
+
+        console.log('token = ', token)
+
+        // res.json({token:token})
+
+        function uploadFile(localFile, key, uptoken) {
+          var extra = new qiniu.io.PutExtra();
+          //extra.params = params;
+          //extra.mimeType = mimeType;
+          //extra.crc32 = crc32;
+          //extra.checkCrc = checkCrc;
+
+          qiniu.io.putFile(uptoken, key, localFile, extra, function(err, ret) {
+            if(!err) {
+              // 上传成功， 处理返回值
+              console.log(ret.key, ret.hash);
+              // ret.key & ret.hash
+            } else {
+              // 上传失败， 处理返回代码
+              console.log(err);
+              // http://docs.qiniu.com/api/put.html#error-code
+            }
+          });
+        }
+
+        uploadFile(localFile, key, token);
+
+    })
 
 
 }

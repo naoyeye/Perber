@@ -4,7 +4,7 @@ block content
     .wrap
         .content(role="main")
 
-            ul#Tips
+            ul#Tips(style="display:none")
                 li(id="about", class="active")
                     i(class="fa fa-circle-o")
                     span About Perber
@@ -12,15 +12,30 @@ block content
                     i(class="fa fa-question-circle")
                     span Usage
 
-            .chat-input
+            .chat-input(style="display:none")
                 .ui.form
                     .field
                         textarea(placeholder="Say something", maxlength="240")
 
-            .chat-list
+            .chat-list(style="display:none")
                 .chat
 
     .noticeWrap
+
+    .fileupload.fileupload-new(style="width:300px;margin-top:400px;", data-provides="fileupload")
+        a.btn_addPic.btn.btn-default.btn-lg(href="javascript:void(0);")
+            span
+                i.glyphicon.glyphicon-plus
+                | 添加文件(可同时选择多个文件)
+            input#selectFiles.filePrew(multiple="multiple", size="3",name="pic",type="file")
+
+    .q_wrap
+        #spdiv.input-group(style="display:none;")
+            span.input-group-addon
+                span.glyphicon.glyphicon-home
+            input#txt_serverPath.form-control(type="text", placeholder="请输入服务端目录")
+
+        #fileList
 
     audio(id="chatAudio")
         source(src="/audio/notify.ogg", type="audio/ogg")
@@ -37,4 +52,7 @@ block content
     script(src="/socket.io/socket.io.js")
 
     script(defer, src="/js/plugins.js")
+    script(defer, src="/js/libs/qiniu.uploader.js")
     script(defer, src="/js/perber.js")
+
+

@@ -6,12 +6,12 @@ var log = require('debug')('perber:config'),
         express = require('express'),
         redis = require('redis'),
         RedisStore = require('connect-redis')(express),
-        passport = require('passport'),
+        // passport = require('passport'),
         path = require('path'),
         url = require('url'),
         config = {},
         env = require('./env'),
-        qiniu = require('node-qiniu'),
+        qiniu = require('qiniu'),
         utils = require('../utils');
 
 /**
@@ -33,9 +33,9 @@ function Config (app) {
     // log("Attempt to load from config.json")
     try {
         config = require('./config.json');
-        // log('Loaded from config.json %j', config);
+        log('Loaded from config.json %j', config);
     } catch (err) {
-        // log("Failed to load file config.json %j", err);
+        log("Failed to load file config.json %j", err);
     }
 
     // log('Attemp to load from environment');
@@ -44,7 +44,7 @@ function Config (app) {
     // log('Save configuration values in app %j', config);
     app.set('config', config);
 
-    // log('Setting port as %d', config.app.port);
+    console.log('Setting port as %d', config.app.port);
     app.set('port', config.app.port);
 
     // log('Setting view engine as %s', 'jade');
@@ -65,13 +65,20 @@ function Config (app) {
 
 // qiniu
 // ==========
-    qiniu.config({
-        access_key: config.qiniuConfig.access_key,
-        secret_key: config.qiniuConfig.secret_key
-    });
-    var imagesBucket = qiniu.bucket(config.qiniuConfig.bucket_name);
+    // qiniu.config({
+    //     access_key: config.qiniuConfig.access_key,
+    //     secret_key: config.qiniuConfig.secret_key
+    // });
+    // var imagesBucket = qiniu.bucket(config.qiniuConfig.bucket_name);
 
-    app.set('imagesBucket', imagesBucket);
+    // app.set('imagesBucket', imagesBucket);
+
+    qiniu.conf.ACCESS_KEY = config.qiniuConfig.access_key
+    qiniu.conf.SECRET_KEY = config.qiniuConfig.secret_key
+
+    // var imagesBucket = qiniu.bucket(config.qiniuConfig.bucket_name);
+
+    // app.set('imagesBucket', imagesBucket);
 
 // redis
 // ==========
@@ -119,13 +126,13 @@ function Config (app) {
 
     // log('Use of express session middleware.');
     app.use(express.session({
-        key: "perber",
+        key: config.session.key,
         store: app.get('sessionStore')
     }));
   
     // log('Use of passport middlewares.');
-    app.use(passport.initialize());
-    app.use(passport.session());
+    // app.use(passport.initialize());
+    // app.use(passport.session());
 
     // log('Use of express router.');
     app.use(app.router);

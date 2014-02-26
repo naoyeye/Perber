@@ -33,6 +33,7 @@
     },
 
     "session" : {
+        "key" : "yourbestKey",
         "secret" : "yourbestsecret"
     },
     "app": {
