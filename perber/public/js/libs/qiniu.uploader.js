@@ -292,7 +292,7 @@ if (typeof FileReader == "undefined") {
 
     var Qiniu_Progresses = [];
 
-    var Qiniu_UploadUrl = "http://localhost:6789/qiniu_upload";
+    var Qiniu_UploadUrl = "/qiniu_upload";
     // var Qiniu_UploadUrl = "http://up.qiniu.com";
 
     var Qiniu_file = undefined;
