@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-02-26 20:40:51
+* @Last Modified time: 2014-02-26 21:16:36
 */
 
 
@@ -204,10 +204,12 @@ function Routes (app) {
             if(!err) {
               // 上传成功， 处理返回值
               console.log(ret.key, ret.hash);
+              res.json({hash: ret.hash, key:ret.key})
               // ret.key & ret.hash
             } else {
               // 上传失败， 处理返回代码
               console.log(err);
+              res.json(err)
               // http://docs.qiniu.com/api/put.html#error-code
             }
           });

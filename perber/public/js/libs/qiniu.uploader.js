@@ -751,7 +751,7 @@ if (typeof FileReader == "undefined") {
     //普通上传
     var Qiniu_upload = function(f, key) {
 
-        console.log('普通上传 1111 key = ', key)
+        // console.log('普通上传 1111 key = ', key)
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', Qiniu_UploadUrl, true);
@@ -762,7 +762,7 @@ if (typeof FileReader == "undefined") {
             formData.append(k, Qiniu_params[k]);
         }
 
-        console.log('Qiniu_token', Qiniu_token)
+        // console.log('Qiniu_token', Qiniu_token)
 
         formData.append('token', Qiniu_token);
         formData.append('file', f);
