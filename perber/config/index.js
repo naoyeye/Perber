@@ -6,7 +6,7 @@ var log = require('debug')('perber:config'),
         express = require('express'),
         redis = require('redis'),
         RedisStore = require('connect-redis')(express),
-        // passport = require('passport'),
+        passport = require('passport'),
         path = require('path'),
         url = require('url'),
         config = {},
@@ -131,8 +131,8 @@ function Config (app) {
     }));
   
     // log('Use of passport middlewares.');
-    // app.use(passport.initialize());
-    // app.use(passport.session());
+    app.use(passport.initialize());
+    app.use(passport.session());
 
     // log('Use of express router.');
     app.use(app.router);

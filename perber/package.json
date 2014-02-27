@@ -11,6 +11,7 @@
     "socket.io": "~0.9.16",
     "redis": "0.7.2",
     "connect-redis": "1.4.x",
+    "passport": "~0.1.17",
     "type-component": "0.0.1",
     "validator": "2.0.0",
     "mysql": "2.0.1",

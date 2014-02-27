@@ -292,12 +292,12 @@ if (typeof FileReader == "undefined") {
 
     var Qiniu_Progresses = [];
 
-    var Qiniu_UploadUrl = "/qiniu_upload";
-    // var Qiniu_UploadUrl = "http://up.qiniu.com";
+    // var Qiniu_UploadUrl = "/qiniu_upload";
+    var Qiniu_UploadUrl = "http://up.qiniu.com";
 
     var Qiniu_file = undefined;
 
-    //请求上传凭证时附带的客户端参数，用于生成uptoken
+    //请求上传凭证时附带的客户端参数，用于生成 uptoken
     //如：提交自定义的表单
     var Qiniu_putExtra = undefined;
 
@@ -313,17 +313,27 @@ if (typeof FileReader == "undefined") {
             Qiniu_onUpToken(Qiniu_token);
             return;
         }
+
         var xhr = new XMLHttpRequest();
         xhr.open('POST', Qiniu_signUrl, true);
+        // xhr.responseType('json');
         formData = new FormData();
         if (Qiniu_putExtra) {
+            // console.log(1)
+            console.log('Qiniu_putExtra', Qiniu_putExtra)
             formData.append('putExtra', Qiniu_putExtra);
         }
         xhr.onreadystatechange = function(response) {
+            console.log('后端返回response', response)
+            // console.log('xhr = ', xhr)
             if (xhr.readyState == 4 && xhr.status == 200 && response != "") {
-                Qiniu_onUpToken(xhr.responseText);
+                console.log('请求后端的token')
+                console.log('xhr.responseText', JSON.parse(xhr.responseText))
+                var toooooo = JSON.parse(xhr.responseText).token;
+                Qiniu_onUpToken(toooooo);
             }
         }
+
         // console.log('formData', formData)
         xhr.send(formData);
         Qiniu_xhring = xhr;
@@ -600,14 +610,17 @@ if (typeof FileReader == "undefined") {
     };
 
 
-
+    // 这里才是真正的上传 T_T 写的真啰嗦啊
     var Qiniu_Upload = function(file, key) {
 
-        // console.log('file = ', file)
+        console.log('这里才是真正的上传 T_T 写的真啰嗦啊')
 
 
         Qiniu_key = key;
         Qiniu_file = file;
+
+
+
         if (!Qiniu_file) {
             if (events["putFailure"]) {
                 fireEvent("putFailure")("上传文件未指定");
@@ -616,6 +629,8 @@ if (typeof FileReader == "undefined") {
         }
 
         var f = Qiniu_file;
+
+
         //============
         if (Qiniu_historyTag) {
             console.log("get cookie:", QINIU_HISTORY + f.name);
@@ -634,12 +649,16 @@ if (typeof FileReader == "undefined") {
         if (!Qiniu_signUrl && !Qiniu_token) {
             if (events["putFailure"]) {
                 fireEvent("putFailure")("signUrl或token未指定");
+                console.log('signUrl或token未指定')
             }
             return;
         }
         if (events["beforeUp"]) {
             fireEvent("beforeUp")();
         }
+
+        console.log('准备： //请求uptoken完成回调')
+
         //请求uptoken完成回调
         Qiniu_onUpToken = function(token) {
 
@@ -659,7 +678,11 @@ if (typeof FileReader == "undefined") {
             var size = f.size;
             Qiniu_isUploading = true;
             if (size < Qiniu_BLKSize) {
+                console.log('切换回去了？')
+
+                // 前方高能！！@
                 Qiniu_upload(f, key);
+
             } else {
                 Qiniu_ResumbleUpload(f, key);
             }
@@ -751,10 +774,17 @@ if (typeof FileReader == "undefined") {
     //普通上传
     var Qiniu_upload = function(f, key) {
 
-        // console.log('普通上传 1111 key = ', key)
+        console.log('普通上传 1111 key = ', key)
 
         var xhr = new XMLHttpRequest();
+
+
+
         xhr.open('POST', Qiniu_UploadUrl, true);
+
+        // xhr.open('POST', '/qiniu_upload', true);
+
+
         var formData, startDate;
         formData = new FormData();
         if (key !== null && key !== undefined) formData.append('key', key);
@@ -762,11 +792,18 @@ if (typeof FileReader == "undefined") {
             formData.append(k, Qiniu_params[k]);
         }
 
-        // console.log('Qiniu_token', Qiniu_token)
+        console.log('普通上传 Qiniu_token', Qiniu_token)
+        console.log('普通上传 file', f)
 
         formData.append('token', Qiniu_token);
         formData.append('file', f);
+        formData.append('callbackBody', "name=$(fname)&hash=$(etag)&location=$(x:location)&=$(x:prise)")
+        // formData.append('testFile', file);
+
+        // console.log('普通上传 formData', formData)
+
         var taking;
+
         xhr.upload.addEventListener("progress", function(evt) {
             if (evt.lengthComputable) {
 
@@ -782,6 +819,7 @@ if (typeof FileReader == "undefined") {
                     formatSpeed = uploadSpeed.toFixed(2) + "Kb\/s";
                 }
                 var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                console.log('percentComplete', percentComplete)
                 if (events["progress"]) {
                     fireEvent("progress")(percentComplete, formatSpeed);
                 }
@@ -820,7 +858,7 @@ if (typeof FileReader == "undefined") {
     };
 
     window.Q = window.Qiniu = {
-        Upload: Qiniu_upload,
+        Upload: Qiniu_Upload,
         Stop: function() {
             if (Qiniu_xhring) {
                 Qiniu_xhring.abort();

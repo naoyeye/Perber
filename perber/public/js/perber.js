@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-26 19:49:15
+* @Last Modified time: 2014-02-27 22:20:15
 */
 
 
@@ -259,7 +259,7 @@ delete msg
 
         // replace img
         var sinaImgReg = /(http:\/\/ww[0-9]{1}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g,
-            perberImageReg = /(http:\/\/perber.qiniudn.com\/[a-zA-Z0-9]+)/g,
+            perberImageReg = /(http:\/\/[a-zA-Z0-9_\-]+.qiniudn.com\/[a-zA-Z0-9]+)/g,
             // doubanImgReg = /(http:\/\/img[0-9]{1}.douban.com\/view\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/public\/[a-zA-Z0-9]+.[a-z]{3})/g,
             instagramImgReg = /(http:\/\/distilleryimage[0-9]{1,2}.ak.instagram.com\/[a-zA-Z0-9_]+.jpg)/g,
             linkReg = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
@@ -619,8 +619,11 @@ delete msg
 
 // =============filedrop==============
 
+
+
+
     $('.chat-input').filedrop({
-        fallback_id: 'upload_button',
+        // fallback_id: 'upload_button',
         withCredentials: true,
         // data: {
         //     param1: 'value1',           // send POST variables
@@ -636,22 +639,25 @@ delete msg
         allowedfileextensions: ['.jpg','.jpeg','.png','.gif'],
         maxfiles: 1,
         maxfilesize: 2, //最大2M
-        url: '/upload',
+        url: '/sign',
 
         error: function(err, file) {
             switch(err) {
                 case 'BrowserNotSupported':
-                    alert('browser does not support HTML5 drag and drop')
+                    // alert('browser does not support HTML5 drag and drop')
+                    notice('error', '你的浏览器不支持拖拽上传', 2000)
                     break;
                 case 'TooManyFiles':
                     // user uploaded more than 'maxfiles'
-                    alert('添加一张就可以了');
+                    // alert('添加一张就可以了');
+                    notice('error', '添加一张就可以了', 2000)
                     break;
                 case 'FileTooLarge':
                     // program encountered a file whose size is greater than 'maxfilesize'
                     // FileTooLarge also has access to the file which was too large
                     // use file.name to reference the filename of the culprit file
-                    alert(file.name+' 太大了，请上传不超过2M的');
+                    // alert(file.name+' 太大了，请上传不超过2M的');
+                    notice('error', file.name + ' 太大了，请上传不超过2M的', 2000)
                     break;
                 case 'FileTypeNotAllowed':
                     // The file type is not in the specified list 'allowedfiletypes'
@@ -686,51 +692,168 @@ delete msg
             $(this).removeClass('dragOver');
         },
         uploadStarted: function(i, file, len){
-            // a file began uploading
-            // i = index => 0, 1, 2, 3, 4 etc
-            // file is the actual file of the index
-            // len = total files user dropped
-            // console.log('upload started')
-            showUploadProgress();
+            // // a file began uploading
+            // // i = index => 0, 1, 2, 3, 4 etc
+            // // file is the actual file of the index
+            // // len = total files user dropped
+            // // console.log('upload started')
+
+
+            console.log('开始上传')
+
+            // var $t = $('.chat-input');
+
+            // showUploadProgress();
+
+            // if (file && len) {
+
+            //     $t.attr('state','start');
+
+            //     if (Q.IsUploading()) {
+            //         notice('error', '别着急，一个一个来', 2000);
+            //         return
+            //     }
+
+            //     if ($t.attr("state") == "pause") {
+            //         $t.attr("state", "go-on");
+            //         Q.Pause();
+            //         return;
+            //     }
+
+            //     if ($t.attr("state") == "go-on") {
+            //         $t.attr("state", "pause");
+            //         Q.Resume();
+            //         return;
+            //     }
+
+
+            //     if ($t.attr("state") == "start") {
+
+            //         Q.addEvent("beforeUp", function() {
+            //             extra = new Object();
+            //             var base64 = base64encode(file.name.replace(/[ ]/g, "")),
+            //                 time = new Date().getTime();
+            //             var key = base64 + '_' + time;
+            //             extra.key = key;
+            //             Q.SetPutExtra(JSON.stringify(extra));
+            //         });
+
+
+
+            //         Q.addEvent("progress", function(Qprogress, speed) {
+            //             console.log('progress =', Qprogress)
+            //             console.log('speed =', speed)
+            //         });
+
+
+
+            //         var up = function() {
+            //             // console.log("up...")
+            //             // if (files_arr && files_arr.length) {
+            //             //     $("#btn_upload").prop("disabled", true)
+            //             //     var f = files_arr.pop();
+            //             //     var key = getKey(f.name);
+            //             //     $(this).attr("state", "pause");
+            //             //     $(this).html('<span class="glyphicon glyphicon-pause"></span>暂停');
+            //             //     console.log("uploading file:", f.name, " key:", key);
+            //             //     Q.Upload(f, key);
+            //             // } else {
+            //             //     $("#btn_upload").prop("disabled", false)
+            //             //     alert("所有文件上传完成！");
+            //             // }
+
+            //             var base64 = base64encode(file.name.replace(/[ ]/g, "")),
+            //                 time = new Date().getTime();
+            //             var key = base64 + '_' + time;
+            //             // console.log('key =', base64encode(key));
+            //             console.log('开始上传')
+            //             console.log("uploading file:", file.name, " key:", key);
+            //             $t.attr("state", "pause");
+            //             Q.Upload(file, key);
+            //         }
+
+            //         up();
+
+            //         return;
+
+            //     }
+
+
+            // }
         },
         uploadFinished: function(i, file, response, time) {
-            // response is the data you got back from server in JSON format.
-            // console.log(response)
+            // // response is the data you got back from server in JSON format.
+            // // console.log(response)
 
             // if(response.err){
             //     console.log('上传出错', response.err)
             // }
-            if(response.key){
-                // console.log('上传完成,key=', response.key)
-                // 隐藏进度条
-                hideUploadProgress();
-                // 显示图片预览
-                var img = {
-                    key: response.key,
-                    path : 'http://perber.qiniudn.com/' + response.key + '?imageView/1/w/200/h/200'
-                };
-                showPreview(img);
-                // $('.chat-input textarea').val();
-            }
-            if( response.progress ){
-                console.log('progress' , progress)
-            }
-            console.log('response = ', response)
+
+            // console.log('uploadFinished !!!! response = ', response)
+
+            // // if(response.key){
+            // //     // console.log('上传完成,key=', response.key)
+            // //     // 隐藏进度条
+            // //     hideUploadProgress();
+            // //     // 显示图片预览
+            // //     var img = {
+            // //         key: response.key,
+            // //         path : 'http://'+ Bucket +'.qiniudn.com/' + response.key + '?imageView/1/w/200/h/200'
+            // //     };
+            // //     showPreview(img);
+            // //     // $('.chat-input textarea').val();
+            // // }
+            // // if( response.progress ){
+            // //     console.log('uploadFinished !!! progress' , progress)
+            // // }
+
+
+            // if(response.token){
+
+            //     var token = response.token;
+
+            //     console.log(Q)
+
+            //     // console.log(Q.Upload)
+
+
+
+            //     // Q.Qiniu_putblk.Qiniu_onUpToken(response.token)
+            // }
+            
+
+
+
+
+
+
+
         },
         progressUpdated: function(i, file, progress) {
-            // this function is used for large files and updates intermittently
-            // progress is the integer value of file being uploaded percentage to completion
+            // // this function is used for large files and updates intermittently
+            // // progress is the integer value of file being uploaded percentage to completion
             // console.log('progress updated')
             // console.log('progressUpdated progress', progress)
 
-            // todo
-            // console.log('progress = ', progress)
-            // $('.chat-input .progress .bar').width(progress+"%");
+            // // todo
+            // // console.log('progress = ', progress)
+            // // $('.chat-input .progress .bar').width(progress+"%");
+
+            // Q.addEvent("progress", function(Qprogress, speed) {
+            //     console.log('progress =', Qprogress)
+            //     console.log('speed =', speed)
+            // });
         },
         globalProgressUpdated: function(progress) {
-            // progress for all the files uploaded on the current instance (percentage)
-            // ex: $('#progress div').width(progress+"%");
+            // // progress for all the files uploaded on the current instance (percentage)
+            // // ex: $('#progress div').width(progress+"%");
             // console.log('globalProgressUpdated progress', progress)
+
+            // Q.addEvent("progress", function(Qprogress, speed) {
+            //     console.log('Qprogress =', Qprogress)
+            //     console.log('speed =', speed)
+            //     $('.chat-input .progress .bar').width(Qprogress + "%");
+            // });
         },
         speedUpdated: function(i, file, speed) {
             // speed in kb/s
@@ -756,9 +879,132 @@ delete msg
             // 判断是不是已经上传了图片并且未发布
             if($('#imagePreview').size() > 0 ){
                 notice('error', '别着急，一个一个来', 2000)
+
             } else {
-                done();
+
+                extra = new Object();
+                var key = file.name.replace(/[ ]/g, "");
+                extra.key = base64encode(key);
+
+                // 在开始上传之前，先去后端拿token
+                $.ajax({ 
+                    url: '/sign',
+                    type: 'POST',
+                    cache: false,
+                    data: { putExtra: JSON.stringify(extra)},
+                    dataType : "json",
+                    success: function(res){
+                        // 拿到token后，准备直接向qiniu上传文件
+                        // 需要把拿到的token传给upload
+
+
+                        var events = new Object();
+                        var addEvent = function(type, fn) {
+                            events[type] = fn;
+                        };
+                        var fireEvent = function(type) {
+                            return events[type];
+                        };
+
+
+                        var token = res.token;
+
+                        // var Qiniu_UploadUrl = "http://up.qiniu.com";
+                        var Qiniu_UploadUrl = "/qiniu_upload";
+
+                        // var Qiniu_Progresses.length = 0;
+                        var Qiniu_chunks = 0;
+                        var Qiniu_taking = 0;
+                        var Qiniu_status = null;
+                        var size = file.size;
+                        var Qiniu_isUploading = true;
+
+                        var xhr = new XMLHttpRequest();
+
+                        xhr.open('POST', Qiniu_UploadUrl, true);
+
+                        // xhr.open('POST', '/qiniu_upload', true);
+
+
+                        var formData, startDate;
+                        formData = new FormData();
+
+                        // if (key !== null && key !== undefined) formData.append('key', key);
+                        // for (var k in Qiniu_params) {
+                        //     formData.append(k, Qiniu_params[k]);
+                        // }
+
+                        formData.append('token', token);
+                        formData.append('file', file);
+                        // formData.append('callbackBody', "name=$(fname)&hash=$(etag)&location=$(x:location)&=$(x:prise)")
+                        // formData.append('testFile', file);
+
+                        // console.log('普通上传 formData', formData)
+
+                        var taking;
+
+                        xhr.upload.addEventListener("progress", function(evt) {
+                            if (evt.lengthComputable) {
+
+                                var nowDate = new Date().getTime();
+                                taking = nowDate - startDate;
+                                var x = (evt.loaded) / 1024;
+                                var y = taking / 1000;
+                                var uploadSpeed = (x / y);
+                                var formatSpeed;
+                                if (uploadSpeed > 1024) {
+                                    formatSpeed = (uploadSpeed / 1024).toFixed(2) + "Mb\/s";
+                                } else {
+                                    formatSpeed = uploadSpeed.toFixed(2) + "Kb\/s";
+                                }
+                                var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                                console.log('percentComplete', percentComplete)
+                                // if (events["progress"]) {
+                                //     fireEvent("progress")(percentComplete, formatSpeed);
+                                // }
+                            }
+
+                        }, false);
+
+                        // putFinished or putFailure
+                        xhr.onreadystatechange = function(response) {
+                            console.log(111)
+                            console.log(response)
+                            if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
+                                Qiniu_taking += taking;
+                                //checksum,crc32,ctx,host,offset
+                                var blkRet = JSON.parse(xhr.responseText);
+                                if (blkRet && events["putFinished"]) {
+                                    Qiniu_isUploading = false;
+                                    fireEvent("putFinished")(file.size, blkRet, Qiniu_taking);
+                                }
+                            } else if (xhr.status != 200 && xhr.responseText) {
+                                console.log('xhr.responseText', xhr.responseText)
+                                console.log('response', response)
+                                Qiniu_isUploading = false;
+                                fireEvent("putFailure")(xhr.responseText);
+                            }
+                        };
+
+                        startDate = new Date().getTime();
+                        xhr.send(formData);
+
+
+                       // $('#imagePreview').remove();
+
+                    },
+                    error: function(jqXHR, textStatus, err){
+                        // console.log(jqXHR)
+                        // console.log(textStatus)
+                        // console.log(err.error)
+                        // todo error dialog
+                    }
+                })
+
+                // done();
             }
+
+
         },
         afterAll: function() {
             // console.log('afterAll')
@@ -771,15 +1017,11 @@ delete msg
 
 
 
-
-
-
-
-
-        var Bucket = "perber";
+        var Bucket = $('.chat-input').data('bucket');
             Q.Histroy(false);
-            Q.SignUrl("/qiniu_upload");
+            Q.SignUrl("/sign");
             Q.Bucket(Bucket);
+
 
         $("#selectFiles").change(function() {
 
@@ -870,6 +1112,7 @@ delete msg
                         //可以在此回调中添加提交至服务端的额外参数,用于生成上传token
                         //putExtra会
                         Q.addEvent("beforeUp", function() {
+                            console.log('beforeUp!!!!')
                             extra = new Object();
                             var key = getKey(Q.getFile().name);
                             extra.key = key;
@@ -948,7 +1191,6 @@ delete msg
 
 
 
-
     // delete image
     $('.chat-input').on('click', '#previewControl .delete', function(){
         var $e = $(this),
@@ -961,13 +1203,15 @@ delete msg
             cache: false,
             data: { key: key},
             dataType : "json",
-            success: function(data){
+            success: function(res){
+                // console.log(res)
                $('#imagePreview').remove();
+
             },
             error: function(jqXHR, textStatus, err){
-                console.log(jqXHR)
-                console.log(textStatus)
-                console.log(err.error)
+                // console.log(jqXHR)
+                // console.log(textStatus)
+                // console.log(err.error)
                 // todo error dialog
             }
         })
@@ -977,7 +1221,7 @@ delete msg
         var $e = $(this),
             key = $e.data('id').toString();
             socket.emit('my msg', {
-                msg: 'http://perber.qiniudn.com/' + key + '?imageView/1/w/500/h/500',
+                msg: 'http://'+ Bucket +'.qiniudn.com/' + key + '?imageView/1/w/500/h/500',
                 imgKey: key // 把图片key保存到数据库
             });
             $('#imagePreview').remove();

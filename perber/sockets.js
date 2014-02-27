@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-26 14:09:04
+* @Last Modified time: 2014-02-27 21:40:11
 */
 
 
@@ -34,7 +34,7 @@ function Sockets (app, server) {
     var config = app.get('config');
     var client = app.get('redisClient');
     var mysql = app.get('mysqlClient');
-    var sessionStore = app.get('sessionStore');
+    var sessionStore = app.get('sessionStore'); // redis
     var imagesBucket = app.get('imagesBucket');
 
     var io = sio.listen(server,{
@@ -65,6 +65,8 @@ function Sockets (app, server) {
 
             });
         } else {
+
+            // console.log('No cookie transmitted!!')
             return accept('No cookie transmitted.', false);
         }
     });
@@ -110,6 +112,10 @@ function Sockets (app, server) {
 
 
         client.sadd('sockets:for:' + userKey + ':at:' + room_id, socket.id, function(err, socketAdded) {
+
+            console.log('socketAdded!!!')
+
+
             if(socketAdded) {
                 client.sadd('socketio:sockets', socket.id);
                 client.sadd('rooms:' + room_id + ':online', userKey, function(err, userAdded) {
@@ -181,6 +187,8 @@ function Sockets (app, server) {
 // delete message
         socket.on('delete message', function(data) {
 
+            console.log('data = ', data);
+
             // 判断是不是带有imgKey
             if(data.imgKey){
 
@@ -189,6 +197,7 @@ function Sockets (app, server) {
                 // 从数据库删除图片
                 mysql.query('DELETE FROM Images WHERE msgID = ? and imgKey = ?', command, function(error, results) {
                     if(error) {
+                        console.log('从数据库删除图片')
                         console.log("mysql delete Image Error: " + error.message);
                         // mysql.end();
                         return;
@@ -199,9 +208,8 @@ function Sockets (app, server) {
                 imagesBucket.key(data.imgKey).remove(
                     function(err) {
                         if (err) {
+                            console.log('从qiniu删除图片出错')
                             console.log(err)
-                        } else {
-                            // console.log('成功从qiniu删除图片')
                         }
                     }
                 );
@@ -261,7 +269,7 @@ function Sockets (app, server) {
             //     // console.log('push a history response======!')
 
             // });
-            
+
 
             // todo // limit 500
             mysql.query( 'SELECT * FROM Messages ORDER BY id DESC LIMIT 500', function selectCb(error, results, fields) {
@@ -288,28 +296,29 @@ function Sockets (app, server) {
 
         });
 
-        // socket.on('disconnect', function() {
-        //   // 'sockets:at:' + room_id + ':for:' + userKey
-        //     client.srem('sockets:for:' + userKey + ':at:' + room_id, socket.id, function(err, removed) {
-        //         if(removed) {
-        //             client.srem('socketio:sockets', socket.id);
-        //             client.scard('sockets:for:' + userKey + ':at:' + room_id, function(err, members_no) {
-        //                 if(!members_no) {
-        //                     client.srem('rooms:' + room_id + ':online', userKey, function(err, removed) {
-        //                         if (removed) {
-        //                             client.hincrby('rooms:' + room_id + ':info', 'online', -1);
-        //                             // chatlogWriteStream.destroySoon();
-        //                             io.sockets.in(room_id).emit('user leave', {
-        //                                 nickname: nickname,
-        //                                 // avatar: avatar,
-        //                                 provider: provider
-        //                             });
-        //                         }
-        //                     });
-        //                 }
-        //             });
-        //         }
-        //     });
-        // });
+        socket.on('disconnect', function() {
+            console.log('disconnect!!!')
+          // 'sockets:at:' + room_id + ':for:' + userKey
+            client.srem('sockets:for:' + userKey + ':at:' + room_id, socket.id, function(err, removed) {
+                if(removed) {
+                    client.srem('socketio:sockets', socket.id);
+                    client.scard('sockets:for:' + userKey + ':at:' + room_id, function(err, members_no) {
+                        if(!members_no) {
+                            client.srem('rooms:' + room_id + ':online', userKey, function(err, removed) {
+                                if (removed) {
+                                    client.hincrby('rooms:' + room_id + ':info', 'online', -1);
+                                    // chatlogWriteStream.destroySoon();
+                                    io.sockets.in(room_id).emit('user leave', {
+                                        nickname: nickname,
+                                        // avatar: avatar,
+                                        provider: provider
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
     });
 };
