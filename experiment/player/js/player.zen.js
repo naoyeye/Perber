@@ -28,7 +28,7 @@ $(document).ready(function(){
       		$(this).jPlayer("setMedia", {
     			// m4a: "/media/2012/07/30/song.m4a",
     			// mp3: "player/media/aria.mp3"
-    			mp3: "http://m5.file.xiami.com/534/14534/123327/1715017_2705427_l.mp3?auth_key=7356f6f29c5e6dee48773b753893c442-1393459200-0-null"
+    			mp3: "http://m5.file.xiami.com/1/312/10312/54497/1122173_132133_l.mp3?auth_key=7e1f8f150925fd1c4eda3cc3f280c0bc-1393545600-0-null"
         		//oga: "media/2012/07/30/song.ogg"
       		});
     	},
