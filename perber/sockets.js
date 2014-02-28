@@ -2,11 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-<<<<<<< HEAD
-* @Last Modified time: 2014-02-28 01:50:25
-=======
-* @Last Modified time: 2014-02-28 14:14:18
->>>>>>> 8de341fbacf0dcd4c39fe3973dfc8023fc478538
+* @Last Modified time: 2014-02-28 15:58:05
 */
 
 
