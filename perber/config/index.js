@@ -12,6 +12,7 @@ var log = require('debug')('perber:config'),
         config = {},
         env = require('./env'),
         qiniu = require('qiniu'),
+        nodeQiniu = require('node-qiniu'),
         utils = require('../utils');
 
 /**
@@ -65,14 +66,17 @@ function Config (app) {
 
 // qiniu
 // ==========
-    // qiniu.config({
-    //     access_key: config.qiniuConfig.access_key,
-    //     secret_key: config.qiniuConfig.secret_key
-    // });
-    // var imagesBucket = qiniu.bucket(config.qiniuConfig.bucket_name);
 
-    // app.set('imagesBucket', imagesBucket);
+    // node qiniu
+    nodeQiniu.config({
+        access_key: config.qiniuConfig.access_key,
+        secret_key: config.qiniuConfig.secret_key
+    });
+    var imagesBucket = nodeQiniu.bucket(config.qiniuConfig.bucket_name);
 
+    app.set('imagesBucket', imagesBucket);
+
+    // qiniu
     qiniu.conf.ACCESS_KEY = config.qiniuConfig.access_key
     qiniu.conf.SECRET_KEY = config.qiniuConfig.secret_key
 
