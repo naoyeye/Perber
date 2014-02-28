@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-28 16:44:47
+* @Last Modified time: 2014-02-28 18:07:27
 */
 
 
@@ -754,7 +754,12 @@ delete msg
                                 var percentComplete = Math.round(evt.loaded * 100 / evt.total);
                                 // console.log('percentComplete', percentComplete)
 
+
                                 $('.chat-input .progress .bar').height(percentComplete+"%");
+
+                                if(percentComplete == '100'){
+                                    $('#upimg .bar').html('<i class="fa fa-spinner fa-spin"></i>')
+                                }
 
                             }
 
@@ -773,9 +778,10 @@ delete msg
                                 hideUploadProgress();
 
                                 $('#imageThumb').remove();
+
                                 $('#upimg').css({
                                     'background':'none',
-                                    'box-shadoe': 'none'
+                                    'box-shadow': 'none'
                                 })
 
                                 // console.log('blkRet', blkRet)
