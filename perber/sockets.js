@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-27 21:40:11
+* @Last Modified time: 2014-02-28 01:50:25
 */
 
 
@@ -47,7 +47,7 @@ function Sockets (app, server) {
     io.set('authorization', function (hsData, accept) {
         if(hsData.headers.cookie) {
             var cookies = parseCookies(cookie.parse(hsData.headers.cookie), config.session.secret),
-            sid = cookies['perber'];
+            sid = cookies[config.session.key];
 
             sessionStore.load(sid, function(err, session) {
                 if(err || !session) {
