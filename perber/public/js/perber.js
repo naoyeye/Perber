@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-28 15:50:22
+* @Last Modified time: 2014-02-28 16:44:47
 */
 
 
@@ -676,7 +676,7 @@ delete msg
                 new_file = file;
 
                 $('#upimg').fadeIn().css({
-                    'background':'#fff'
+                    'background':'#fff',
                 });
 
                 var reader = new FileReader();
@@ -774,7 +774,8 @@ delete msg
 
                                 $('#imageThumb').remove();
                                 $('#upimg').css({
-                                    'background':'none'
+                                    'background':'none',
+                                    'box-shadoe': 'none'
                                 })
 
                                 // console.log('blkRet', blkRet)
@@ -1421,7 +1422,7 @@ delete msg
             dataType : "json",
             success: function(res){
                 // console.log(res)
-               $('#upimg').html('');
+               $('#upimg').html('').hide();
 
             },
             error: function(jqXHR, textStatus, err){
