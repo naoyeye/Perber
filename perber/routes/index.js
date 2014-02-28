@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-02-27 19:15:17
+* @Last Modified time: 2014-02-28 14:52:21
 */
 
 
@@ -32,6 +32,7 @@ function Routes (app) {
     var config = app.get('config');
     var client = app.get('redisClient');
     var mysql = app.get('mysqlClient');
+    var imagesBucket = app.get('imagesBucket');
   
     /*
     * Homepage
@@ -161,83 +162,12 @@ function Routes (app) {
 
 
     app.post('/sign', function(req, res, next){
-        
-        // console.log('req======= sign start =======')
-        // console.log(req)
-        // console.log('req======= sign end =======')
-
-
+        // console.log(req.body)
         var bucketname = config.qiniuConfig.bucket_name;
         var putPolicy = new qiniu.rs.PutPolicy(bucketname);
         var token = putPolicy.token();
         res.json({token : token})
-        console.log('sign!!!!!!!!')
-    })
-
-    // upload to qiniu
-    app.post('/qiniu_upload', function(req, res, next){
-
-        console.log('req======= qiniu_upload start =======')
-        // console.log(req)
-        console.log(req.body)
-        console.log(req.files.file)
-        console.log('req======= qiniu_upload end =======')
-
-        res.json({status: 'success'})
-
-        // var bucketname = config.qiniuConfig.bucket_name;
-        // var key = req.body.key;
-
-        // var localFile = req.files.PerberImage.path;
-
-        // console.log('qiniu_upload - localFile = ', localFile)
-
-        // //生成 uptoken 
-        // var token;
-
-        // function uptoken(bucketname) {
-        //     var putPolicy = new qiniu.rs.PutPolicy(bucketname);
-        //     //putPolicy.callbackUrl = callbackUrl;
-        //     //putPolicy.callbackBody = callbackBody;
-        //     //putPolicy.returnUrl = returnUrl;
-        //     //putPolicy.returnBody = returnBody;
-        //     //putPolicy.asyncOps = asyncOps;
-        //     //putPolicy.expires = expires;
-
-        //     token = putPolicy.token();
-
-        // }
-
-        // uptoken(bucketname);
-
-        // console.log('qiniu_upload -token = ', token)
-
-        // res.json({ token : token })
-
-        // // function uploadFile(localFile, key, uptoken) {
-        // //   var extra = new qiniu.io.PutExtra();
-        // //   //extra.params = params;
-        // //   //extra.mimeType = mimeType;
-        // //   //extra.crc32 = crc32;
-        // //   //extra.checkCrc = checkCrc;
-
-        // //   qiniu.io.putFile(uptoken, key, localFile, extra, function(err, ret) {
-        // //     if(!err) {
-        // //       // 上传成功， 处理返回值
-        // //       console.log(ret.key, ret.hash);
-        // //       res.json({hash: ret.hash, key:ret.key})
-        // //       // ret.key & ret.hash
-        // //     } else {
-        // //       // 上传失败， 处理返回代码
-        // //       console.log(err);
-        // //       res.json(err)
-        // //       // http://docs.qiniu.com/api/put.html#error-code
-        // //     }
-        // //   });
-        // // }
-
-        // // uploadFile(localFile, key, token);
-
+        // console.log('sign!!!!!!!!')
     })
 
 

@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-27 21:40:11
+* @Last Modified time: 2014-02-28 14:14:18
 */
 
 
@@ -187,7 +187,7 @@ function Sockets (app, server) {
 // delete message
         socket.on('delete message', function(data) {
 
-            console.log('data = ', data);
+            // console.log('data = ', data);
 
             // 判断是不是带有imgKey
             if(data.imgKey){

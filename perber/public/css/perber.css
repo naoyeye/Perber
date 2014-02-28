@@ -686,11 +686,60 @@ body{
 
 /* image upload*/
 .chat-input.dragOver{
-    background-color: #ccc;
+    /*background-color: #ccc;*/
+    background: none;
 }
+.chat-input.dragOver:before{
+    content:'拖拽图片到这里';
+    position: absolute;
+    height: 80px;
+    width: 100%;
+    background: #fff;
+    line-height: 80px;
+    /*background: #fff;*/
+    text-align: center;
+    color:#ccc;
+    z-index: -1;
+}
+.chat-input.dragOver:after{
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    /*background: #fff;*/
+    border:3px dashed #eee;
+    z-index: -1;
+}
+
+#upimg{
+    display: none;
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    margin-left: -80px;
+    width: 150px;
+    height: 150px;
+    padding: 5px;
+    background: #fff;
+    text-align: center;
+    line-height: 150px;
+}
+
+#imageThumb{
+    width: 150px;
+    height: 150px;
+}
+
+#imageThumb img.thumb{
+    max-width: 150px;
+    max-height: 150px;
+}
+
 #imagePreview{
     position: absolute;
-    top: 85px;
+    top: 0px;
     left: 50%;
     margin-left: -80px;
     width: 150px;
@@ -733,6 +782,9 @@ body{
     height: 40px;
     margin: 0 auto;
 }
+#previewControl .buttons{
+    vertical-align: top;
+}
 #previewControl .button{
     width: 72px;
     line-height: 1.1;
@@ -755,13 +807,17 @@ body{
 }
 
 .ui.bottom.attached.progress.green{
-    /*width: 0%;*/
-    /*margin-top: -4px;*/
     border-radius: 0;
+    position: absolute;
+    top: 5px;
+    width: 150px;
+    height: 150px;
+    background: none;
 }
 
 .ui.bottom.attached.progress.green .bar{
-    width: 0%;
+    height: 0%;
+    background:rgba(161,207,110,0.7);
 }
 
 
@@ -1389,107 +1445,4 @@ Responsive
 
 
     
-    #txt_serverPath{
-        display: none;
-    }
-    thead {
-        background-color: #efefef;
-    }
-    .q_wrap {
-        width:800px;
-        margin: 0 auto;
-        margin-top: 50px;
-        margin-bottom: 100px;
-    }
-    .fileupload {
-        /*width: 300px;*/
-        margin: 0 auto;
-    }
-    .progress {
-        float: left;
-        width:350px;
-        height: 20px;
-        background: #eee;
-    }
-    .progress-bar {
-        /*width:300px;*/
-        margin-bottom: 0px;
-        height: 20px;
-        background: green;
-    }
-    .toolBar {
-        width:500px;
-        margin: 0 auto;
-        margin-top: 50px;
-    }
-    .bar {
-        text-align:left;
-    }
-    header {
-        text-align: center;
-    }
-    li {
-        list-style-type: none;
-    }
-    .td_fname {
-        width: 250px;
-        height: 70px;
-    }
-    td {
-        vertical-align:middle;
-        border: 1px solid #ccc;
-        padding: 5px;
-    }
-    .pLabel {
-        position: absolute;
-        width: 300px;
-        text-align: center;
-        color: black;
-    }
-    .alert {
-        position: fixed;
-        bottom: 0px;
-    }
-    * {
-        margin:0;
-        padding:0;
-    }
-    a {
-        text-decoration:none;
-    }
-    .btn_addPic {
-        display: block;
-        position: relative;
-        cursor: pointer;
-        text-align: center;
-    }
-    .btn_addPic span {
-        display: block;
-    }
-    .btn_addPic em {
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        overflow: hidden;
-        margin: 10px 5px 10px 0;
-        line-height: 20em;
-        vertical-align: middle;
-    }
-    .filePrew {
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 400px;
-        height: 40px;
-        font-size: 100px;
-        /* 增大不同浏览器的可点击区域 */
-        opacity: 0;
-        /* 实现的关键点 */
-    }
-    .td_pro{
-        width: 400px;
-    }
-    footer{
-        text-align:center;
-    }
+
