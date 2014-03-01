@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-28 12:27:58
+* @Last Modified time: 2014-02-28 22:03:36
 */
 
 
@@ -663,6 +663,7 @@ delete msg
                 }
 
                 //判断文件大小
+
                 if(file.size > 2000000) {
                     notice('error', '艾玛！文件太大了！减减肥，要小于2M才可以。', 2000);
                     return;
@@ -850,6 +851,49 @@ delete msg
     dropZone.addEventListener('dragover', handleDragOver, false);
     dropZone.addEventListener('dragleave', handleDragLeave, false);
     dropZone.addEventListener('drop', handleFileSelect, false);
+
+
+
+
+
+
+    // delete image
+    $('.chat-input').on('click', '#previewControl .delete', function(){
+        var $e = $(this),
+            key = $e.data('id');
+        // console.log('delete key', key);
+
+        $.ajax({ 
+            url: '/delete',
+            type: 'POST',
+            cache: false,
+            data: { key: key},
+            dataType : "json",
+            success: function(res){
+                // console.log(res)
+               $('#upimg').html('').hide();
+
+            },
+            error: function(jqXHR, textStatus, err){
+                console.log(jqXHR)
+                console.log(textStatus)
+                console.log(err.error)
+                // todo error dialog
+            }
+        })
+    })
+    // 发布图片
+    .on('click', '#previewControl .publish', function(){
+        var $e = $(this),
+            key = $e.data('id').toString();
+            // console.log('publish key', key)
+
+            socket.emit('my msg', {
+                msg: 'http://'+ Bucket +'.qiniudn.com/' + key + '?imageView/1/w/500/h/500',
+                imgKey: key // 把图片key保存到数据库
+            });
+            $('#upimg').html('').hide();
+    });
 
 })
 
