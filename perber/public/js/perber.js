@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-28 22:11:42
+* @Last Modified time: 2014-03-01 17:12:46
 */
 
 
@@ -81,7 +81,7 @@ history response
 
 
 /*
-new msg
+get new msg
 */
     socket.on('new msg', function(data) {
         // 时间
@@ -216,6 +216,8 @@ delete msg
     })
 
 
+
+
 /*
 =================
    Say
@@ -230,21 +232,25 @@ delete msg
             case 13:
                 if (!event.shiftKey && inputText){
                     var chunks = inputText.substring(0, 240);//,
-                        //len = chunks.length;
-                    // console.log(chunks)
 
-                    // for(var i = 0; i<len; i++) {
+                    // 检查用户输入的内容是不是虾米的歌曲地址
+                    var xiamiREG = /(http:\/\/www.xiami.com\/song\/[0-9]+)\s?/g;
+
+                    // 如果是虾米音乐，向后端发送数据时，增加一个 'song'
+                    // 然后在后端解析虾米音乐的真实mp3地址
+                    if(xiamiREG.test(chunks)){
+                        socket.emit('my msg', {
+                            msg: chunks,
+                            song: true
+                        });
+                    } else {
                         socket.emit('my msg', {
                             msg: chunks
                         });
-                    // }
-                    
-                    // socket.emit('my msg', {
-                    //     msg: inputText
-                    // });
+                    }
 
+                    // 清空输入框
                     $(this).val('');
-
                     return false;
                 }
                 break;
@@ -258,12 +264,16 @@ delete msg
         // replace emoticons
         // text = injectEmoticons(text);
 
-        // replace img
+        //sina weibo
         var sinaImgReg = /(http:\/\/ww[0-9]{1}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g,
+            // qiniu
             perberImageReg = /(http:\/\/[a-zA-Z0-9_\-]+.qiniudn.com\/[a-zA-Z0-9_=?\/]+)/g,
-            // doubanImgReg = /(http:\/\/img[0-9]{1}.douban.com\/view\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/public\/[a-zA-Z0-9]+.[a-z]{3})/g,
+            // instagram
             instagramImgReg = /(http:\/\/distilleryimage[0-9]{1,2}.ak.instagram.com\/[a-zA-Z0-9_]+.jpg)/g,
-            linkReg = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+            // normal link
+            linkReg = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
+            // xiami
+            xiamiReg = /(http:\/\/www.xiami.com\/song\/[0-9]+)\s?/g;
 
         // replace link and image
         text = text.replace(linkReg, function(e){
@@ -281,9 +291,20 @@ delete msg
                     key = value.replace('com/', '');
                 });
                 result = '<div data-key="'+ key +'" class="imgbox"><div style="background-image:url('+ e +');background-size: cover;"></div></div>';
-            }
-            // link
-            else {
+            } else if(xiamiReg.test(e)){
+                // var songidReg = /(song\/[0-9]+)/g,
+                //     songid;
+                // e.replace(songidReg, function(s,value) {
+                //     console.log('s', s)
+                //     console.log('value', value)
+                //     songid = value.replace('song/', '');
+                // });
+                var sidPattern = /(\d+)/;
+                var songid =  sidPattern.exec(e)[1];
+
+                result = '<embed src="http://www.xiami.com/widget/15289_' + songid + '/singlePlayer.swf" type="application/x-shockwave-flash" width="257" height="33" wmode="transparent"></embed>';
+
+            } else {
                 result = '<a href="' + e + '" target="_blank">'+ e +'</a>';
             }
             return result;

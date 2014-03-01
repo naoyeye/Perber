@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-28 22:06:35
+* @Last Modified time: 2014-03-01 18:29:09
 */
 
 
@@ -14,7 +14,8 @@
 
 var sio = require('socket.io'),
     parseCookies = require('connect').utils.parseSignedCookies,
-    cookie = require('cookie');
+    cookie = require('cookie'),
+    xiami = require('./xiami');
 
 /**
 * Expose Sockets initialization
@@ -139,12 +140,19 @@ function Sockets (app, server) {
         socket.on('my msg', function(data) {
 
             var no_empty = data.msg.replace("\n","");
-            var msgID, havaImg = false;
-            // var time = new Date();
+            var msgID,
+                havaImg = false;
+                isSong = false;
 
             if(data.imgKey){
                 havaImg = true;
             }
+
+            // if(data.song === true){
+            //     isSong = true;
+            //     // xiami url parse
+            //     console.log('xiami(data.msg)', xiami(data.msg))
+            // }
 
             if(no_empty.length > 0) {
                 var chatlogRegistry = [

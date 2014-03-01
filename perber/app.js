@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:41:38
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2013-12-20 01:57:01
+* @Last Modified time: 2014-03-01 17:13:11
 */
 
 
@@ -12,7 +12,7 @@
  */
 
 var express = require('express'),
-    init = require('./init')
+    init = require('./init');
 
 /*
  * Create and config server
@@ -69,6 +69,13 @@ if(app.get('config').credentials) {
  */
 
 require('./sockets')(app, exports.server);
+
+
+/*
+ * Xiami
+ */
+
+require('./xiami')(app, exports.server);
 
 
 /*
