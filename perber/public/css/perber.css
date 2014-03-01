@@ -397,7 +397,14 @@ body{
 }
 
 .chat-box.retained_1 p{
-    border-left: 6px solid #b86158;
+    /*border-left: 6px solid #b86158;*/
+    /*box-shadow: 0 0 0px 2px #d0cebd;*/
+    background: #c7908a;
+    color: #fff;
+}
+
+.chat-box.retained_1 p span{
+    display: none;
 }
 
 .chat-box p.cn{

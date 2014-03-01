@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-28 18:44:24
+* @Last Modified time: 2014-02-28 12:27:58
 */
 
 
@@ -85,8 +85,9 @@ new msg
 */
     socket.on('new msg', function(data) {
         // 时间
-        var time = new Date();
-        data.time = time;
+        // var time = new Date();
+        // data.time = time;
+        console.log('data', data)
 
         // 固定
         data.retained = 0;

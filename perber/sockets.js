@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-28 15:58:05
+* @Last Modified time: 2014-02-28 21:47:57
 */
 
 
@@ -138,8 +138,11 @@ function Sockets (app, server) {
 // new message
         socket.on('my msg', function(data) {
 
+            console.log('socket my msg data', data)
+
             var no_empty = data.msg.replace("\n","");
             var msgID, havaImg = false;
+            // var time = new Date();
 
             if(data.imgKey){
                 havaImg = true;
@@ -147,13 +150,13 @@ function Sockets (app, server) {
 
             if(no_empty.length > 0) {
                 var chatlogRegistry = [
-                    data.msg,
-                    new Date(),
+                    data.msg//,
+                    // time,
                 ]
 
                 var imgKey = data.imgKey;
 
-                mysql.query('INSERT INTO Messages SET message = ?, creation_ts = ?', chatlogRegistry, function(error, results) {
+                mysql.query('INSERT INTO Messages SET message = ?', chatlogRegistry, function(error, results) {
                     if(error) {
                         console.log("mysql INSERT Error: " + error.message);
                         // mysql.end();
@@ -163,6 +166,9 @@ function Sockets (app, server) {
                     // console.log('Id inserted: ' + results.insertId);
 
                     msgID = results.insertId;
+
+                    console.log('results = ', results)
+                    console.log(new Date());
 
                     // 如果带有qiniu图片key, 往图片表里增加记录
                     if(havaImg){
@@ -179,6 +185,7 @@ function Sockets (app, server) {
                     io.sockets.in(room_id).emit('new msg', {
                         id: msgID,
                         msg: data.msg,
+                        time: new Date().valueOf()
                     });
                 });
             }
