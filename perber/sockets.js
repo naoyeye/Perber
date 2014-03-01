@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-28 21:47:57
+* @Last Modified time: 2014-02-28 22:06:35
 */
 
 
@@ -138,8 +138,6 @@ function Sockets (app, server) {
 // new message
         socket.on('my msg', function(data) {
 
-            console.log('socket my msg data', data)
-
             var no_empty = data.msg.replace("\n","");
             var msgID, havaImg = false;
             // var time = new Date();
@@ -167,9 +165,6 @@ function Sockets (app, server) {
 
                     msgID = results.insertId;
 
-                    console.log('results = ', results)
-                    console.log(new Date());
-
                     // 如果带有qiniu图片key, 往图片表里增加记录
                     if(havaImg){
                         var sql = [imgKey, msgID];
@@ -185,7 +180,7 @@ function Sockets (app, server) {
                     io.sockets.in(room_id).emit('new msg', {
                         id: msgID,
                         msg: data.msg,
-                        time: new Date().valueOf()
+                        time: new Date()
                     });
                 });
             }
