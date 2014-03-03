@@ -36,11 +36,11 @@ then: `forever start perer/app.js`
 
 * Web preview in iOS Safari:
 
-![Perber preview in iOS Safari](http://ww4.sinaimg.cn/large/61b8bbf4jw1ebuwin72lrj20hv0jh77r.jpg)
+![Perber preview in iOS Safari](http://ww2.sinaimg.cn/mw690/61b8bbf4gw1ee2vic6rhwj20hs0vkmzm.jpg)
 
 * Fullscreen in Chrome(Mackbook Pro 13):
 
-![Perber fullscreen in Chrome](http://ww1.sinaimg.cn/large/61b8bbf4jw1ebuwldzijuj20zk0m8450.jpg)
+![Perber fullscreen in Chrome](http://ww4.sinaimg.cn/large/61b8bbf4gw1ee2vicc9x2j20zk0m8n0s.jpg)
 
 
 ## Starting point
