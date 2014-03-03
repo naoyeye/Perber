@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-04 01:11:56
+* @Last Modified time: 2014-03-04 02:01:50
 */
 
 
@@ -284,6 +284,7 @@ function Sockets (app, server) {
                                     io.sockets.in(room_id).emit('new song', {
                                         id: msgID,
                                         song: xiamiRealSong,
+                                        songOriginal : pageUrl,
                                         time: new Date()
                                     });
                                 })

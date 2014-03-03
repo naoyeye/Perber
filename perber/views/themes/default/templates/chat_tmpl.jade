@@ -43,8 +43,9 @@ script#music_box(type='text/html')
                     //     .button
                     //         span.icon.play
                     //         span.icon.pause
-
             span.time(title="{{ time }}") {{ time }}
+            span.xiami_icon
+                a(href="{{ songOriginal }}", target="_blank") xiami
 
 script#loading(type="text/html")
    .loading

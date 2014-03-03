@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-04 01:36:54
+* @Last Modified time: 2014-03-04 02:18:42
 */
 
 /*
@@ -452,10 +452,10 @@ figure{
 }
 .cover{
     position: absolute;
-    top: -10px;
-    right: -10px;
-    bottom: -10px;
-    left: -10px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
     background: center center no-repeat;
     -webkit-filter:blur(2px);
     -moz-filter:blur(2px);
@@ -477,6 +477,7 @@ figure{
     right: 0;
     bottom: 0;
     left: 0;
+    border-radius: 5px 5px 0 0;
     background: rgba(0,0,0,0.1);
     -webkit-box-shadow: inset 0px 0px 14px 8px rgba(0,0,0,0.1);
     -moz-box-shadow: inset 0px 0px 14px 8px rgba(0,0,0,0.1);
@@ -487,6 +488,7 @@ figure{
     position: relative;
     line-height: 1;
     text-align: center;
+    border-radius: 5px 5px 0 0;
     z-index: 2;
     height: 100%;
 }
@@ -495,9 +497,9 @@ figure{
     text-align: left;
     opacity: 1;
     top: 0;
-    -moz-transition:opacity 0.4s, top 0.4s;
+/*    -moz-transition:opacity 0.4s, top 0.4s;
     -webkit-transition:opacity 0.4s, top 0.4s;
-    transition:opacity 0.4s, top 0.4s;
+    transition:opacity 0.4s, top 0.4s;*/
 }
 .music_title{
     display: inline-block;
@@ -532,16 +534,36 @@ figure{
     -o-filter:blur(0);
     -ms-filtner:blur(0);
     filter:blur(0);
-
-    -moz-transform:scale(1);
-    -webkit-transform:scale(1);
-    transform:scale(1);
 }
+/*
 .chat-box:hover .music_info{
     top: -100px;
     opacity: 0;
+}*/
+
+.musicBoxWapper span.xiami_icon{
+    position: absolute;
+    bottom: 16px;
+    left: 20px;
+    width: 18px;
+    height: 18px;
+    text-indent: -999em;
+    background: url(../img/fm.xiami.main.png) center center no-repeat;
+    background-size: 18px;
+    opacity: 0.5;
+}
+.musicBoxWapper span.xiami_icon a{
+    display: block;
+    width: 18px;
+    height: 18px;
 }
 
+.chat-box:hover span.xiami_icon{
+    opacity: 1;
+    -moz-transition:opacity 0.4s;
+    -webkit-transition:opacity 0.4s;
+    transition:opacity 0.4s;
+}
 
 
 

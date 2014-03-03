@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-04 01:36:05
+* @Last Modified time: 2014-03-04 02:02:04
 */
 
 
@@ -163,13 +163,13 @@ get new msg
             data.lang = 'cn';
         }
 
-        // console.log('data', data)
+        console.log('data', data)
 
         var time = new Date(data.time);
 
         var musicBoxData = {
             id: data.id,
-            songOriginal: data.message,
+            songOriginal: data.songOriginal,
             title: data.song.title,
             artist: data.song.artist,
             cover: data.song.cover,
