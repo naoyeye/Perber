@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-03 20:56:05
+* @Last Modified time: 2014-03-04 00:05:13
 */
 
 /*
@@ -533,9 +533,9 @@ figure{
     -ms-filter:blur(0);
     filter:blur(0);
 
-    -moz-transform:scale(1.1);
-    -webkit-transform:scale(1.1);
-    transform:scale(1.1);
+    -moz-transform:scale(1);
+    -webkit-transform:scale(1);
+    transform:scale(1);
 }
 .chat-box:hover .music_info{
     top: -100px;

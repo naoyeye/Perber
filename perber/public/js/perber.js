@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-03 20:40:56
+* @Last Modified time: 2014-03-04 00:14:57
 */
 
 
@@ -157,16 +157,28 @@ get new msg
         data.retained = 0;
 
         // 语言
-        if(isChinese(data.song)){
+        if(isChinese(data.message)){
             data.lang = 'en';
         } else {
             data.lang = 'cn';
         }
 
-        console.log('get new song', data)
+        // console.log('data', data)
 
-        // 模板处理
-        var $boxes = parseMusicBox(ich.music_box(data));
+        var time = new Date(data.time);
+
+        var musicBoxData = {
+            id: data.id,
+            songOriginal: data.message,
+            title: data.song.title,
+            artist: data.song.artist,
+            cover: data.song.cover,
+            location: data.song.location,
+            retained : data.retained,
+            time: time.format("yyyy-MM-dd hh:mm:ss")
+        };
+
+        var $boxes = parseMusicBox(ich.music_box(musicBoxData));
 
         if(chat.find('.chat-box').length === 0) {
             chat.prepend( $boxes );
@@ -174,6 +186,9 @@ get new msg
         } else {
             chat.prepend( $boxes ).masonry('prepended', $boxes);
         }
+
+        // 初始化播放器
+        initCirclePlayer();
 
         // todo 优化性能
         $(".time").timeago();
@@ -892,14 +907,19 @@ delete msg
     function initCirclePlayer(){
         $('.cp-jplayer').each(function(i, el){
             var $t = $(this);
-            var id = $t.data('id'),
-                location = $t.data('location');
-            var myCirclePlayer = new CirclePlayer("#jquery_jplayer_" + id, {
-                mp3: location
-            }, {
-                cssSelectorAncestor: "#cp_container_"+id,
-                supplied:"mp3"
-            });
+            if($t.data('inited') !== '1'){
+                var id = $t.data('id'),
+                    location = $t.data('location');
+
+                $t.data('inited', '1');
+
+                var myCirclePlayer = new CirclePlayer("#jquery_jplayer_" + id, {
+                    mp3: location
+                }, {
+                    cssSelectorAncestor: "#cp_container_"+id,
+                    supplied:"mp3"
+                });
+            }
         })
     }
 
