@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-04 02:02:04
+* @Last Modified time: 2014-03-04 02:21:16
 */
 
 
@@ -163,7 +163,7 @@ get new msg
             data.lang = 'cn';
         }
 
-        console.log('data', data)
+        // console.log('data', data)
 
         var time = new Date(data.time);
 
