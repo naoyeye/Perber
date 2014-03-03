@@ -1,10 +1,49 @@
 script#chat_box(type='text/html')
-        .chat-box(data-id="{{ id }}", data-retained="{{ retained }}", class="retained_{{ retained }}")
-            {{> chat_box_text }}
+    .chat-box(data-id="{{ id }}", data-retained="{{ retained }}", class="retained_{{ retained }}")
+        {{> chat_box_text }}
 
 script#chat_box_text(type='text/html')
-        p(class="{{ lang }}")
-            | {{ msg }}
+    p(class="{{ lang }} inner")
+        | {{ msg }}
+        span.time(title="{{ time }}") {{ time }}
+
+script#music_box(type='text/html')
+    .chat-box(data-id="{{ id }}", data-retained="{{ retained }}", class="retained_{{ retained }}")
+        .musicBoxWapper.inner
+            figure.musicBox
+                .cover(style="background-image:url({{ cover }});background-size: 110%;")
+                .playerInner
+                    .music_info
+                        figcaption.music_title {{ title }}
+                        div
+                            span.music_artist {{ artist }}
+                    .cp-jplayer(id="jquery_jplayer_{{ id }}", data-id="{{ id }}", data-location="{{ location }}")
+                    .cp-container(id="cp_container_{{ id }}")
+                        .cp-buffer-holder
+                            .cp-buffer-1
+                            .cp-buffer-2
+                        .cp-progress-holder
+                            .cp-progress-1
+                            .cp-progress-2
+                        .cp-circle-control
+                        ul.cp-controls
+                            li
+                                a.cp-play(href="javascript:void(0)", tabindex="1")
+                                    | play
+                            li
+                                a.cp-pause(href="javascript:void(0)", tabindex="1", style="display:none;")
+                                    | pause
+
+                    // .zenPlayer(data-location="{{ location }}", id="{{ id }}")
+                    //     span.player
+                    //     span.circle
+                    //     span.progress
+                    //     span.buffer
+                    //     span.drag
+                    //     .button
+                    //         span.icon.play
+                    //         span.icon.pause
+
             span.time(title="{{ time }}") {{ time }}
 
 script#loading(type="text/html")

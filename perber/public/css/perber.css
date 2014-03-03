@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-03 11:26:38
+* @Last Modified time: 2014-03-03 20:56:05
 */
 
 /*
@@ -104,7 +104,8 @@ body {
     height: 100%
 }
 
-audio{
+audio#chatAudio,
+audio#deletedAudio{
     font-size: 0;
     line-height: 0;
     position: absolute;
@@ -430,6 +431,121 @@ body{
     font-size: 12px;
 }
 
+/*music box*/
+figure{
+    margin: 0;
+    padding: 0;
+}
+.musicBoxWapper{
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.musicBox{
+    position: relative;
+    height: 300px;
+    padding: 20px 20px 15px 20px;
+    color: #fff;
+    overflow: hidden;
+    background:url(../img/loader-medium.gif) center center no-repeat;
+    box-sizing:border-box;
+}
+.cover{
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: -10px;
+    left: -10px;
+    background: center center no-repeat;
+    -webkit-filter:blur(2px);
+    -moz-filter:blur(2px);
+    -o-filter:blur(2px);
+    -ms-filter:blur(2px);
+    filter:blur(2px);
+    z-index: 0;
+
+    -moz-transition:-moz-filter 0.4s, -moz-transform 0.4s;
+    -webkit-transition:-webkit-filter 0.4s, -webkit-transform 0.4s;
+    transition:filter 0.4s, transform 0.4s;
+
+}
+
+.musicBox:after{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.1);
+    -webkit-box-shadow: inset 0px 0px 14px 8px rgba(0,0,0,0.1);
+    -moz-box-shadow: inset 0px 0px 14px 8px rgba(0,0,0,0.1);
+    box-shadow: inset 0px 0px 14px 8px rgba(0,0,0,0.1);
+    z-index: 1;
+}
+.playerInner{
+    position: relative;
+    line-height: 1;
+    text-align: center;
+    z-index: 2;
+    height: 100%;
+}
+.music_info{
+    position: relative;
+    text-align: left;
+    opacity: 1;
+    top: 0;
+    -moz-transition:opacity 0.4s, top 0.4s;
+    -webkit-transition:opacity 0.4s, top 0.4s;
+    transition:opacity 0.4s, top 0.4s;
+}
+.music_title{
+    display: inline-block;
+    padding: 5px 10px;
+    background: #333;
+    background: rgba(0,0,0,0.4);
+    font-size: 28px;
+    line-height: 1.1;
+    font-weight: 300;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+.music_artist{
+    margin-top: 10px;
+    padding: 5px 10px;
+    background: #333;
+    background: rgba(0,0,0,0.4);
+    font-size: 14px;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.musicBoxWapper span.time{
+    height: 47px;
+    line-height: 46px;
+    padding-top: 5px;
+    padding-right: 20px;
+}
+
+.chat-box:hover .cover{
+    -webkit-filter:blur(0);
+    -moz-filter:blur(0);
+    -o-filter:blur(0);
+    -ms-filter:blur(0);
+    filter:blur(0);
+
+    -moz-transform:scale(1.1);
+    -webkit-transform:scale(1.1);
+    transform:scale(1.1);
+}
+.chat-box:hover .music_info{
+    top: -100px;
+    opacity: 0;
+}
+
+
+
+
+
 
 /*waiting for delete*/
 .chat-box.waiting{
@@ -452,7 +568,9 @@ body{
     position: absolute;
     right: 0;
     top: 0;
+    z-index: 4;
 }
+
 .chat-box.waiting .confirm{
     -webkit-animation-name:scaleConfirmBox;
     -webkit-animation-duration:0.2s;
@@ -623,6 +741,7 @@ body{
     background: #b86158;
     opacity: 0.8;
     position: absolute;
+    z-index: 4;
     -moz-animation: fullexpand 5s 1 ease-out;
     -webkit-animation: fullexpand 5s 1 ease-out;
     -o-animation: fullexpand 5s 1 ease-out;
@@ -660,7 +779,7 @@ body{
     -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
     -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
     box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
-    z-index: 2;
+    z-index: 10;
 }
 
 .chat-input .ui.form .field{
@@ -833,7 +952,7 @@ body{
     width: 40px;
     height: 80px;
     padding-right: 17px;
-    z-index: 3;
+    z-index: 11;
 
     -webkit-transition: top .2s ease;
     -moz-transition: top .2s ease;
@@ -916,7 +1035,7 @@ body{
     bottom: auto;
     min-height: 80px;
     text-align: center;
-    z-index: 5;
+    z-index: 11;
     -webkit-transition: top .4s ease;
     -moz-transition: top .4s ease;
     -ms-transition: top .4s ease;

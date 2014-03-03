@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-03 11:51:41
+* @Last Modified time: 2014-03-03 20:40:56
 */
 
 
@@ -52,22 +52,50 @@ history response
 
                 data.history.forEach(function(historyLine) {
                     var lang;
+
                     if(isChinese(historyLine.message)){
                         lang = 'en';
                     } else {
                         lang = 'cn';
                     }
 
-                    var time = new Date(historyLine.creation_ts),
-                        chatBoxData = {
+                    var isXiamiSong = /www.xiami.com\/song\/\d+/;
+
+                    var time = new Date(historyLine.creation_ts);
+                    var message = historyLine.message;
+                    // 检查是不是虾米歌曲链接
+                    if (isXiamiSong.test(message)) {
+                        // console.log('是虾米')
+                        // xiamiParse(pageUrl)
+                        var musicBoxData = {
                             id: historyLine.id,
-                            msg: historyLine.message,
+                            songOriginal: message,
+                            title: historyLine.music_title,
+                            artist: historyLine.music_artist,
+                            cover: historyLine.music_cover,
+                            location: historyLine.music_location,
                             lang : lang,
                             retained : historyLine.retained,
                             time: time.format("yyyy-MM-dd hh:mm:ss")
                         };
-                    chat.append(parseChatBox(ich.chat_box(chatBoxData)));
+                        chat.append(parseMusicBox(ich.music_box(musicBoxData)));
+                    } else {
+                        // console.log('不是虾米')
+                        var chatBoxData = {
+                            id: historyLine.id,
+                            msg: message,
+                            lang : lang,
+                            retained : historyLine.retained,
+                            time: time.format("yyyy-MM-dd hh:mm:ss")
+                        };
+                        chat.append(parseChatBox(ich.chat_box(chatBoxData)));
+                    }
+
                 });
+                
+                // initPlayer($(".zenPlayer"))
+
+                initCirclePlayer();
 
                 $('.time').timeago();
                 masonryAllItems(chat);
@@ -121,6 +149,43 @@ get new msg
         }
     });
 
+
+// get new song
+    socket.on('new song', function(data) {
+
+        // 固定
+        data.retained = 0;
+
+        // 语言
+        if(isChinese(data.song)){
+            data.lang = 'en';
+        } else {
+            data.lang = 'cn';
+        }
+
+        console.log('get new song', data)
+
+        // 模板处理
+        var $boxes = parseMusicBox(ich.music_box(data));
+
+        if(chat.find('.chat-box').length === 0) {
+            chat.prepend( $boxes );
+            masonryAllItems(chat);
+        } else {
+            chat.prepend( $boxes ).masonry('prepended', $boxes);
+        }
+
+        // todo 优化性能
+        $(".time").timeago();
+        hideNull();
+
+        //update title if window is hidden
+        if(windowStatus === "hidden") {
+            afkDeliveredMessages += 1;
+            updateTitle();
+            $('#chatAudio')[0].play();
+        }
+    })
 
 /*
 delete msg
@@ -259,10 +324,10 @@ delete msg
         }
     });
 
-    var textParser = function(text) {
 
-        // replace emoticons
-        // text = injectEmoticons(text);
+
+// 解析文字和图片
+    var textParser = function(text) {
 
         //sina weibo
         var sinaImgReg = /(http:\/\/ww[0-9]{1}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g,
@@ -304,7 +369,7 @@ delete msg
                 var sidPattern = /(\d+)/;
                 var songid =  sidPattern.exec(e)[1];
 
-                result = '<embed src="http://www.xiami.com/widget/15289_' + songid + '/singlePlayer.swf" type="application/x-shockwave-flash" width="257" height="33" wmode="transparent"></embed>';
+                result = '<embed src="http://www.xiami.com/widget/0_' + songid + '/singlePlayer.swf" type="application/x-shockwave-flash" width="257" height="33" wmode="transparent"></embed>';
 
             } else {
                 result = '<a href="' + e + '" target="_blank">'+ e +'</a>';
@@ -330,6 +395,25 @@ delete msg
         var msg = chatBoxMsg.html();
         return chatBoxMsg.html(textParser(msg));
     };
+
+// 解析音乐
+    var musicParser = function(music){
+        // console.log('music', music)
+        return music;
+    }
+
+    var parseMusicBox = function(musicBox){
+        var musicBoxMsg = musicBox.find('.musicBoxWapper');
+        parseMusicBoxSong(musicBoxMsg);
+        return musicBox;
+    }
+
+    var parseMusicBoxSong = function(musicBoxMsg) {
+        var music = musicBoxMsg.html();
+        return musicBoxMsg.html(musicParser(music));
+    };
+
+
 
     var patterns = {
         angry: /\&gt;:-o|\&gt;:o|\&gt;:-O|\&gt;:O|\&gt;:-\(|\&gt;:\(/g,
@@ -603,7 +687,7 @@ delete msg
     }
 
     function showProgress($e){
-        $e.find('p').append(ich.progress());
+        $e.find('.inner').append(ich.progress());
     }
 
     function showUploadProgress(){
@@ -639,6 +723,184 @@ delete msg
                 notice.html('').attr('class','noticeWrap')
             })
         }, timeout)
+    }
+
+// =============player==============
+
+
+    // function initPlayer(element){
+
+    //     var status = "stop";
+    //     var dragging = false;
+
+    //     // init
+    //     var player = element;
+
+    //     player.each(function(index, el){
+    //         var $t = $(this);
+    //         var location = $t.data('location');
+
+    //         $t.jPlayer({
+    //             ready: function () {
+    //                 $t.jPlayer("setMedia", {
+    //                     // m4a: "/media/2012/07/30/song.m4a",
+    //                     // mp3: "player/media/aria.mp3"
+    //                     mp3: location
+    //                     //oga: "media/2012/07/30/song.ogg"
+    //                 });
+    //             },
+    //             // swfPath: "/static/public/swf",
+    //             supplied: "mp3"
+    //         });
+
+
+
+    //         // preload, update, end
+    //         // $t.bind($.jPlayer.event.progress, function(event) {
+    //         //     var audio = $t.find('audio');
+    //         //     console.log(audio.size())
+    //         //     var pc = 0;
+    //         //     if ((audio.buffered != undefined) && (audio.buffered.length != 0)) {
+    //         //         pc = parseInt(((audio.buffered.end(0) / audio.duration) * 100), 10); 
+    //         //         displayBuffered(pc);
+    //         //         console.log(pc);
+    //         //         if(pc >= 99) {
+    //         //             console.log("loaded");
+    //         //             $t.find('.buffer').addClass("loaded");
+    //         //         }
+    //         //     }
+    //         // });
+            
+
+    //         //player.bind($.jPlayer.event.loadeddata, function(event) {    
+    //             //$('.zenPlayer .buffer').addClass("loaded");    
+    //         //});
+            
+    //         $t.bind($.jPlayer.event.timeupdate, function(event) { 
+    //             var pc = event.jPlayer.status.currentPercentAbsolute;
+    //             if (!dragging) { 
+    //                 displayProgress(pc);
+    //             }
+    //         });
+            
+    //         $t.bind($.jPlayer.event.ended, function(event) {   
+    //             $t.find('.circle').removeClass( "rotate" );
+    //             $t.removeClass( "play" );
+    //             $t.find('.progress').css({rotate: '0deg'});
+    //             status = "stop";
+    //         });
+            
+            
+            
+            
+            
+    //         // play/pause
+            
+    //         $t.find(".button").bind('mousedown', function() {
+    //             // not sure if this can be done in a simpler way.
+    //             // when you click on the edge of the play button, but button scales down and doesn't drigger the click,
+    //             // so mouseleave is added to still catch it.
+    //             $(this).bind('mouseleave', function() {
+    //                 $(this).unbind('mouseleave');
+    //                 onClick();
+    //             });
+    //         });
+
+    //         $t.find(".button").bind('mouseup', function() {
+    //             $(this).unbind('mouseleave');
+    //             onClick();
+    //         });
+    //     })
+            
+
+        
+        
+    //     function onClick() {
+    //         if(status != "play") {
+    //             status = "play";
+    //             $(".zenPlayer").addClass( "play" );
+    //             player.jPlayer("play");
+    //         } else {
+    //             $('.zenPlayer .circle').removeClass( "rotate" );
+    //             $(".zenPlayer").removeClass( "play" );
+    //             status = "pause";
+    //             player.jPlayer("pause");
+    //         }
+    //     };
+        
+        
+        
+        
+    //     // draggin
+        
+    //     var clickControl = $('.zenPlayer .drag');
+        
+    //     clickControl.grab({
+    //         onstart: function(){
+    //             dragging = true;
+    //             $('.zenPlayer .button').css( "pointer-events", "none" );
+                
+    //         },
+    //         onmove: function(event){
+    //             var pc = getArcPc(event.position.x, event.position.y);
+    //             player.jPlayer("playHead", pc).jPlayer("play");
+    //             displayProgress(pc);
+    //         },
+    //         onfinish: function(event){
+    //             dragging = false;
+    //             var pc = getArcPc(event.position.x, event.position.y);
+    //             player.jPlayer("playHead", pc).jPlayer("play");
+    //             $('.zenPlayer .button').css( "pointer-events", "auto" );
+    //         }
+    //     }); 
+        
+        
+        
+        
+        
+        
+    //     // functions
+        
+    //     function displayProgress(pc) {
+    //         var degs = pc * 3.6+"deg"; 
+    //         $('.zenPlayer .progress').css({rotate: degs});        
+    //     }
+    //     function displayBuffered(pc) {
+    //         var degs = pc * 3.6+"deg"; 
+    //         $('.zenPlayer .buffer').css({rotate: degs});      
+    //     }
+        
+    //     function getArcPc(pageX, pageY) { 
+    //         var self    = clickControl,
+    //             offset  = self.offset(),
+    //             x   = pageX - offset.left - self.width()/2,
+    //             y   = pageY - offset.top - self.height()/2,
+    //             a   = Math.atan2(y,x);  
+                
+    //             if (a > -1*Math.PI && a < -0.5*Math.PI) {
+    //            a = 2*Math.PI+a; 
+    //         } 
+
+    //         // a is now value between -0.5PI and 1.5PI 
+    //         // ready to be normalized and applied               
+    //         var pc = (a + Math.PI/2) / 2*Math.PI * 10;   
+               
+    //         return pc;
+    //     }
+    // }
+
+    function initCirclePlayer(){
+        $('.cp-jplayer').each(function(i, el){
+            var $t = $(this);
+            var id = $t.data('id'),
+                location = $t.data('location');
+            var myCirclePlayer = new CirclePlayer("#jquery_jplayer_" + id, {
+                mp3: location
+            }, {
+                cssSelectorAncestor: "#cp_container_"+id,
+                supplied:"mp3"
+            });
+        })
     }
 
 

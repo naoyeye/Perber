@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-03 11:52:16
+* @Last Modified time: 2014-03-03 20:08:26
 */
 
 
@@ -14,9 +14,32 @@
 
 var sio = require('socket.io'),
     parseCookies = require('connect').utils.parseSignedCookies,
-    cookie = require('cookie'),
-    xiami = require('./xiami');
+    cookie = require('cookie');//,
+    // xiami = require('./xiami');
 
+
+
+// +=====Xiami======
+var http = require('http');
+var url = require('url');
+var path = require('path');
+
+
+var isXiamiSong = /www.xiami.com\/song\/\d+/;
+
+var sidPattern = /(\d+)/,
+    songUrlPattern = /a href="(\/song\/\d+)"/g;
+
+var titlePattern = /<div id="title">\s*<h1>(.*)<\/h1>/,
+    artistPattern = /<a href="\/artist\/\d+" title=".*">(.*)<\/a>/,
+    coverPattern = /<img class="cdCDcover185" src=".*" \/>/;
+
+
+
+
+
+
+// +=====Socket======
 /**
 * Expose Sockets initialization
 */
@@ -136,6 +159,151 @@ function Sockets (app, server) {
             }
         });
 
+
+// xiamiHandle start
+        function safeFilename(value) {
+            return value.replace(/(\/|\\|\:|\*|\?|\"|\<|\>|\||\s+)/g, ' ');
+        }
+
+        function safeFilter(value) {
+            return safeFilename(removeSpan(value));
+        }
+
+        function removeSpan(value) {
+            return value.replace('<span>', ' ').replace('</span>', '');
+        }
+
+
+        function getLocation(str) {
+            try {
+                var a1 = parseInt(str.charAt(0)),
+                    a2 = str.substring(1),
+                    a3 = Math.floor(a2.length / a1),
+                    a4 = a2.length % a1,
+                    a5 = [],
+                    a6 = 0,
+                    a7 = '',
+                    a8 = '';
+                for (; a6 < a4; ++a6) {
+                    a5[a6] = a2.substr((a3 + 1) * a6, (a3 + 1));
+                }
+                for (; a6 < a1; ++a6) {
+                    a5[a6] = a2.substr(a3 * (a6 - a4) + (a3 + 1) * a4, a3);
+                }
+                for (var i = 0,a5_0_length = a5[0].length; i < a5_0_length; ++i) {
+                    for (var j = 0,a5_length = a5.length; j < a5_length; ++j) {
+                        a7 += a5[j].charAt(i);
+                    }
+                }
+                a7 = decodeURIComponent(a7);
+                for (var i = 0,a7_length = a7.length; i < a7_length; ++i) {
+                    a8 += a7.charAt(i) === '^' ? '0': a7.charAt(i);
+                }
+                return a8;
+            } catch(e) {
+                return false;
+            }
+        }
+
+        function xiamiParse(pageUrl) {
+            var sid = sidPattern.exec(pageUrl)[1];
+            var options = url.parse(pageUrl);
+
+            var location;
+            var xiamiRealSong = {};
+
+            http.get(options, function(res) {
+                res.setEncoding('utf8');
+                var html = '';
+                res.on('data', function(data) {
+                    html += data;
+                });
+                res.on('end', function() {
+                    var title = titlePattern.exec(html),
+                        artist = artistPattern.exec(html),
+                        cover = coverPattern.exec(html),
+                        coverPath = null;
+
+                    title = title ? title[1] : null;
+                    title = title.replace('<span>', ' ').replace('</span>', '');
+                    artist = artist ? artist[1] : null;
+                    cover = cover ? cover[0] : null;
+
+                    console.log('cover 1', cover)
+
+                    var coverReg = /http:\/\/[a-zA-Z0-9-.-\/-_]+.(jpg|jpeg|png|gif|bmp)/g;
+                    if(coverReg.test(cover)){
+                        // var coverPath = cover.match(coverReg)[0];
+                        // coverPath = coverPath.replace('_2.jpg', '.jpg');
+                        // console.log('coverPath 1', coverPath)
+                        cover.replace(coverReg, function(s,value) {
+                            coverPath = s;
+                        });
+                        console.log('coverPath 2', coverPath)
+                    }
+
+                    var filename = title + (artist ? (' - ' + artist) : '') + '.mp3';
+
+                    xiamiRealSong['title'] = title;
+                    xiamiRealSong['artist'] = artist;
+                    xiamiRealSong['cover'] = coverPath;
+
+                    if ((title || artist) && title.indexOf('span class') < 0) {
+                        filename = safeFilter(filename);
+                        options = url.parse('http://www.xiami.com/song/gethqsong/sid/' + sid);
+
+                        http.get(options, function(res) {
+                            res.setEncoding('utf8');
+                            res.on('data', function(data) {
+                                location = getLocation(JSON.parse(data).location);
+                                xiamiRealSong['location'] = location;
+                            })
+
+                            res.on('end', function() {
+                                // console.log('end location, xiamiRealSong', xiamiRealSong)
+
+                                var data = [
+                                    pageUrl,
+                                    xiamiRealSong.title,
+                                    xiamiRealSong.artist,
+                                    xiamiRealSong.cover,
+                                    xiamiRealSong.location
+                                ]
+
+                                // 往数据库中插入
+                                mysql.query('INSERT INTO Messages SET message = ?, music_title = ?, music_artist = ?, music_cover = ?, music_location = ?', data, function(error, results) {
+                                    if(error) {
+                                        console.log("mysql INSERT Error: " + error.message);
+                                        // mysql.end();
+                                        return;
+                                    }
+
+                                    var msgID = results.insertId;
+
+                                    // 向前端返回歌曲信息
+                                    io.sockets.in(room_id).emit('new song', {
+                                        id: msgID,
+                                        song: xiamiRealSong,
+                                        time: new Date()
+                                    });
+                                })
+
+                            })
+
+                        })
+                    }
+                })
+            })
+        }
+
+        function xiamiRun(pageUrl){
+            if (isXiamiSong.test(pageUrl)) {
+                xiamiParse(pageUrl)
+            }
+        }
+// xiamiHandle end
+
+
 // new message
         socket.on('my msg', function(data) {
 
@@ -148,18 +316,23 @@ function Sockets (app, server) {
                 havaImg = true;
             }
 
-            // if(data.song === true){
-            //     isSong = true;
-            //     // xiami url parse
-            //     console.log('xiami(data.msg)', xiami(data.msg))
-            // }
+            /*
+            ===================
+            !!!!IMPORTANT!!!!
+            ===================
+            */
 
-            if(no_empty.length > 0) {
-                var chatlogRegistry = [
-                    data.msg//,
-                    // time,
-                ]
+            // 歌曲类的信息交由 xiamiRun(data.msg) 处理
+            // 这部分的逻辑太乱了 TAT
+            if(data.song === true){
+                isSong = true;
+                // xiami url parse
+                xiamiRun(data.msg);
 
+            } else {
+                // 这里只处理不是歌曲的信息(文字、图片)
+
+                var chatlogRegistry = [data.msg]
                 var imgKey = data.imgKey;
 
                 mysql.query('INSERT INTO Messages SET message = ?', chatlogRegistry, function(error, results) {
@@ -168,8 +341,6 @@ function Sockets (app, server) {
                         // mysql.end();
                         return;
                     }
-                    // console.log('Inserted: ' + results.affectedRows + ' row.');
-                    // console.log('Id inserted: ' + results.insertId);
 
                     msgID = results.insertId;
 
@@ -332,3 +503,5 @@ function Sockets (app, server) {
         });
     });
 };
+
+

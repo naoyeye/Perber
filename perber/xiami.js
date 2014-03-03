@@ -7,7 +7,7 @@ module.exports = xiamiRun;
 
 
 var location;
-var xiamiRealSong = {test:'tetete'};
+var xiamiRealSong = {};
 
 var isSong = /www.xiami.com\/song\/\d+/;
 
@@ -15,7 +15,8 @@ var sidPattern = /(\d+)/,
     songUrlPattern = /a href="(\/song\/\d+)"/g;
 
 var titlePattern = /<div id="title">\s*<h1>(.*)<\/h1>/,
-    artistPattern = /<a href="\/artist\/\d+" title=".*">(.*)<\/a>/;
+    artistPattern = /<a href="\/artist\/\d+" title=".*">(.*)<\/a>/,
+    coverPattern = /<img class="cdCDcover185" src=".*" \/>/;
 
 
 function safeFilename(value) {
@@ -66,11 +67,6 @@ function xiamiParse(pageUrl) {
     var sid = sidPattern.exec(pageUrl)[1];
     var options = url.parse(pageUrl);
 
-    // console.log('sid=', sid)
-    // console.log('options=', options)
-    // options.headers = reqHeaders({
-    //     'Cookie': cookie
-    // });
     http.get(options, function(res) {
         res.setEncoding('utf8');
         var html = '';
@@ -79,19 +75,24 @@ function xiamiParse(pageUrl) {
         });
         res.on('end', function() {
             var title = titlePattern.exec(html),
-                artist = artistPattern.exec(html);
+                artist = artistPattern.exec(html),
+                cover = coverPattern.exec(html);
+
             title = title ? title[1] : null;
             artist = artist ? artist[1] : null;
-            var filename = title + (artist ? (' - ' + artist) : '') + '.mp3';
+            cover = cover ? cover[0] : null;
 
-            // console.log('title', title)
-            // console.log('artist', artist)
-            // console.log('filename', filename)
+            var coverReg = /http:\/\/[a-zA-Z0-9-.-\/-_]+.jpg/g;
+            if(coverReg.test(cover)){
+                var coverPath = cover.match(coverReg)[0];
+                coverPath = coverPath.replace('_2.jpg', '.jpg');
+            }
+
+            var filename = title + (artist ? (' - ' + artist) : '') + '.mp3';
 
             xiamiRealSong['title'] = title;
             xiamiRealSong['artist'] = artist;
-
-            // console.log('xiamiRealSong=', xiamiRealSong)
+            xiamiRealSong['cover'] = coverPath;
 
             if ((title || artist) && title.indexOf('span class') < 0) {
                 filename = safeFilter(filename);
@@ -101,25 +102,12 @@ function xiamiParse(pageUrl) {
                     res.setEncoding('utf8');
                     res.on('data', function(data) {
                         location = getLocation(JSON.parse(data).location);
-
                         xiamiRealSong['location'] = location;
-
-                        console.log('data', data)
-
-                        // return xiamiRealSong;
-
-                        // console.log('xiamiRealSong', xiamiRealSong)
-
-                        // if (location) {
-                        //     // return location;
-                        //     console.log('')
-                        //     xiamiRealSong['location'] = location;
-                        // }
-                        // return xiamiRealSong;
                     })
 
-                    res.on('data', function() {
+                    res.on('end', function() {
                         console.log('end location', xiamiRealSong)
+                        return xiamiRealSong;
                     })
 
                 })
@@ -137,7 +125,7 @@ function xiamiRun(pageUrl){
         // console.log('xiamiRealSong return ', xiamiRealSong)
 
         // 返回歌曲的名称 作者 真实地址
-        return xiamiRealSong;
+        // return xiamiRealSong;
 
     } else {
         // console.log('no song!!')
