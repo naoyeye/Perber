@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-04 00:05:13
+* @Last Modified time: 2014-03-04 01:36:54
 */
 
 /*
@@ -530,7 +530,7 @@ figure{
     -webkit-filter:blur(0);
     -moz-filter:blur(0);
     -o-filter:blur(0);
-    -ms-filter:blur(0);
+    -ms-filtner:blur(0);
     filter:blur(0);
 
     -moz-transform:scale(1);
@@ -1044,6 +1044,9 @@ figure{
 }
 .noticeWrap.error{
     background-color: #b86158;
+}
+.noticeWrap.success{
+    background-color: #7bcaa5;
 }
 .notice{
     display: table;

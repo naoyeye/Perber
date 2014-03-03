@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-04 00:14:57
+* @Last Modified time: 2014-03-04 01:36:05
 */
 
 
@@ -319,6 +319,9 @@ delete msg
                     // 如果是虾米音乐，向后端发送数据时，增加一个 'song'
                     // 然后在后端解析虾米音乐的真实mp3地址
                     if(xiamiREG.test(chunks)){
+
+                        notice('success', '请稍等，正在解析音乐信息....', 4000);
+
                         socket.emit('my msg', {
                             msg: chunks,
                             song: true
