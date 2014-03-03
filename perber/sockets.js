@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-03 20:08:26
+* @Last Modified time: 2014-03-04 01:11:56
 */
 
 
@@ -229,7 +229,7 @@ function Sockets (app, server) {
                     artist = artist ? artist[1] : null;
                     cover = cover ? cover[0] : null;
 
-                    console.log('cover 1', cover)
+                    // console.log('cover 1', cover)
 
                     var coverReg = /http:\/\/[a-zA-Z0-9-.-\/-_]+.(jpg|jpeg|png|gif|bmp)/g;
                     if(coverReg.test(cover)){
@@ -237,9 +237,9 @@ function Sockets (app, server) {
                         // coverPath = coverPath.replace('_2.jpg', '.jpg');
                         // console.log('coverPath 1', coverPath)
                         cover.replace(coverReg, function(s,value) {
-                            coverPath = s;
+                            coverPath = s.replace('_2', '');
                         });
-                        console.log('coverPath 2', coverPath)
+                        // console.log('coverPath 2', coverPath)
                     }
 
                     var filename = title + (artist ? (' - ' + artist) : '') + '.mp3';
