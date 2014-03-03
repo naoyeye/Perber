@@ -2,9 +2,8 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-02-07 11:11:08
+* @Last Modified time: 2014-03-03 11:26:38
 */
-
 
 /*
 
@@ -309,14 +308,6 @@ body{
 /*===========*/
 
 .chat-list{
-    /*position: fixed;*/
-    /*width: 100%;*/
-    /*top: 80px;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*bottom: 0;*/
-    /*overflow: auto;*/
-    /*box-sizing:border-box;*/
     position: relative;
     padding: 5px 0;
     min-height: 95px;
@@ -324,7 +315,6 @@ body{
     text-align: center;
 }
 .chat{
-    /**/
     margin: 0 auto;
     text-align: left;
 }
@@ -1343,10 +1333,7 @@ Responsive
 
 
     /*Retina*/
-    @media only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-
-
-    }
+    @media only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {}
 
 .emoticon{
     display: inline-block;

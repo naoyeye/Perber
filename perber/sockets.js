@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-01 09:43:28
+* @Last Modified time: 2014-03-03 11:52:16
 */
 
 
@@ -148,11 +148,11 @@ function Sockets (app, server) {
                 havaImg = true;
             }
 
-            if(data.song === true){
-                isSong = true;
-                // xiami url parse
-                console.log('xiami(data.msg)', xiami(data.msg))
-            }
+            // if(data.song === true){
+            //     isSong = true;
+            //     // xiami url parse
+            //     console.log('xiami(data.msg)', xiami(data.msg))
+            // }
 
             if(no_empty.length > 0) {
                 var chatlogRegistry = [

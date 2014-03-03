@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-01 17:12:46
+* @Last Modified time: 2014-03-03 11:51:41
 */
 
 
@@ -299,6 +299,8 @@ delete msg
                 //     console.log('value', value)
                 //     songid = value.replace('song/', '');
                 // });
+
+                // console.log('songid', songid)
                 var sidPattern = /(\d+)/;
                 var songid =  sidPattern.exec(e)[1];
 

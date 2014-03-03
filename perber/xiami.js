@@ -140,7 +140,7 @@ function xiamiRun(pageUrl){
         return xiamiRealSong;
 
     } else {
-        console.log('no!!')
+        // console.log('no song!!')
         // todo
     }
 }
