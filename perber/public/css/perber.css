@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-04 11:32:28
+* @Last Modified time: 2014-03-04 17:55:14
 */
 
 /*
@@ -388,9 +388,7 @@ body{
 }
 
 .chat-box.retained_1 p{
-    /*border-left: 6px solid #b86158;*/
-    /*box-shadow: 0 0 0px 2px #d0cebd;*/
-    background: #c7908a;
+    background: #71b997;
     color: #fff;
 }
 
