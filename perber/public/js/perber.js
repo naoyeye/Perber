@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-06 00:10:26
+* @Last Modified time: 2014-03-06 00:14:56
 */
 
 
@@ -1227,7 +1227,7 @@ delete msg
             data: { name: name, email: email},
             dataType : "json",
             success: function(res){
-                console.log('1', res.status)
+                // console.log('1', res.status)
                 notice('error', '别着急，这个表单提交功能还没写完，只是测试用的',2000)
                 $t.attr('class','ui green button').attr('disabled', '')
                 $('.fixed_block.null').removeClass('flip')
