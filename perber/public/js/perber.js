@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-06 03:17:00
+* @Last Modified time: 2014-03-06 03:47:09
 */
 
 
@@ -239,8 +239,10 @@ delete msg
             // console.log(msnryInstance.items.length)
             if(msnryInstance.items.length === 0){
                 // console.log('iii')
-                chat.append(ich.nullbox());
-                chat.masonry('destroy');
+                if($('.nullbox').size() === 0){
+                    chat.append(ich.nullbox());
+                    chat.masonry('destroy');
+                }
             }
         })
 

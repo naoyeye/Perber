@@ -17,7 +17,8 @@
     "mysql": "2.0.1",
     "node-mysql" : "0.3.4",
     "qiniu" : "6.1.1",
-    "node-qiniu" : "6.1.4"
+    "node-qiniu" : "6.1.4",
+    "nodemailer" : "0.6.1"
   },
   "engines": {
     "node": ">= 0.8.0",
