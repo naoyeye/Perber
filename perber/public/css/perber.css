@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-04 17:55:14
+* @Last Modified time: 2014-03-05 16:04:55
 */
 
 /*
@@ -320,13 +320,13 @@ body{
     text-align: left;
 }
 .loading{
-    width: 310px; 
+    width: 50px; 
     padding:20px 0;
-    margin: 0 auto;
+    margin-left: -25px;
     text-align: center;
     position: absolute;
-    width: 100%;
     top: 40px;
+    left: 50%;
 }
 .loading i{
     font-size: 24px;
@@ -421,11 +421,56 @@ body{
     background:center center no-repeat; 
 }
 
+.view_full_size{
+    position: absolute;
+    bottom: -33px;
+    left: 20px;
+    /*width: 150px;*/
+    text-align: left;
+    /*background: #c00;*/
+    color: #333;
+    font-size: 18px;
+    line-height: 1;
+    z-index: 1;
+    color: #bad5d8;
+    overflow: hidden;
+    -webkit-transition:-webkit-transform 0.2s;
+    -moz-transition:-moz-transform 0.2s;
+    transition:transform 0.2s;
+}
+.view_full_size i{
+    float: left;
+}
+.view_full_size span{
+    position: relative;
+    float: left;
+    top: 2px;
+    left: -30px;
+    padding-left: 5px;
+    font-size: 12px;
+    font-weight: 300;
+    vertical-align: middle;
+    opacity: 0;
+    -webkit-transition:opacity 0.2s, left 0.2s;
+    -moz-transition:opacity 0.2s, left 0.2s;
+    transition:opacity 0.2s, left 0.2s;
+}
+.view_full_size:hover{
+    color: #b1cbce;
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    transform: scale(1.2);
+}
+.view_full_size:hover span{
+    left: 0;
+    opacity: 1;
+}
+
 .chat-box .time{
     display: block;
     text-align: right;
     color: #999;
-    padding-top: 5px;
+    /*padding-top: 5px;*/
     font-size: 12px;
 }
 
@@ -456,6 +501,23 @@ figure{
     left: 0px;
     background: center center no-repeat;
     z-index: 0;
+}
+
+.musicBox:before{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 5px 5px 0 0;
+    background: rgba(0,0,0,0.5);
+    background: -moz-linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%);
+    background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%);
+    background: -o-linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%);
+    background: -ms-linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%);
+    z-index: 1;
 }
 
 .musicBox:after{
@@ -492,19 +554,21 @@ figure{
 .music_title{
     display: inline-block;
     padding: 5px 10px;
-    background: #333;
-    background: rgba(0,0,0,0.4);
+    /*background: #333;*/
+    /*background: rgba(0,0,0,0.4);*/
     font-size: 28px;
+    font-family: "Helvetica";
     line-height: 1.1;
-    font-weight: 300;
+    font-weight: 500;
     text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 .music_artist{
     margin-top: 10px;
     padding: 5px 10px;
-    background: #333;
-    background: rgba(0,0,0,0.4);
+    /*background: #333;*/
+    /*background: rgba(0,0,0,0.4);*/
     font-size: 14px;
+    font-family: "Helvetica";
     line-height: 1;
     text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
@@ -512,13 +576,13 @@ figure{
 .musicBoxWapper span.time{
     height: 47px;
     line-height: 46px;
-    padding-top: 5px;
+    /*padding-top: 5px;*/
     padding-right: 20px;
 }
 
 .musicBoxWapper span.xiami_icon{
     position: absolute;
-    bottom: 16px;
+    bottom: 14px;
     left: 20px;
     width: 18px;
     height: 18px;
@@ -1410,7 +1474,7 @@ Responsive
             right: 17px;
             padding-top: 3px;
         }
-        .cover{
+/*        .cover{
             -webkit-filter:none;
             -moz-filter:none;
             -o-filter:none;
@@ -1423,7 +1487,7 @@ Responsive
             -o-filter:none;
             -ms-filtner:none;
             filter:none;
-        }
+        }*/
     }
     @media(min-width: 325px){
         .chat{
@@ -1435,7 +1499,7 @@ Responsive
             width: 620px;
         }
         .time{
-            font-weight: 200;
+            font-weight: 300;
         }
     }
 
@@ -1443,9 +1507,9 @@ Responsive
         .chat{width: 930px;}
         #IntroInner{
             font-size: 20px;
-            font-weight: 100;
+            font-weight: 300;
         }
-        .cover{
+/*        .cover{
             -webkit-filter:blur(2px);
             -moz-filter:blur(2px);
             -o-filter:blur(2px);
@@ -1462,7 +1526,7 @@ Responsive
             -o-filter:blur(0px);
             -ms-filtner:blur(0px);
             filter:blur(0px);
-        }
+        }*/
     }
     @media(min-width: 1245px){
         .chat{

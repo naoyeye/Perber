@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-04 02:21:16
+* @Last Modified time: 2014-03-05 15:56:33
 */
 
 
@@ -364,7 +364,7 @@ delete msg
             var result;
             // sina + instagram
             if(sinaImgReg.test(e) || instagramImgReg.test(e)){
-                result = '<div class="imgbox"><div style="background-image:url('+ e +');background-size: cover;"></div></div>';
+                result = '<div class="imgbox"><div style="background-image:url('+ e +');background-size: cover;"></div><a href="'+ e +'" target="_blank" class="view_full_size" title="查看原图"><i class="fa fa-dot-circle-o"></i><span>Full size</span></a></div>';
             // qiniu image
             } else if(perberImageReg.test(e)){
                 // 从qiniu的url中匹配中key, 删除时会用到
@@ -373,7 +373,8 @@ delete msg
                 e.replace(keyReg, function(s,value) {
                     key = value.replace('com/', '');
                 });
-                result = '<div data-key="'+ key +'" class="imgbox"><div style="background-image:url('+ e +');background-size: cover;"></div></div>';
+                var fullSizePath = 'http://'+ Bucket +'.qiniudn.com/' + key;
+                result = '<div data-key="'+ key +'" class="imgbox"><div style="background-image:url('+ e +');background-size: cover;"></div><a href="'+ fullSizePath +'" target="_blank" class="view_full_size" title="查看原图"><i class="fa fa-dot-circle-o"></i><span>Full size</span></a></div>';
             } else if(xiamiReg.test(e)){
                 // var songidReg = /(song\/[0-9]+)/g,
                 //     songid;
