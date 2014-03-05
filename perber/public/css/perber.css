@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-05 16:04:55
+* @Last Modified time: 2014-03-05 16:13:36
 */
 
 /*
@@ -423,7 +423,7 @@ body{
 
 .view_full_size{
     position: absolute;
-    bottom: -33px;
+    bottom: 14px;
     left: 20px;
     /*width: 150px;*/
     text-align: left;
