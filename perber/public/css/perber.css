@@ -316,6 +316,7 @@ body{
     text-align: center;
 }
 .chat{
+    position: relative;
     margin: 0 auto;
     text-align: left;
 }
@@ -390,15 +391,16 @@ body{
 .loader {
     position: absolute;
     left: 50%;
-    top: 50%;
-    margin: -10px 0 0 -10px;
+    top: 70px;
+    margin: -20px 0 0 -20px;
     background-color: white;
     border-radius: 50%;
     /*box-shadow: 0 0 0 6.66667px #141414;*/
     box-shadow: 0 0 0 4px #333;
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     z-index: 10;
+    opacity: 0.8;
 }
 .loader:before, .loader:after {
     content: "";

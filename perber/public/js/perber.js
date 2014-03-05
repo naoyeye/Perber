@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-06 03:47:09
+* @Last Modified time: 2014-03-06 04:08:16
 */
 
 
@@ -16,7 +16,7 @@ $(function() {
 
     // focusInput();
 
-    $('body').append(ich.loader());
+    chat.append(ich.loader());
 
 /*
 =================
