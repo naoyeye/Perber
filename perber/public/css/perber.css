@@ -319,6 +319,7 @@ body{
     position: relative;
     margin: 0 auto;
     text-align: left;
+    min-height: 300px;
 }
 /*.loading{
     width: 50px; 
