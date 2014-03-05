@@ -1,53 +1,63 @@
--- phpMyAdmin SQL Dump
--- version 3.5.2.2
--- http://www.phpmyadmin.net
---
--- 主机: localhost
--- 生成日期: 2014 年 02 月 07 日 14:15
--- 服务器版本: 5.1.35-log
--- PHP 版本: 5.2.10
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+# ************************************************************
+# Sequel Pro SQL dump
+# Version 4096
+#
+# http://www.sequelpro.com/
+# http://code.google.com/p/sequel-pro/
+#
+# Host: localhost (MySQL 5.5.29)
+# Database: perber
+# Generation Time: 2014-03-05 08:42:38 +0000
+# ************************************************************
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- 数据库: `perber`
---
 
--- --------------------------------------------------------
+# Dump of table Images
+# ------------------------------------------------------------
 
---
--- 表的结构 `Images`
---
+DROP TABLE IF EXISTS `Images`;
 
-CREATE TABLE IF NOT EXISTS `Images` (
+CREATE TABLE `Images` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `imgKey` tinytext NOT NULL,
   `msgID` int(11) NOT NULL,
   `creation_ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
 
---
--- 表的结构 `Messages`
---
 
-CREATE TABLE IF NOT EXISTS `Messages` (
+# Dump of table Messages
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `Messages`;
+
+CREATE TABLE `Messages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `message` text NOT NULL,
+  `music_title` text,
+  `music_artist` text,
+  `music_cover` text,
+  `music_location` text,
   `retained` tinyint(1) NOT NULL DEFAULT '0',
   `creation_ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2528 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+
+
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
