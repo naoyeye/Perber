@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-02-28 14:52:21
+* @Last Modified time: 2014-03-05 23:59:51
 */
 
 
@@ -167,7 +167,11 @@ function Routes (app) {
         var putPolicy = new qiniu.rs.PutPolicy(bucketname);
         var token = putPolicy.token();
         res.json({token : token})
-        // console.log('sign!!!!!!!!')
+    })
+
+    app.post('/apply', function(req, res, next){
+        console.log(req.body)
+        res.json({status : 'o'})
     })
 
 

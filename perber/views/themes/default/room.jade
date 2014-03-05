@@ -19,6 +19,47 @@ block content
                 #upimg
 
             .chat-list
+                #important
+                    .chat-box
+                        .fixed_block
+                            .ui.right.red.corner.label(title="通知")
+                                i.fa-bullhorn.fa
+                            | ╰(*￣0￣*)╯ 怎么玩儿：<br><br>1. 如果对某条内容不感兴趣，或者觉得没有必要留在网上，那就<span style="background:#fde58b">一直按着它</span>，然后点“x”把它删掉吧。在这儿，不怕内容少，就怕内容多。<br><br> 2. 如果不想让自己发的内容被删掉，可以点击“有空”，提交你想展示的内容。名额只有一个，4月1日之前免费。<br><br> 3. 把图片拖拽到输入框，可以上传图片。直接发GIF图片的链接是不能出现图片的，除非是来自新浪的GIF图。instagram的图片也是支持的。(￢∀￢) <br><br> 4. 可以识别虾米的歌曲URL（注意歌曲URL是 http:xxx.xiami.xxx/song/xxxx 这种），现在识别的速度有点慢，因为blah blah的原因。(￣(ｴ)￣)<br><br> 5. “网站介绍”神马的点击右上角的图标就好了，反正也没人看。好了，飞走~~ ʅ(‾◡◝)ʃ
+
+                        .fixed_block.null.flip
+                            #front
+                                .ui.right.teal.corner.label(title="虚位以待")
+                                    i.fa-lock.fa
+                                .imgbox
+                                    a.ta_cover(href="javascript:void(0);", target="_blank")
+                            #back
+                                #back2front.circular.ui.icon.button(title="返回")
+                                    i.fa.fa-chevron-left
+                                .ui.form
+                                    .ui.message
+                                        ul.list
+                                            li 如果不清楚这个位置是干嘛用的，请参考“怎么玩儿”的第2条规则。
+                                            li 提交后，会有人联系你，问你到底想干嘛。
+                                    .field
+                                        label 你叫啥(网名之类的称呼也可以)
+                                        input#input_name(type="text")
+                                    .field
+                                        label 邮箱
+                                        input#input_email(type="text")
+                                    .field(style="text-align:center")
+                                        #applyBtn.ui.button.green
+                                            | 写好了，提交
+
+
+
+                        .fixed_block
+                            .ui.right.teal.corner.label(title="友情置顶")
+                                i.fa-star.fa
+                            .imgbox
+                                a.ta_cover(href="http://www.wandoujia.com/join", target="_blank", style="background-image:url(http://ww2.sinaimg.cn/large/ed133892gw1ee53b743uyj20go0gognh.jpg);background-size: cover;")>
+                                .ta_title
+                                    a(href="http://www.wandoujia.com/join", target="_blank")
+                                        |  (╭￣3￣)╭♡ &nbsp; 加入豌豆荚，我们一起工作吧
                 .chat
 
     .noticeWrap

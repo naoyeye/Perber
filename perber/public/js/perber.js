@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-05 16:08:47
+* @Last Modified time: 2014-03-06 00:10:26
 */
 
 
@@ -16,7 +16,7 @@ $(function() {
 
     // focusInput();
 
-    chat.append(ich.loading());
+    $('body').append(ich.loader());
 
 /*
 =================
@@ -244,7 +244,7 @@ delete msg
    Delete msg
 =================
 */
-    $('.chat-list').hammer({
+    $('.chat').hammer({
         hold_timeout: 1000, // hold time setting
         stop_browser_behavior: { userSelect: "" }
     }).on('hold', '.chat-box', function(event) {
@@ -283,7 +283,7 @@ delete msg
                 chat.masonry( 'remove', $e);
                 // $('.chat').masonry();
                 clearTimeout($e.delTime)
-            }, 5000)
+            }, 800)
         })
 
         // 绑定 "取消删除"事件
@@ -698,7 +698,7 @@ delete msg
     }
 
     function hideLoading(){
-        $('.chat-list .loading').remove();
+        $('.loader').remove();
     }
 
     function hideNull(){
@@ -1203,6 +1203,40 @@ delete msg
             });
             $('#upimg').html('').hide();
     });
+
+
+
+    // 翻转
+    $('#front').click(function(){
+        $('.fixed_block.null').addClass('flip')
+    })
+    $('#back2front').click(function(){
+        $('.fixed_block.null').removeClass('flip')
+    })
+
+    // 申请
+    $('#applyBtn').click(function(){
+        var $t = $(this),
+            name = $('#input_name').val(),
+            email = $('#input_email').val();
+        $t.attr('class','ui loading button').attr('disabled', 'disabled')
+        $.ajax({ 
+            url: '/apply',
+            type: 'POST',
+            cache: false,
+            data: { name: name, email: email},
+            dataType : "json",
+            success: function(res){
+                console.log('1', res.status)
+                notice('error', '别着急，这个表单提交功能还没写完，只是测试用的',2000)
+                $t.attr('class','ui green button').attr('disabled', '')
+                $('.fixed_block.null').removeClass('flip')
+            }
+        })
+
+    })
+
+
 
 })
 
