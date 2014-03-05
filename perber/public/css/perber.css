@@ -1841,6 +1841,9 @@ Responsive
             width: 300px;
             max-width: 300px;
         }
+        #Tips{
+            display: none;
+        }
 /*        .cover{
             -webkit-filter:none;
             -moz-filter:none;
@@ -1897,6 +1900,9 @@ Responsive
         }
         a.ta_cover{
             background-position: center top;
+        }
+        #Tips{
+            display: block;
         }
 /*        .cover{
             -webkit-filter:blur(2px);
