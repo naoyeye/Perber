@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-04 02:01:50
+* @Last Modified time: 2014-03-06 02:28:25
 */
 
 
@@ -67,6 +67,8 @@ function Sockets (app, server) {
         // 'log level' : 0
         // 0 - error, 1 - warn, 2 - info, 3 - debug
     });
+
+    var count = 0;
 
     io.set('authorization', function (hsData, accept) {
         if(hsData.headers.cookie) {
@@ -137,23 +139,41 @@ function Sockets (app, server) {
 
         client.sadd('sockets:for:' + userKey + ':at:' + room_id, socket.id, function(err, socketAdded) {
 
-            console.log('socketAdded!!!')
-
+            // console.log('socketAdded!!!')
 
             if(socketAdded) {
+
                 client.sadd('socketio:sockets', socket.id);
                 client.sadd('rooms:' + room_id + ':online', userKey, function(err, userAdded) {
                     if(userAdded) {
                         client.hincrby('rooms:' + room_id + ':info', 'online', 1);
 
-                        client.get('users:' + userKey + ':status', function(err, status) {
-                            io.sockets.in(room_id).emit('new user', {
-                                nickname: nickname,
-                                // avatar: avatar,
-                                // provider: provider,
-                                status: status || 'available'
-                            });
-                        });
+                        // client.get('users:' + userKey + ':status', function(err, status) {
+
+                        //     count = count + 1;
+                        //     console.log('new', count)
+                        //     // io.sockets.in(room_id).emit('update online', {
+                        //     //     count: count,
+                        //     //     action: 'add'
+                        //     // });
+
+                        //     io.sockets.in(room_id).emit('new user', {
+                        //         nickname: nickname,
+                        //         // avatar: avatar,
+                        //         // provider: provider,
+                        //         status: status || 'available'
+                        //     });
+                        // });
+
+                        // client.scard('rooms:' + room_id + ':info', '', function(err, how_many) {
+                        //     console.log('add how_many', how_many)
+                        //     io.sockets.in(room_id).emit('update online', {
+                        //         count: how_many,
+                        //         action: 'add'
+                        //     });
+                        // })
+
+                        // console.log('added!!')
                     }
                 });
             }
@@ -479,26 +499,56 @@ function Sockets (app, server) {
         });
 
         socket.on('disconnect', function() {
-            console.log('disconnect!!!')
+            // console.log('disconnect!!!')
+            
           // 'sockets:at:' + room_id + ':for:' + userKey
             client.srem('sockets:for:' + userKey + ':at:' + room_id, socket.id, function(err, removed) {
                 if(removed) {
+
                     client.srem('socketio:sockets', socket.id);
                     client.scard('sockets:for:' + userKey + ':at:' + room_id, function(err, members_no) {
+
+                        // console.log('members_no', members_no)
+
+
                         if(!members_no) {
                             client.srem('rooms:' + room_id + ':online', userKey, function(err, removed) {
                                 if (removed) {
                                     client.hincrby('rooms:' + room_id + ':info', 'online', -1);
-                                    // chatlogWriteStream.destroySoon();
-                                    io.sockets.in(room_id).emit('user leave', {
-                                        nickname: nickname,
-                                        // avatar: avatar,
-                                        provider: provider
-                                    });
+
+                                    
+
+                                    // count = count - 1;
+                                    // console.log('leave', count)
+                                    // io.sockets.in(room_id).emit('update online', {
+                                    //     count: count,
+                                    //     action: 'remove'
+                                    // });
+                                    // console.log(client.hincrby)
+
+                                    // io.sockets.in(room_id).emit('user leave', {
+                                    //     nickname: nickname,
+                                    //     // avatar: avatar,
+                                    //     provider: provider
+                                    // });
+
+
+                                    // client.scard('sockets:for:' + userKey + ':at:' + room_id, function(err, how_many) {
+                                    //     console.log('leave how_many', how_many)
+                                    //     io.sockets.in(room_id).emit('update online', {
+                                    //         count: how_many,
+                                    //         action: 'remove'
+                                    //     });
+                                    // })
                                 }
                             });
                         }
                     });
+
+                    // client.scard('sockets:for:' + userKey + ':at:' + room_id,function(err, how_many) {
+                    //     console.log('leave how_many', how_many)
+                    // })
+
                 }
             });
         });

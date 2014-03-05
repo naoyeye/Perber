@@ -14,6 +14,11 @@
         "secret_key" : "your qiniu secret key"
     },
 
+    "mailer" : {
+        "user":"your gmail",
+        "pass":"your gmail password"
+    },
+
     "auth": {
         "twitter": {
             "consumerkey" : "your consumerkey",

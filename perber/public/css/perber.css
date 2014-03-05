@@ -1173,6 +1173,7 @@ figure{
 }
 
 .chat-input .ui.form .field{
+    /*margin: 0 60px 0 70px;*/
     margin: 0 60px 0 10px;
 }
 .chat-input .ui.form textarea{
@@ -1332,6 +1333,36 @@ figure{
     color: #fff;
 }
 
+
+#onlineCount{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 11;
+    display: none;
+    width: 60px;
+    height: 80px;
+    font-size: 12px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+}
+#number.addP{
+    background: green;
+}
+#number.removeP{
+    background: #c00;
+}
+#onlineCount span{
+    display: block;
+    height: 40px;
+}
+#number{
+    background: #fcc;
+}
+#action{
+    background: #c00;
+}
 
 
 /* Tips */
@@ -1721,28 +1752,28 @@ body.intro-wrap-open  .intro-wrap-content #IntroInner{
 /*--------------------
   Placeholder
 ---------------------*/
-.ui.form ::-webkit-input-placeholder { /* WebKit browsers */
+.chat-input .ui.form ::-webkit-input-placeholder { /* WebKit browsers */
     color:rgba(0, 0, 0, 0.8);
     font-size: 18px;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif!important;
     font-weight: 300;
     padding-left: 5px;
 }
-.ui.form :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+.chat-input .ui.form :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color:rgba(0, 0, 0, 0.8);
     font-size: 18px;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif!important;
     font-weight: 300;
     padding-left: 5px;
 }
-.ui.form ::-moz-placeholder { /* Mozilla Firefox 19+ */
+.chat-input .ui.form ::-moz-placeholder { /* Mozilla Firefox 19+ */
     color:rgba(0, 0, 0, 0.8);
     font-size: 18px;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif!important;
     font-weight: 300;
     padding-left: 5px;
 }
-.ui.form :-ms-input-placeholder { /* Internet Explorer 10+ */
+.chat-input .ui.form :-ms-input-placeholder { /* Internet Explorer 10+ */
     color:rgba(0, 0, 0, 0.8);
     font-size: 18px;
      font-family: "Roboto", "Helvetica", "Arial", sans-serif!important;
@@ -1752,16 +1783,16 @@ body.intro-wrap-open  .intro-wrap-content #IntroInner{
 
 
 
-.ui.form :focus::-webkit-input-placeholder { /* WebKit browsers */
+.chat-input .ui.form :focus::-webkit-input-placeholder { /* WebKit browsers */
     color:rgba(0, 0, 0, 0.2);
 }
-.ui.form :focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+.chat-input .ui.form :focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color:rgba(0, 0, 0, 0.2);
 }
-.ui.form :focus::-moz-placeholder { /* Mozilla Firefox 19+ */
+.chat-input .ui.form :focus::-moz-placeholder { /* Mozilla Firefox 19+ */
     color:rgba(0, 0, 0, 0.2);
 }
-.ui.form :focus:-ms-input-placeholder { /* Internet Explorer 10+ */
+.chat-input .ui.form :focus:-ms-input-placeholder { /* Internet Explorer 10+ */
     color:rgba(0, 0, 0, 0.2);
 }
 
@@ -1802,6 +1833,10 @@ Responsive
             top: 0px;
             right: 17px;
             padding-top: 3px;
+        }
+        #important .chat-box .fixed_block:first-child {
+            width: 300px;
+            max-width: 300px;
         }
 /*        .cover{
             -webkit-filter:none;

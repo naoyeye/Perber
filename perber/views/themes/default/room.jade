@@ -4,12 +4,16 @@ block content
     .wrap
         .content(role="main")
 
+            #onlineCount
+                span#number
+                span#action
+
             ul#Tips
-                li(id="about", class="active")
-                    i(class="fa fa-circle-o")
+                li#about
+                    i.fa.fa-circle-o
                     span About Perber
-                li(id="usage")
-                    i(class="fa fa-question-circle")
+                li#usage
+                    i.fa.fa-question-circle
                     span Usage
 
             #drop_zone.chat-input(data-bucket="#{bucket_name}")
@@ -22,9 +26,9 @@ block content
                 #important
                     .chat-box
                         .fixed_block
-                            .ui.right.red.corner.label(title="通知")
+                            .ui.right.teal.corner.label(title="通知")
                                 i.fa-bullhorn.fa
-                            | ╰(*￣0￣*)╯ 怎么玩儿：<br><br>1. 如果对某条内容不感兴趣，或者觉得没有必要留在网上，那就<span style="background:#fde58b">一直按着它</span>，然后点“x”把它删掉吧。在这儿，不怕内容少，就怕内容多。<br><br> 2. 如果不想让自己发的内容被删掉，可以点击“有空”，提交你的联系方式。名额只有一个，4月1日之前免费。<br><br> 3. 把图片拖拽到输入框，可以上传图片。直接发GIF图片的链接是不能出现图片的，除非是来自新浪的GIF图。instagram的图片也是支持的。(￢∀￢) <br><br> 4. 可以识别虾米的歌曲URL（注意歌曲URL是 http:xxx.xiami.xxx/song/xxxx 这种），现在识别的速度有点慢，因为blah blah的原因。(￣(ｴ)￣)<br><br> 5. “网站介绍”神马的点击右上角的图标就好了，反正也没人看。好了，飞走~~ ʅ(‾◡◝)ʃ
+                            | ╰(*￣0￣*)╯ 怎么玩儿：<br><br>1. 如果对某条内容不感兴趣，或者觉得没有必要留在网上，那就一直按着它，然后点“x”把它删掉吧。在这儿，不怕内容少，就怕内容多。<br><br> 2. 如果不想让自己发的内容被删掉，可以点击“有空”，提交你的联系方式。名额只有一个，4月1日之前免费。<br><br> 3. 把图片拖拽到输入框，可以上传图片。直接发GIF图片的链接是不能出现图片的，除非是来自新浪的GIF图。instagram的图片也是支持的。(￢∀￢) <br><br> 4. 可以识别虾米的歌曲URL（注意歌曲URL是 http:xxx.xiami.xxx/song/xxxx 这种），现在识别的速度有点慢，因为blah blah的原因。(￣(ｴ)￣)<br><br> 5. “网站介绍”神马的点击右上角的图标就好了，反正也没人看。好了，飞走~~ ʅ(‾◡◝)ʃ
 
                         .fixed_block.null
                             #front
@@ -42,10 +46,10 @@ block content
                                             li 提交后，会有人联系你，问你到底想干嘛。
                                     .field
                                         label 你叫啥(网名之类的称呼也可以)
-                                        input#input_name(type="text")
+                                        input#input_name(type="text",placeholder="输入称呼",name="name", maxlength="20")
                                     .field
-                                        label 邮箱
-                                        input#input_email(type="text")
+                                        label 邮箱地址(*必填)
+                                        input#input_email(type="email",placeholder="输入邮箱地址",name="email")
                                     .field(style="text-align:center")
                                         #applyBtn.ui.button.green
                                             | 写好了，提交

@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-03-05 23:59:51
+* @Last Modified time: 2014-03-06 03:17:28
 */
 
 
@@ -11,9 +11,10 @@
 * Module dependencies
 */
 
-var utils = require('../utils'),
-    fs = require('fs'),
-    qiniu = require('qiniu');
+var utils = require('../utils');
+var fs = require('fs');
+var qiniu = require('qiniu');
+var nodemailer = require("nodemailer");
 
 /**
  * Expose routes
@@ -33,7 +34,22 @@ function Routes (app) {
     var client = app.get('redisClient');
     var mysql = app.get('mysqlClient');
     var imagesBucket = app.get('imagesBucket');
-  
+
+
+    /*
+    * mailer config
+    */
+    // create reusable transport method (opens pool of SMTP connections)
+    var smtpTransport = nodemailer.createTransport("SMTP",{
+        service: "Gmail",
+        auth: {
+            user: config.mailer.user,
+            pass: config.mailer.pass
+        }
+    });
+
+
+
     /*
     * Homepage
     */
@@ -170,8 +186,45 @@ function Routes (app) {
     })
 
     app.post('/apply', function(req, res, next){
-        console.log(req.body)
-        res.json({status : 'o'})
+        var mail_text;
+        var m_name = req.body.name,
+            m_email = req.body.email;
+
+        var mailReg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/g;
+
+
+        if(m_name.length > 20) return;
+        if(!mailReg.test(m_email)) return;
+        if(m_email === '' || m_email.lenth < 1) return;
+
+        if (req.body.name == ''){
+            mail_text = "email:" + m_email;
+        } else {
+            mail_text = "name:" + m_name + ", email:" + m_email
+        }
+
+        // setup e-mail data with unicode symbols
+        var mailOptions = {
+            from: "Perber ✔ <naoyeye@gmail.com>", // sender address
+            to: "jiyun@han.im", // list of receivers
+            subject: "Hello, Someone apply for Perber! ✔", // Subject line
+            text: mail_text//, // plaintext body
+            // html: "<b>Hello world ✔</b>" // html body
+        }
+
+        // send mail with defined transport object
+        smtpTransport.sendMail(mailOptions, function(error, response){
+            if(error){
+                console.log(error);
+                res.json({status : 'error'})
+            }else{
+                console.log("Message sent: " + response.message);
+                res.json({status : 'success'})
+            }
+
+            // if you don't want to use this transport object anymore, uncomment following line
+            //smtpTransport.close(); // shut down the connection pool, no more messages
+        });
     })
 
 

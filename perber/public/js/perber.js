@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-06 00:14:56
+* @Last Modified time: 2014-03-06 03:17:00
 */
 
 
@@ -38,6 +38,18 @@ $(function() {
             socket.emit('history request');
         }
     });
+
+
+
+/*
+update online people number
+*/
+    // socket.on('update online', function(data){
+    //     if(data && data.count){
+    //         updateOnlineCount(data.count, data.action);
+    //     }
+    // })
+
 
 /*
 history response
@@ -927,6 +939,31 @@ delete msg
         })
     }
 
+    // function updateOnlineCount(num, _action){
+    //     var number = $('#number'),
+    //         action = $('#action'),
+    //         online = $('#onlineCount');
+    //     online.show();
+    //     number.html(num+' 在线').attr('title', num+' 在线');
+
+    //     if(_action === 'add'){
+    //         online.addClass('addP').removeClass('removeP');
+    //         action.html('有人来了');
+    //         setTimeout(function(){
+    //             online.attr('class','');
+    //             // action.html('');
+    //         },100)
+    //     }
+    //     if(_action === 'remove'){
+    //         online.addClass('removeP').removeClass('addP');
+    //         action.html('有人走了');
+    //         setTimeout(function(){
+    //             online.attr('class','');
+    //             // action.html('');
+    //         },100)
+    //     }
+    // }
+
 
 
 // =============filedrop==============
@@ -1187,7 +1224,7 @@ delete msg
                 console.log(jqXHR)
                 console.log(textStatus)
                 console.log(err.error)
-                // todo error dialog
+                notice('error', '出错了。'+ err.error, 2000)
             }
         })
     })
@@ -1219,7 +1256,31 @@ delete msg
         var $t = $(this),
             name = $('#input_name').val(),
             email = $('#input_email').val();
+
+        var mailReg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/g;
+
+
+        if(name.length > 20){
+            notice('error', '名称太长了', 3000);
+            return;
+        }
+
+        if(email.length < 1){
+            notice('error', '还没填写邮箱', 3000);
+            return;
+        }
+
+        if(!mailReg.test(email)){
+            notice('error', '请检查邮箱地址是否写错', 3000);
+            return;
+        }
+
+
         $t.attr('class','ui loading button').attr('disabled', 'disabled')
+
+        $('#input_name').val('');
+        $('#input_email').val('');
+
         $.ajax({ 
             url: '/apply',
             type: 'POST',
@@ -1227,8 +1288,17 @@ delete msg
             data: { name: name, email: email},
             dataType : "json",
             success: function(res){
-                // console.log('1', res.status)
-                notice('error', '别着急，这个表单提交功能还没写完，只是测试用的',2000)
+                if(res.status === 'success'){
+                    notice('success', '已收到申请，稍后会有人联系你', 3000)
+                    $t.attr('class','ui green button').attr('disabled', '')
+                    $('.fixed_block.null').removeClass('flip')
+                }
+            },
+            error: function(jqXHR, textStatus, err){
+                console.log(jqXHR)
+                console.log(textStatus)
+                console.log(err.error)
+                notice('error', '出错了。'+ err.error, 2000)
                 $t.attr('class','ui green button').attr('disabled', '')
                 $('.fixed_block.null').removeClass('flip')
             }
