@@ -45,6 +45,7 @@ CREATE TABLE `Messages` (
   `message` text NOT NULL,
   `music_title` text,
   `music_artist` text,
+  `music_album` text,
   `music_cover` text,
   `music_location` text,
   `retained` tinyint(1) NOT NULL DEFAULT '0',
