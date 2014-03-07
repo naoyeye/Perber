@@ -28,7 +28,16 @@ block content
                         .fixed_block
                             .ui.right.teal.corner.label(title="通知")
                                 i.fa-bullhorn.fa
-                            | ╰(*￣0￣*)╯ 怎么玩儿：<br><br>1. 如果对某条内容不感兴趣，或者觉得没有必要留在网上，那就一直按着它，然后点“x”把它删掉吧。在这儿，不怕内容少，就怕内容多。<br><br> 2. 如果不想让自己发的内容被删掉，可以点击“有空”，提交你的联系方式。名额只有一个，4月1日之前免费。<br><br> 3. 把图片拖拽到输入框，可以上传图片。直接发GIF图片的链接是不能出现图片的，除非是来自新浪的GIF图。instagram的图片也是支持的。(￢∀￢) <br><br> 4. 可以识别虾米的歌曲URL（注意歌曲URL是 http:xxx.xiami.xxx/song/xxxx 这种），现在识别的速度有点慢，因为blah blah的原因。(￣(ｴ)￣)<br><br> 5. “网站介绍”神马的点击右上角的图标就好了，反正也没人看。好了，飞走~~ ʅ(‾◡◝)ʃ
+                            | ╰(*￣0￣*)╯ 怎么玩儿：<br><br>
+                            | 1. 如果对某条内容不感兴趣，或者觉得没有必要留在网上，那就<mark>一直按着它</mark>，然后点“x”把它删掉吧。在这儿，不怕内容少，就怕内容多。<br><br>
+                            | 2. 如果不想让自己发的内容被删掉，可以点击“有空”——如果还有空的话——提交你的联系方式。名额只有一个，4月1日之前免费。<br><br> 
+                            | 3. 把图片拖拽到输入框，可以上传图片。直接发GIF图片的链接是不能出现图片的，除非是来自新浪的GIF图。instagram的图片也是支持的。(￢∀￢) <br><br> 
+                            | 4. 可以识别虾米的歌曲URL（注意歌曲URL是 <mark>http://www.xiami.com/song/11234567</mark>这种），现在识别的速度有点慢，因为blah blah的原因。(￣(ｴ)￣)<br><br>
+                            | 5. “网站介绍”神马的点击右上角的图标就好了，反正也没人看。好了，飞走~~ ʅ(‾◡◝)ʃ
+
+
+
+                        // card 0 apply
 
                         //- .fixed_block.null
                         //-     #front
@@ -54,22 +63,37 @@ block content
                         //-                 #applyBtn.ui.button.green
                         //-                     | 写好了，提交
 
-                        .fixed_block
+
+
+                        // card 1 bg+text
+
+                        .fixed_block.card_1
                             .ui.right.teal.corner.label(title="友情置顶")
                                 i.fa-star.fa
                             .imgbox
-                                .ta_cover(style="background-image:url(http://ww2.sinaimg.cn/large/ed133892gw1ee5rhd7rsaj20go0jgtat.jpg);background-size: cover;")
-                                .ta_title
-                                    | 此位置已经有人预订了
+                                //- .ta_cover(style="background-image:url(http://ww2.sinaimg.cn/large/ed133892gw1ee659t3wbrj20h00h00u6.jpg);background-size: cover;")
+                                .ta_cont
+                                    p
+                                        //- | 两姓联姻，一堂缔约，良缘永结，匹配同称。看此日桃花灼灼，宜室宜家，卜他年瓜瓞绵绵，尔昌尔炽。谨以白头之约，书向鸿笺，好将红叶之盟，载明鸳谱。
+                                        | <i class="fa fa-quote-left"></i> 我跑上门，打开楼梯。说完睡衣，穿上祷告，关上床，钻进灯。所有这一切都是因为，道晚安时你给我的一吻。 <i class="fa fa-quote-right"></i>
+                                        span
+                                            | —— 由“不愿意透露姓名的某人”投递
+
+
+
+                                //- .ta_title
+                                //-     | 此位置已经有人预订了
+
+                        // card 2 bg+short text
 
                         .fixed_block
                             .ui.right.teal.corner.label(title="友情置顶")
                                 i.fa-star.fa
                             .imgbox
-                                a.ta_cover(href="http://www.wandoujia.com/join", target="_blank", style="background-image:url(http://ww2.sinaimg.cn/large/ed133892gw1ee53b743uyj20go0gognh.jpg);background-size: cover;")>
+                                a.ta_cover(href="http://www.wandoujia.com/join", target="_blank", style="background-image:url(http://ww2.sinaimg.cn/large/ed133892gw1ee53b743uyj20go0gognh.jpg);background-size: cover;")
                                 .ta_title
                                     a(href="http://www.wandoujia.com/join", target="_blank")
-                                        |  (╭￣3￣)╭♡ &nbsp; 加入豌豆荚，我们一起工作吧
+                                        | (╭￣3￣)╭♡ &nbsp; 加入豌豆荚，我们一起工作吧
                 .chat
 
     .noticeWrap

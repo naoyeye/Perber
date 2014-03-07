@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-06 02:28:25
+* @Last Modified time: 2014-03-07 12:34:18
 */
 
 
@@ -23,7 +23,7 @@ var sio = require('socket.io'),
 var http = require('http');
 var url = require('url');
 var path = require('path');
-
+var xmlreader = require("xmlreader");
 
 var isXiamiSong = /www.xiami.com\/song\/\d+/;
 
@@ -193,7 +193,6 @@ function Sockets (app, server) {
             return value.replace('<span>', ' ').replace('</span>', '');
         }
 
-
         function getLocation(str) {
             try {
                 var a1 = parseInt(str.charAt(0)),
@@ -227,94 +226,179 @@ function Sockets (app, server) {
 
         function xiamiParse(pageUrl) {
             var sid = sidPattern.exec(pageUrl)[1];
-            var options = url.parse(pageUrl);
-
-            var location;
+            var options = url.parse('http://www.xiami.com/song/playlist/id/'+ sid +'/object_name/default/object_id/0');
             var xiamiRealSong = {};
 
             http.get(options, function(res) {
                 res.setEncoding('utf8');
-                var html = '';
+
+                var xml = '';
+
                 res.on('data', function(data) {
-                    html += data;
-                });
+                    xml += data;
+                    // console.log('xml on data = ', xml)
+                })
+
                 res.on('end', function() {
-                    var title = titlePattern.exec(html),
-                        artist = artistPattern.exec(html),
-                        cover = coverPattern.exec(html),
-                        coverPath = null;
+                    // console.log('xml end = ', xml)
+                    xmlreader.read(xml, function(errors, res){
+                        if(null !== errors ){
+                            console.log('errors', errors)
+                            return;
+                        }
 
-                    title = title ? title[1] : null;
-                    title = title.replace('<span>', ' ').replace('</span>', '');
-                    artist = artist ? artist[1] : null;
-                    cover = cover ? cover[0] : null;
+                        console.log('res.playlist.trackList.track', res.playlist.trackList.track)
 
-                    // console.log('cover 1', cover)
+                        xiamiRealSong['title'] = res.playlist.trackList.track.title.text();
+                        xiamiRealSong['artist'] =  res.playlist.trackList.track.artist.text();
+                        xiamiRealSong['album'] = res.playlist.trackList.track.album_name.text();
+                        xiamiRealSong['location'] = getLocation(res.playlist.trackList.track.location.text());
 
-                    var coverReg = /http:\/\/[a-zA-Z0-9-.-\/-_]+.(jpg|jpeg|png|gif|bmp)/g;
-                    if(coverReg.test(cover)){
-                        // var coverPath = cover.match(coverReg)[0];
-                        // coverPath = coverPath.replace('_2.jpg', '.jpg');
-                        // console.log('coverPath 1', coverPath)
-                        cover.replace(coverReg, function(s,value) {
-                            coverPath = s.replace('_2', '');
-                        });
-                        // console.log('coverPath 2', coverPath)
-                    }
+                        // 封面处理
+                        var cover;
+                        var coverpath = res.playlist.trackList.track.pic.text();
+                        var coverReg = /http:\/\/[a-zA-Z0-9-.-\/-_]+.(jpg|jpeg|png|gif|bmp)/g;
 
-                    var filename = title + (artist ? (' - ' + artist) : '') + '.mp3';
+                        // 正则替换小的封面为大封面
+                        if(coverReg.test(coverpath)){
+                            coverpath.replace(coverReg, function(s,value) {
+                                cover = s.replace('_1', '');
+                            });
+                        }
+                        xiamiRealSong['cover'] =  cover;
 
-                    xiamiRealSong['title'] = title;
-                    xiamiRealSong['artist'] = artist;
-                    xiamiRealSong['cover'] = coverPath;
+                        // console.log('xiamiRealSong', xiamiRealSong)
+                        //至此，已得到全部了歌曲信息
 
-                    if ((title || artist) && title.indexOf('span class') < 0) {
-                        filename = safeFilter(filename);
-                        options = url.parse('http://www.xiami.com/song/gethqsong/sid/' + sid);
+                        // 往数据库中插入
+                        var data = [
+                            pageUrl,
+                            xiamiRealSong.title,
+                            xiamiRealSong.artist,
+                            xiamiRealSong.album,
+                            xiamiRealSong.cover,
+                            xiamiRealSong.location
+                        ]
+                        mysql.query('INSERT INTO Messages SET message = ?, music_title = ?, music_artist = ?, music_album = ?, music_cover = ?, music_location = ?', data, function(error, results) {
+                            if(error) {
+                                console.log("mysql INSERT Error: " + error.message);
+                                // mysql.end();
+                                return;
+                            }
 
-                        http.get(options, function(res) {
-                            res.setEncoding('utf8');
-                            res.on('data', function(data) {
-                                location = getLocation(JSON.parse(data).location);
-                                xiamiRealSong['location'] = location;
-                            })
+                            var msgID = results.insertId;
 
-                            res.on('end', function() {
-                                // console.log('end location, xiamiRealSong', xiamiRealSong)
-
-                                var data = [
-                                    pageUrl,
-                                    xiamiRealSong.title,
-                                    xiamiRealSong.artist,
-                                    xiamiRealSong.cover,
-                                    xiamiRealSong.location
-                                ]
-
-                                // 往数据库中插入
-                                mysql.query('INSERT INTO Messages SET message = ?, music_title = ?, music_artist = ?, music_cover = ?, music_location = ?', data, function(error, results) {
-                                    if(error) {
-                                        console.log("mysql INSERT Error: " + error.message);
-                                        // mysql.end();
-                                        return;
-                                    }
-
-                                    var msgID = results.insertId;
-
-                                    // 向前端返回歌曲信息
-                                    io.sockets.in(room_id).emit('new song', {
-                                        id: msgID,
-                                        song: xiamiRealSong,
-                                        songOriginal : pageUrl,
-                                        time: new Date()
-                                    });
-                                })
-
-                            })
-
+                            // 向前端返回歌曲信息
+                            io.sockets.in(room_id).emit('new song', {
+                                id: msgID,
+                                song: xiamiRealSong,
+                                songOriginal : pageUrl,
+                                time: new Date()
+                            });
                         })
-                    }
+                    });
+
                 })
             })
+
+            // var location;
+            // var xiamiRealSong = {};
+
+            // http.get(options, function(res) {
+            //     res.setEncoding('utf8');
+            //     var html = '';
+            //     res.on('data', function(data) {
+            //         html += data;
+            //     });
+            //     res.on('end', function() {
+            //         var title = titlePattern.exec(html),
+            //             artist = artistPattern.exec(html),
+            //             cover = coverPattern.exec(html),
+            //             coverPath = null;
+
+            //         title = title ? title[1] : null;
+            //         title = title.replace('<span>', ' ').replace('</span>', '');
+            //         artist = artist ? artist[1] : null;
+            //         cover = cover ? cover[0] : null;
+
+            //         // console.log('cover 1', cover)
+
+            //         var coverReg = /http:\/\/[a-zA-Z0-9-.-\/-_]+.(jpg|jpeg|png|gif|bmp)/g;
+            //         if(coverReg.test(cover)){
+            //             // var coverPath = cover.match(coverReg)[0];
+            //             // coverPath = coverPath.replace('_2.jpg', '.jpg');
+            //             // console.log('coverPath 1', coverPath)
+            //             cover.replace(coverReg, function(s,value) {
+            //                 coverPath = s.replace('_2', '');
+            //             });
+            //             // console.log('coverPath 2', coverPath)
+            //         }
+
+            //         var filename = title + (artist ? (' - ' + artist) : '') + '.mp3';
+
+            //         xiamiRealSong['title'] = title;
+            //         xiamiRealSong['artist'] = artist;
+            //         xiamiRealSong['cover'] = coverPath;
+
+            //         console.log('xiamiRealSong', xiamiRealSong)
+
+            //         if ((title || artist) && title.indexOf('span class') < 0) {
+            //             filename = safeFilter(filename);
+            //             // options = url.parse('http://www.xiami.com/song/gethqsong/sid/' + sid);
+
+            //             options = url.parse('http://www.xiami.com/song/playlist/id/'+ sid +'/object_name/default/object_id/0');
+
+            //             console.log('options', options)
+            //             console.log('filename', filename)
+
+            //             return;
+
+            //             http.get(options, function(res) {
+            //                 res.setEncoding('utf8');
+            //                 res.on('data', function(data) {
+            //                     location = getLocation(JSON.parse(data).location);
+            //                     console.log('location', location)
+            //                     xiamiRealSong['location'] = location;
+            //                 })
+
+            //                 res.on('end', function() {
+            //                     // console.log('end location, xiamiRealSong', xiamiRealSong)
+
+            //                     var data = [
+            //                         pageUrl,
+            //                         xiamiRealSong.title,
+            //                         xiamiRealSong.artist,
+            //                         xiamiRealSong.cover,
+            //                         xiamiRealSong.location
+            //                     ]
+
+            //                     console.log('data', data)
+
+            //                     // 往数据库中插入
+            //                     mysql.query('INSERT INTO Messages SET message = ?, music_title = ?, music_artist = ?, music_cover = ?, music_location = ?', data, function(error, results) {
+            //                         if(error) {
+            //                             console.log("mysql INSERT Error: " + error.message);
+            //                             // mysql.end();
+            //                             return;
+            //                         }
+
+            //                         var msgID = results.insertId;
+
+            //                         // 向前端返回歌曲信息
+            //                         io.sockets.in(room_id).emit('new song', {
+            //                             id: msgID,
+            //                             song: xiamiRealSong,
+            //                             songOriginal : pageUrl,
+            //                             time: new Date()
+            //                         });
+            //                     })
+
+            //                 })
+
+            //             })
+            //         }
+            //     })
+            // })
         }
 
         function xiamiRun(pageUrl){

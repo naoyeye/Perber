@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-06 04:08:16
+* @Last Modified time: 2014-03-07 12:28:37
 */
 
 
@@ -84,6 +84,7 @@ history response
                             songOriginal: message,
                             title: historyLine.music_title,
                             artist: historyLine.music_artist,
+                            album: historyLine.music_album,
                             cover: historyLine.music_cover,
                             location: historyLine.music_location,
                             lang : lang,
@@ -184,6 +185,7 @@ get new msg
             songOriginal: data.songOriginal,
             title: data.song.title,
             artist: data.song.artist,
+            album: data.song.album,
             cover: data.song.cover,
             location: data.song.location,
             retained : data.retained,

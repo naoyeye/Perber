@@ -121,6 +121,10 @@ h5 {
   /*letter-spacing: 1px;*/
 }
 
+mark{
+    background: #f3edae;
+    color: #656248;
+}
 
 ul,ol,li{
     margin: 0;
@@ -797,13 +801,47 @@ body{
     display: table-cell;
     vertical-align: middle;
 }
-a.ta_cover div strong{
-    font-size: 40px;
-}
-a.ta_cover:hover{
-    opacity: .0.8
-}
 
+
+/*===== Card 1 ===*/
+.card_1 .imgbox{
+    height: 350px;
+}
+.card_1 .ta_cont{
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.card_1 .ta_cont p{
+    display: table-cell;
+    font-size: 18px;
+    line-height: 1.5;
+    vertical-align: middle;
+    text-align: left;
+    color: #333;
+}
+.card_1 .ta_cont p i{
+    color: #ddd;
+    font-size: 30px;
+}
+.card_1 .ta_cont p i.fa-quote-left{
+    margin-top: -30px;
+    margin-right: 10px;
+}
+.card_1 .ta_cont p i.fa-quote-right{
+    position: relative;
+    top: 10px;
+}
+.card_1 .ta_cont p span{
+    display: block;
+    font-size: 14px;
+    text-align: right;
+    padding-top: 20px;
+    color: #666;
+}
 
 
 /*music box*/
@@ -884,7 +922,6 @@ figure{
     transition:opacity 0.4s, top 0.4s;*/
 }
 .music_title{
-    display: inline-block;
     padding: 5px 10px;
     /*background: #333;*/
     /*background: rgba(0,0,0,0.4);*/
@@ -896,7 +933,7 @@ figure{
 }
 .music_artist{
     margin-top: 10px;
-    padding: 5px 10px;
+    padding: 5px;
     /*background: #333;*/
     /*background: rgba(0,0,0,0.4);*/
     font-size: 14px;
@@ -904,6 +941,7 @@ figure{
     line-height: 1;
     text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
+
 
 .musicBoxWapper span.time{
     height: 47px;

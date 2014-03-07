@@ -16,7 +16,7 @@ script#music_box(type='text/html')
                     .music_info
                         figcaption.music_title {{ title }}
                         div
-                            span.music_artist {{ artist }}
+                            span.music_artist {{ artist }} - 《{{ album }}》
                     .cp-jplayer(id="jquery_jplayer_{{ id }}", data-id="{{ id }}", data-location="{{ location }}")
                     .cp-container(id="cp_container_{{ id }}")
                         .cp-buffer-holder
