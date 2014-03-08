@@ -1,4 +1,4 @@
-# Perber
+# About
 
 I think it might be a meaningless thing(>_<), but just like a small experimental. I prefer to think of it as a hollow. The difference with hollow is: nobody knows who I am, but they can see what I said. when someone 'touch' my words, it'll disappear.
 
@@ -16,7 +16,7 @@ Maybe you can think of Perber as a blackboard in the square, anyone can put on t
 
 node.js(express), socket.io, redis, jade, mysql(node-mysql), node-qiniu
 
-## Start
+## How To Start
 
 0 into the project root directory: `/Perber/`
 
@@ -24,15 +24,15 @@ node.js(express), socket.io, redis, jade, mysql(node-mysql), node-qiniu
 
 2 change the file `config-example.json` (in '/Perber/perber/config/' ) to `config.json`
 
-3 modify: `mysqlConf` in your `config.json` file.
+3 modify: `mysqlConf` `qiniuConfig` `mailer` in your `config.json` file.
 
-4 `node perer/app.js`
+4 run server: `node perer/app.js`
 
-p.s. If you want run Perber on Server, maybe you should install "forever" : `npm install forever -g`
+p.s. If you want run Perber on your server, maybe you should install "forever" : `npm install forever -g`
 
 then: `forever start perer/app.js`
 
-## UI
+## UI Preview
 
 * Web preview in iOS Safari:
 
