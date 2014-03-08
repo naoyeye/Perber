@@ -586,6 +586,8 @@ body{
     max-width: 100%;
     margin: 0;
     font-size: 0;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
     box-sizing:border-box;
 }
 #important .chat-box .fixed_block{
@@ -600,6 +602,8 @@ body{
     border-radius: 5px;
     font-size: 14px;
     overflow: hidden;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
     box-sizing:border-box;
 }
 #important .chat-box .fixed_block:first-child{
