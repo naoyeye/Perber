@@ -79,12 +79,15 @@ block content
 
                         //- card blocking
                         .fixed_block.card_1
-                           .ui.right.teal.corner.label(title="友情置顶")
-                               i.fa-star.fa
-                           .imgbox
-                               .ta_cont
-                                   p(style="text-align:center")
-                                       | 此位置已被“晃荡”预订<br>稍后更新内容
+                            .ui.right.teal.corner.label(title="友情置顶")
+                                i.fa-star.fa
+                            .imgbox
+                                a.ta_cover(href="http://en.wikipedia.org/wiki/James_Gandolfini", target="_blank", style="background-image:url(http://ww4.sinaimg.cn/large/61b8bbf4gw1ee8oxycjgcj20go0gowga.jpg); background-size:cover;")
+                                //.ta_cont
+                                //    p(style="text-align:center")
+                                //        | 此位置已被“晃荡”预订<br>稍后更新内容
+                                .ta_title
+                                    | 预订了此位置的墨冥说，这里放ta崇拜的偶像
 
 
                         // card 2 bg+short text
