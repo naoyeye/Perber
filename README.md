@@ -36,14 +36,16 @@ then: `forever start perer/app.js`
 
 * Web preview in iOS Safari:
 
-![Perber preview in iOS Safari](http://ww2.sinaimg.cn/mw690/61b8bbf4gw1ee2vic6rhwj20hs0vkmzm.jpg)
+![Perber in iOS Safari](http://ww2.sinaimg.cn/mw690/61b8bbf4gw1ee2vic6rhwj20hs0vkmzm.jpg)
 
-* Fullscreen in Chrome(Mackbook Pro 13):
+* Perber in Chrome(Mackbook Pro 13):
 
-![Perber fullscreen in Chrome](http://ww4.sinaimg.cn/large/61b8bbf4gw1ee2vicc9x2j20zk0m8n0s.jpg)
+![Perber in Chrome](http://ww2.sinaimg.cn/large/ed133892gw1ee8kx8udjbj210i105k0q.jpg)
+
+![Perber in Chrome](http://ww1.sinaimg.cn/large/ed133892gw1ee8kxy2dxqj210i1jwn8k.jpg)
 
 
-## Starting point
+## The starting point:
 http://www.douban.com/group/topic/45262966/
 
 ## License
