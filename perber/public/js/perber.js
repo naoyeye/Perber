@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-07 12:28:37
+* @Last Modified time: 2014-03-14 14:09:19
 */
 
 
@@ -943,30 +943,30 @@ delete msg
         })
     }
 
-    // function updateOnlineCount(num, _action){
-    //     var number = $('#number'),
-    //         action = $('#action'),
-    //         online = $('#onlineCount');
-    //     online.show();
-    //     number.html(num+' 在线').attr('title', num+' 在线');
+    function updateOnlineCount(num, _action){
+        var number = $('#number'),
+            action = $('#action'),
+            online = $('#onlineCount');
+        online.show();
+        number.html(num+' 在线').attr('title', num+' 在线');
 
-    //     if(_action === 'add'){
-    //         online.addClass('addP').removeClass('removeP');
-    //         action.html('有人来了');
-    //         setTimeout(function(){
-    //             online.attr('class','');
-    //             // action.html('');
-    //         },100)
-    //     }
-    //     if(_action === 'remove'){
-    //         online.addClass('removeP').removeClass('addP');
-    //         action.html('有人走了');
-    //         setTimeout(function(){
-    //             online.attr('class','');
-    //             // action.html('');
-    //         },100)
-    //     }
-    // }
+        if(_action === 'add'){
+            online.addClass('addP').removeClass('removeP');
+            action.html('有人来了');
+            setTimeout(function(){
+                online.attr('class','');
+                // action.html('');
+            },100)
+        }
+        if(_action === 'remove'){
+            online.addClass('removeP').removeClass('addP');
+            action.html('有人走了');
+            setTimeout(function(){
+                online.attr('class','');
+                // action.html('');
+            },100)
+        }
+    }
 
 
 

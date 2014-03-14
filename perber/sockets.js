@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-07 12:52:48
+* @Last Modified time: 2014-03-14 14:04:16
 */
 
 
@@ -148,22 +148,22 @@ function Sockets (app, server) {
                     if(userAdded) {
                         client.hincrby('rooms:' + room_id + ':info', 'online', 1);
 
-                        // client.get('users:' + userKey + ':status', function(err, status) {
+                        client.get('users:' + userKey + ':status', function(err, status) {
 
-                        //     count = count + 1;
-                        //     console.log('new', count)
-                        //     // io.sockets.in(room_id).emit('update online', {
-                        //     //     count: count,
-                        //     //     action: 'add'
-                        //     // });
+                            // count = count + 1;
+                            // console.log('new', count)
+                            // io.sockets.in(room_id).emit('update online', {
+                            //     count: count,
+                            //     action: 'add'
+                            // });
 
-                        //     io.sockets.in(room_id).emit('new user', {
-                        //         nickname: nickname,
-                        //         // avatar: avatar,
-                        //         // provider: provider,
-                        //         status: status || 'available'
-                        //     });
-                        // });
+                            io.sockets.in(room_id).emit('new user', {
+                                nickname: nickname,
+                                // avatar: avatar,
+                                // provider: provider,
+                                status: status || 'available'
+                            });
+                        });
 
                         // client.scard('rooms:' + room_id + ':info', '', function(err, how_many) {
                         //     console.log('add how_many', how_many)
