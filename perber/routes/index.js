@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-03-06 03:17:28
+* @Last Modified time: 2014-03-14 19:48:23
 */
 
 
@@ -15,6 +15,7 @@ var utils = require('../utils');
 var fs = require('fs');
 var qiniu = require('qiniu');
 var nodemailer = require("nodemailer");
+var sio = require('socket.io');
 
 /**
  * Expose routes
@@ -29,11 +30,17 @@ module.exports = Routes;
  * @api public
  */
 
-function Routes (app) {
+function Routes (app, server) {
     var config = app.get('config');
     var client = app.get('redisClient');
     var mysql = app.get('mysqlClient');
     var imagesBucket = app.get('imagesBucket');
+    var io = sio.listen(server,{
+        log: false,
+        // 'debug': false,
+        // 'log level' : 0
+        // 0 - error, 1 - warn, 2 - info, 3 - debug
+    });
 
 
     /*
@@ -50,10 +57,7 @@ function Routes (app) {
 
 
 
-    /*
-    * Homepage
-    */
-
+    // index
     app.get('/', function(req, res, next) {
         res.render('room', { bucket_name: config.qiniuConfig.bucket_name });
     });
@@ -176,7 +180,7 @@ function Routes (app) {
 
     });
 
-
+    // 七牛得到token
     app.post('/sign', function(req, res, next){
         // console.log(req.body)
         var bucketname = config.qiniuConfig.bucket_name;
@@ -185,6 +189,7 @@ function Routes (app) {
         res.json({token : token})
     })
 
+    // 申请展示位
     app.post('/apply', function(req, res, next){
         var mail_text;
         var m_name = req.body.name,
@@ -226,6 +231,5 @@ function Routes (app) {
             //smtpTransport.close(); // shut down the connection pool, no more messages
         });
     })
-
 
 }

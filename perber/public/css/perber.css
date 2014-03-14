@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-05 16:13:36
+* @Last Modified time: 2014-03-14 19:51:14
 */
 
 /*
@@ -847,7 +847,34 @@ body{
     color: #666;
 }
 
+/*===== Card 3 ===*/
+.chat-box .card_3 .ta_cont h4{
+    margin: 0;
+    font-size: 18px;
+}
+.chat-box .card_3 .ta_cont p{
+    margin: 0;
+    padding: 30px 0;
+    /*font-size: 12px;*/
+}
+#vote_bar{
+    text-align: center;
+}
+#vote_info{font-size: 12px;padding-top: 20px;text-align: center;color: #bbb;}
 
+#vote_bar .ui.button{
+    box-sizing:content-box;
+    width: 81px;
+}
+#vote_bar .ui.button.disabled{
+    opacity: .6!important;
+    background: #f3f3f3!important;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.1) inset !important;
+}
+
+.disabled span{
+    color: #333;
+}
 /*music box*/
 figure{
     margin: 0;

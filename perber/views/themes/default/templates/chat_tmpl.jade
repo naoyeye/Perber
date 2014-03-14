@@ -119,6 +119,13 @@ script#notice_template(type='text/html')
     .notice
         .noticeInner
             |{{ text }}
-        
+
+script#vote_template(type='text/html')
+    .ui.buttons
+        a#v_upup.button.ui.green(class="{{ voted_class }}")
+            span#count_upup {{ count_upup }}
+        .or
+        a#v_down.button.ui.red(class="{{ voted_class }}")
+            span#count_down {{ count_down }}
 
 
