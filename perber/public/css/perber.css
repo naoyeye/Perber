@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-14 19:51:14
+* @Last Modified time: 2014-03-14 20:06:30
 */
 
 /*
@@ -848,6 +848,9 @@ body{
 }
 
 /*===== Card 3 ===*/
+.chat-box .card_3{
+    height: 350px;
+}
 .chat-box .card_3 .ta_cont h4{
     margin: 0;
     font-size: 18px;
