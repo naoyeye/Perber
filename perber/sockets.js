@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-15 15:28:28
+* @Last Modified time: 2014-03-15 17:02:28
 */
 
 
@@ -69,6 +69,38 @@ function Sockets (app, server) {
     });
 
     var count = 0;
+
+    // 过滤转义字符
+    function toTxt(str){
+        var RexStr = /(&lt;|&gt;|&quot;|&#39;|&#039;|&amp;)/g;
+        str = str.replace(RexStr,
+            function(MatchStr){
+                switch(MatchStr){
+                    case "&lt;":
+                        return "<";
+                        break;
+                    case "&gt;":
+                        return ">";
+                        break;
+                    case "&quot;":
+                        return '\"';
+                        break;
+                    case "&#39;":
+                        return "'";
+                        break;
+                    case "&#039;":
+                        return "'";
+                        break;
+                    case "&amp;":
+                        return "&";
+                        break;
+                    default :
+                        break;
+                }
+            }
+        )
+        return str;
+    }
 
     io.set('authorization', function (hsData, accept) {
         if(hsData.headers.cookie) {
@@ -250,9 +282,9 @@ function Sockets (app, server) {
                         // console.log('res.playlist.trackList.track', res.playlist.trackList.track)
                         // console.log(decodeURIComponent(res.playlist.trackList.track.title.text()))
 
-                        xiamiRealSong['title'] = res.playlist.trackList.track.title.text();
-                        xiamiRealSong['artist'] =  res.playlist.trackList.track.artist.text();
-                        xiamiRealSong['album'] = res.playlist.trackList.track.album_name.text();
+                        xiamiRealSong['title'] = toTxt(res.playlist.trackList.track.title.text());
+                        xiamiRealSong['artist'] =  toTxt(res.playlist.trackList.track.artist.text());
+                        xiamiRealSong['album'] = toTxt(res.playlist.trackList.track.album_name.text());
                         xiamiRealSong['location'] = getLocation(res.playlist.trackList.track.location.text());
 
                         // 封面处理
