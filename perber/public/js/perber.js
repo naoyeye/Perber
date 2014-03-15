@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-15 15:24:42
+* @Last Modified time: 2014-03-15 15:42:40
 */
 
 
@@ -1238,8 +1238,8 @@ delete msg
         if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString();
     }
 
-    // var tit = "Maja&#039;s Song";
-    // console.log('tit', decodeURIComponent(tit))
+    var tit = "Maja&#039;s Song";
+    console.log('tit', escape(tit))
 
 })
 

@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-15 11:24:54
+* @Last Modified time: 2014-03-15 16:49:47
 */
 
 /*
@@ -880,6 +880,57 @@ body{
 .disabled span{
     color: #333;
 }
+
+/*===== Card 4 ===*/
+.card_4{
+    height: 350px;
+}
+.card_4 .imgbox,
+.card_4 .ta_cover{
+    height: 350px;
+}
+.card_4 .ta_cover{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.card_4 .ta_cont{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 34px;
+    color: #fff;
+    line-height: 1.7;
+    display: table;
+    width: 100%;
+}
+.chat-box .card_4 p {
+    height: auto;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    overflow: hidden;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: 700;
+    padding-top: 190px;
+}
+.chat-box .card_4 p span{
+    padding-top: 20px;
+    display: block;
+    font-size: 12px;
+    color: #999;
+    font-weight: normal;
+}
+
+.chat-box .card_4 p span a{
+    color: #7bcaa5;
+}
+
 /*music box*/
 figure{
     margin: 0;
