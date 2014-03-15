@@ -1,4 +1,6 @@
 # www.robotstxt.org/
 # http://code.google.com/web/controlcrawlindex/
+# All robots will spider the domain
 
 User-agent: *
+Disallow:

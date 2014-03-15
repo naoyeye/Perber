@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-03-15 18:41:54
+* @Last Modified time: 2014-03-15 19:49:52
 */
 
 
@@ -136,5 +136,10 @@ function Routes (app, server) {
             //smtpTransport.close(); // shut down the connection pool, no more messages
         });
     })
+
+    //The 404 Route (ALWAYS Keep this as the last route)
+    app.get('*', function(req, res){
+        res.render('pages_404', 404);
+    });
 
 }
