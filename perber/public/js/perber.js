@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-15 15:42:40
+* @Last Modified time: 2014-03-15 18:57:53
 */
 
 
@@ -669,35 +669,6 @@ delete msg
     function focusInput() {
         $('.chat-input textarea').focus();
     }
-
-
-    //var scrollTop = document.body.scrollTop;
-    
-    // Tips toggle
-    $('.chat-input textarea').focus(function(){
-        // $('#Tips').removeClass('active');
-        
-        //console.log(scrollTop)
-        
-        // for iOS:
-        //$('.chat-input').css({'position':'absolute', 'top': scrollTop});
-        // console.log($('.chat-input').offset().top)
-
-        $('#Tips').stop().animate({
-            top: -100
-        },200)
-    }).blur(function(){
-        // $('#Tips').addClass('active');
-        //$('.chat-input').css({'position':'fixed','top':0});
-        $('#Tips').stop().animate({
-            top: 0
-        },200)
-    });
-
-    // $(window).scroll(function(){
-    //     // console.log(1)
-    //     $('.chat-input').css({'position':'absolute','top':0});
-    // })
 
 
     //masonry

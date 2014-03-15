@@ -23,15 +23,15 @@ module.exports = Strategy;
  */
 
  function Strategy (app) {
-    var config = app.get('config');
+    // var config = app.get('config');
 
-    passport.serializeUser(function(user, done) {
-        done(null, user);
-    });
+    // passport.serializeUser(function(user, done) {
+    //     done(null, user);
+    // });
 
-    passport.deserializeUser(function(user, done) {
-        done(null, user);
-    });
+    // passport.deserializeUser(function(user, done) {
+    //     done(null, user);
+    // });
 
     // if(config.auth.twitter.consumerkey.length) {
     //     passport.use(new TwitterStrategy({

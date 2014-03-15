@@ -23,7 +23,7 @@ var env = process.env;
         }
     },
     session: {
-        secret: env.SESSION_SECRET || "b.io:secret"
+        secret: env.SESSION_SECRET || "env:secret"
     },
     app: {
         port: env.PORT || 6789
