@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-14 19:53:22
+* @Last Modified time: 2014-03-15 15:28:28
 */
 
 
@@ -248,6 +248,7 @@ function Sockets (app, server) {
                         }
 
                         // console.log('res.playlist.trackList.track', res.playlist.trackList.track)
+                        // console.log(decodeURIComponent(res.playlist.trackList.track.title.text()))
 
                         xiamiRealSong['title'] = res.playlist.trackList.track.title.text();
                         xiamiRealSong['artist'] =  res.playlist.trackList.track.artist.text();

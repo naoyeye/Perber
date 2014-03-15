@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-14 19:52:29
+* @Last Modified time: 2014-03-15 15:24:42
 */
 
 
@@ -1167,12 +1167,14 @@ delete msg
             voted_class:'disabled',
             count_upup : null,
             count_down : null,
+            voted:true
         };
     } else {
         var vote_data = {
             voted_class:'',
             count_upup : null,
             count_down : null,
+            voted:true
         };
     }
 
@@ -1235,6 +1237,9 @@ delete msg
         var cval=getCookie(name);
         if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString();
     }
+
+    // var tit = "Maja&#039;s Song";
+    // console.log('tit', decodeURIComponent(tit))
 
 })
 
