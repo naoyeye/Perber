@@ -39,29 +39,29 @@ block content
 
                         //- card 0 apply
 
-                        //- .fixed_block.null
-                        //-     #front
-                        //-         .ui.right.teal.corner.label(title="虚位以待")
-                        //-             i.fa-lock.fa
-                        //-         .imgbox
-                        //-             a.ta_cover(href="javascript:void(0);")
-                        //-     #back
-                        //-         #back2front.circular.ui.icon.button(title="返回")
-                        //-             i.fa.fa-chevron-left
-                        //-         .ui.form
-                        //-             .ui.message
-                        //-                 ul.list
-                        //-                     li 如果不清楚这个位置是干嘛用的，请参考“怎么玩儿”的第2条规则。
-                        //-                     li 提交后，会有人联系你，问你到底想干嘛。没搞明白这个是干嘛之前别乱提交。
-                        //-             .field
-                        //-                 label 你叫啥(网名之类的称呼也可以)
-                        //-                 input#input_name(type="text",placeholder="输入称呼",name="name", maxlength="20")
-                        //-             .field
-                        //-                 label 邮箱地址(*必填)
-                        //-                 input#input_email(type="email",placeholder="输入邮箱地址",name="email")
-                        //-             .field(style="text-align:center")
-                        //-                 #applyBtn.ui.button.green
-                        //-                     | 写好了，提交
+                        .fixed_block.null
+                            #front
+                                .ui.right.teal.corner.label(title="虚位以待")
+                                    i.fa-lock.fa
+                                .imgbox
+                                    a.ta_cover(href="javascript:void(0);")
+                            #back
+                                #back2front.circular.ui.icon.button(title="返回")
+                                    i.fa.fa-chevron-left
+                                .ui.form
+                                    .ui.message
+                                        ul.list
+                                            li 如果不清楚这个位置是干嘛用的，请参考“怎么玩儿”的第2条规则。
+                                            li 提交后，会有人联系你，问你到底想干嘛。没搞明白这个是干嘛之前别乱提交。
+                                    .field
+                                        label 你叫啥(网名之类的称呼也可以)
+                                        input#input_name(type="text",placeholder="输入称呼",name="name", maxlength="20")
+                                    .field
+                                        label 邮箱地址(*必填)
+                                        input#input_email(type="email",placeholder="输入邮箱地址",name="email")
+                                    .field(style="text-align:center")
+                                        #applyBtn.ui.button.green
+                                            | 写好了，提交
 
                         //- card 1 bg+text
                         //- .fixed_block.card_1
@@ -75,16 +75,14 @@ block content
                         //-                    | —— 由“不愿意透露姓名的某人”投递
 
                         //- card blocking
-                        .fixed_block.card_1
-                            .ui.right.teal.corner.label(title="友情置顶")
-                                i.fa-star.fa
-                            .imgbox
-                                a.ta_cover(href="http://en.wikipedia.org/wiki/James_Gandolfini", target="_blank", style="background-image:url(http://ww4.sinaimg.cn/large/61b8bbf4gw1ee8oxycjgcj20go0gowga.jpg); background-size:cover;")
-                                .ta_cont
-                                    p(style="text-align:center")
-                                       | 此位置已被“<a href="http://www.douban.com/people/jumbu/" target="_blank">jumbu</a>”预订<br>3月16日更新内容
-                                //- .ta_title
-                                //-     | 预订了此位置的墨冥说，这里放ta崇拜的偶像
+                        //- .fixed_block.card_1
+                        //-     .ui.right.teal.corner.label(title="友情置顶")
+                        //-         i.fa-star.fa
+                        //-     .imgbox
+                        //-         a.ta_cover(href="http://en.wikipedia.org/wiki/James_Gandolfini", target="_blank", style="background-image:url(http://ww4.sinaimg.cn/large/61b8bbf4gw1ee8oxycjgcj20go0gowga.jpg); background-size:cover;")
+                        //-         .ta_cont
+                        //-             p(style="text-align:center")
+                        //-                | 此位置已被“<a href="http://www.douban.com/people/jumbu/" target="_blank">jumbu</a>”预订<br>3月16日更新内容
 
 
                         //- card 2 bg+short text
