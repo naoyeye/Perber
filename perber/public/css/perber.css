@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-14 20:06:30
+* @Last Modified time: 2014-03-15 11:24:54
 */
 
 /*
@@ -866,8 +866,10 @@ body{
 #vote_info{font-size: 12px;padding-top: 20px;text-align: center;color: #bbb;}
 
 #vote_bar .ui.button{
-    box-sizing:content-box;
     width: 81px;
+    -moz-box-sizing:content-box;
+    -webkit-box-sizing:content-box;
+    box-sizing:content-box;
 }
 #vote_bar .ui.button.disabled{
     opacity: .6!important;
