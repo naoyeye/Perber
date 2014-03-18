@@ -24,11 +24,10 @@ node.js(express), socket.io, redis, jade, mysql(node-mysql), node-qiniu
 
 2 change the file `config-example.json` (in '/Perber/perber/config/' ) to `config.json`
 
-3 modify: `mysqlConf` `qiniuConfig` `mailer` in your `config.json` file.
+3 modify: `mysqlConf` `qiniuConfig` and `mailer` in your `config.json` file.
 
 4 run server: `node perer/app.js`
 
-tips:
 
 or use node-supervisor : https://github.com/isaacs/node-supervisor
 
@@ -37,11 +36,14 @@ or use node-supervisor : https://github.com/isaacs/node-supervisor
 `supervisor perber/app.js`
 
 
-p.s. If you want run Perber on your online server, maybe you should install "forever" : https://github.com/nodejitsu/forever
+5 open in browser : http://localhost:6789 
 
-`npm install forever -g`
 
-`forever start perer/app.js`
+tips:
+
+If you want run Perber on your online server, maybe you should install "forever" : `npm install forever -g`, then: `forever start perer/app.js` 
+
+
 
 ## UI Preview
 
