@@ -16,5 +16,5 @@ dump.rdb
 npm-debug.log
 node_modules
 config.json
-
-
+perber/chats/
+/chats/
