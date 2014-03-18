@@ -16,7 +16,8 @@
 
     "mailer" : {
         "user":"your gmail",
-        "pass":"your gmail password"
+        "pass":"your gmail password",
+        "receiver":"your another mail(163 mail/sina mail/qq mail....whatever) for receiving your gmail"
     },
 
     "auth": {

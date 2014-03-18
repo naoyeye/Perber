@@ -53,7 +53,25 @@ CREATE TABLE `Messages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+# Dump of table vote
+# ------------------------------------------------------------
 
+DROP TABLE IF EXISTS `vote`;
+
+CREATE TABLE `vote` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `up` int(11) NOT NULL DEFAULT '0',
+  `down` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `vote` WRITE;
+/*!40000 ALTER TABLE `vote` DISABLE KEYS */;
+
+INSERT INTO `vote` (`id`, `up`, `down`) VALUES (1,0,0);
+
+/*!40000 ALTER TABLE `vote` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

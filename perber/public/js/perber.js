@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-07 12:28:37
+* @Last Modified time: 2014-03-15 18:57:53
 */
 
 
@@ -248,8 +248,13 @@ delete msg
             }
         })
 
+
         // 播放提示音
         if(windowStatus === "hidden") {
+            if(afkDeliveredMessages > 0){
+                afkDeliveredMessages = afkDeliveredMessages - 1;
+                updateTitle();
+            }
             $('#deletedAudio')[0].play();
         }
     })
@@ -666,35 +671,6 @@ delete msg
     }
 
 
-    //var scrollTop = document.body.scrollTop;
-    
-    // Tips toggle
-    $('.chat-input textarea').focus(function(){
-        // $('#Tips').removeClass('active');
-        
-        //console.log(scrollTop)
-        
-        // for iOS:
-        //$('.chat-input').css({'position':'absolute', 'top': scrollTop});
-        // console.log($('.chat-input').offset().top)
-
-        $('#Tips').stop().animate({
-            top: -100
-        },200)
-    }).blur(function(){
-        // $('#Tips').addClass('active');
-        //$('.chat-input').css({'position':'fixed','top':0});
-        $('#Tips').stop().animate({
-            top: 0
-        },200)
-    });
-
-    // $(window).scroll(function(){
-    //     // console.log(1)
-    //     $('.chat-input').css({'position':'absolute','top':0});
-    // })
-
-
     //masonry
     function masonryAllItems(wrap){
         wrap.masonry({
@@ -762,168 +738,6 @@ delete msg
 
 // =============player==============
 
-
-    // function initPlayer(element){
-
-    //     var status = "stop";
-    //     var dragging = false;
-
-    //     // init
-    //     var player = element;
-
-    //     player.each(function(index, el){
-    //         var $t = $(this);
-    //         var location = $t.data('location');
-
-    //         $t.jPlayer({
-    //             ready: function () {
-    //                 $t.jPlayer("setMedia", {
-    //                     // m4a: "/media/2012/07/30/song.m4a",
-    //                     // mp3: "player/media/aria.mp3"
-    //                     mp3: location
-    //                     //oga: "media/2012/07/30/song.ogg"
-    //                 });
-    //             },
-    //             // swfPath: "/static/public/swf",
-    //             supplied: "mp3"
-    //         });
-
-
-
-    //         // preload, update, end
-    //         // $t.bind($.jPlayer.event.progress, function(event) {
-    //         //     var audio = $t.find('audio');
-    //         //     console.log(audio.size())
-    //         //     var pc = 0;
-    //         //     if ((audio.buffered != undefined) && (audio.buffered.length != 0)) {
-    //         //         pc = parseInt(((audio.buffered.end(0) / audio.duration) * 100), 10); 
-    //         //         displayBuffered(pc);
-    //         //         console.log(pc);
-    //         //         if(pc >= 99) {
-    //         //             console.log("loaded");
-    //         //             $t.find('.buffer').addClass("loaded");
-    //         //         }
-    //         //     }
-    //         // });
-            
-
-    //         //player.bind($.jPlayer.event.loadeddata, function(event) {    
-    //             //$('.zenPlayer .buffer').addClass("loaded");    
-    //         //});
-            
-    //         $t.bind($.jPlayer.event.timeupdate, function(event) { 
-    //             var pc = event.jPlayer.status.currentPercentAbsolute;
-    //             if (!dragging) { 
-    //                 displayProgress(pc);
-    //             }
-    //         });
-            
-    //         $t.bind($.jPlayer.event.ended, function(event) {   
-    //             $t.find('.circle').removeClass( "rotate" );
-    //             $t.removeClass( "play" );
-    //             $t.find('.progress').css({rotate: '0deg'});
-    //             status = "stop";
-    //         });
-            
-            
-            
-            
-            
-    //         // play/pause
-            
-    //         $t.find(".button").bind('mousedown', function() {
-    //             // not sure if this can be done in a simpler way.
-    //             // when you click on the edge of the play button, but button scales down and doesn't drigger the click,
-    //             // so mouseleave is added to still catch it.
-    //             $(this).bind('mouseleave', function() {
-    //                 $(this).unbind('mouseleave');
-    //                 onClick();
-    //             });
-    //         });
-
-    //         $t.find(".button").bind('mouseup', function() {
-    //             $(this).unbind('mouseleave');
-    //             onClick();
-    //         });
-    //     })
-            
-
-        
-        
-    //     function onClick() {
-    //         if(status != "play") {
-    //             status = "play";
-    //             $(".zenPlayer").addClass( "play" );
-    //             player.jPlayer("play");
-    //         } else {
-    //             $('.zenPlayer .circle').removeClass( "rotate" );
-    //             $(".zenPlayer").removeClass( "play" );
-    //             status = "pause";
-    //             player.jPlayer("pause");
-    //         }
-    //     };
-        
-        
-        
-        
-    //     // draggin
-        
-    //     var clickControl = $('.zenPlayer .drag');
-        
-    //     clickControl.grab({
-    //         onstart: function(){
-    //             dragging = true;
-    //             $('.zenPlayer .button').css( "pointer-events", "none" );
-                
-    //         },
-    //         onmove: function(event){
-    //             var pc = getArcPc(event.position.x, event.position.y);
-    //             player.jPlayer("playHead", pc).jPlayer("play");
-    //             displayProgress(pc);
-    //         },
-    //         onfinish: function(event){
-    //             dragging = false;
-    //             var pc = getArcPc(event.position.x, event.position.y);
-    //             player.jPlayer("playHead", pc).jPlayer("play");
-    //             $('.zenPlayer .button').css( "pointer-events", "auto" );
-    //         }
-    //     }); 
-        
-        
-        
-        
-        
-        
-    //     // functions
-        
-    //     function displayProgress(pc) {
-    //         var degs = pc * 3.6+"deg"; 
-    //         $('.zenPlayer .progress').css({rotate: degs});        
-    //     }
-    //     function displayBuffered(pc) {
-    //         var degs = pc * 3.6+"deg"; 
-    //         $('.zenPlayer .buffer').css({rotate: degs});      
-    //     }
-        
-    //     function getArcPc(pageX, pageY) { 
-    //         var self    = clickControl,
-    //             offset  = self.offset(),
-    //             x   = pageX - offset.left - self.width()/2,
-    //             y   = pageY - offset.top - self.height()/2,
-    //             a   = Math.atan2(y,x);  
-                
-    //             if (a > -1*Math.PI && a < -0.5*Math.PI) {
-    //            a = 2*Math.PI+a; 
-    //         } 
-
-    //         // a is now value between -0.5PI and 1.5PI 
-    //         // ready to be normalized and applied               
-    //         var pc = (a + Math.PI/2) / 2*Math.PI * 10;   
-               
-    //         return pc;
-    //     }
-    // }
-
     function initCirclePlayer(){
         $('.cp-jplayer').each(function(i, el){
             var $t = $(this);
@@ -943,30 +757,30 @@ delete msg
         })
     }
 
-    // function updateOnlineCount(num, _action){
-    //     var number = $('#number'),
-    //         action = $('#action'),
-    //         online = $('#onlineCount');
-    //     online.show();
-    //     number.html(num+' 在线').attr('title', num+' 在线');
+    function updateOnlineCount(num, _action){
+        var number = $('#number'),
+            action = $('#action'),
+            online = $('#onlineCount');
+        online.show();
+        number.html(num+' 在线').attr('title', num+' 在线');
 
-    //     if(_action === 'add'){
-    //         online.addClass('addP').removeClass('removeP');
-    //         action.html('有人来了');
-    //         setTimeout(function(){
-    //             online.attr('class','');
-    //             // action.html('');
-    //         },100)
-    //     }
-    //     if(_action === 'remove'){
-    //         online.addClass('removeP').removeClass('addP');
-    //         action.html('有人走了');
-    //         setTimeout(function(){
-    //             online.attr('class','');
-    //             // action.html('');
-    //         },100)
-    //     }
-    // }
+        if(_action === 'add'){
+            online.addClass('addP').removeClass('removeP');
+            action.html('有人来了');
+            setTimeout(function(){
+                online.attr('class','');
+                // action.html('');
+            },100)
+        }
+        if(_action === 'remove'){
+            online.addClass('removeP').removeClass('addP');
+            action.html('有人走了');
+            setTimeout(function(){
+                online.attr('class','');
+                // action.html('');
+            },100)
+        }
+    }
 
 
 
@@ -1310,7 +1124,93 @@ delete msg
 
     })
 
+    // 投票
+    // 得到最新投票
+    socket.on('new vote', function(data) {
+        $('#count_upup').html(data.result.up + ' 赞成');
+        $('#count_down').html(data.result.down + ' 反对');
+        $('#vote_bar .button').removeClass('loading');
+    })
 
+    // 先检查是否已经投票了
+    if(getCookie('voted') === 'true'){
+        var vote_data = {
+            voted_class:'disabled',
+            count_upup : null,
+            count_down : null,
+            voted:true
+        };
+    } else {
+        var vote_data = {
+            voted_class:'',
+            count_upup : null,
+            count_down : null,
+            voted:true
+        };
+    }
+
+    // 添加至模板
+    $('#vote_bar').append(ich.vote_template(vote_data))
+
+    // 投票按钮点击事件
+    $('#vote_bar .button').click(function(){
+
+        // 判断是否投过票
+        if(getCookie('voted') === 'true') return;
+
+        var $t = $(this);
+
+        if($t.attr('id') === 'v_upup'){
+            socket.emit('my vote', {
+                vote: 'up'
+            });
+        } else {
+            socket.emit('my vote', {
+                vote: 'down'
+            });
+        }
+
+        $t.addClass('loading');
+        $('#vote_bar .button').addClass('disabled')
+        SetCookie('voted', true)
+
+    })
+
+
+    /*
+    功能：保存cookies函数 
+    参数：name，cookie名字；value，值
+    */
+    function SetCookie(name,value){
+        var Days = 20;   //cookie 将被保存两个月
+        var exp  = new Date();  //获得当前时间
+        exp.setTime(exp.getTime() + Days*24*60*60*1000);  //换成毫秒
+        document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+    } 
+    /*
+    功能：获取cookies函数 
+    参数：name，cookie名字
+    */
+    function getCookie(name){
+        var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+        if(arr != null)
+      return unescape(arr[2]); 
+        return null;
+
+    } 
+    /*
+    功能：删除cookies函数 
+    参数：name，cookie名字
+    */
+    function delCookie(name){
+        var exp = new Date();  //当前时间
+        exp.setTime(exp.getTime() - 1);
+        var cval=getCookie(name);
+        if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+    }
+
+    var tit = "Maja&#039;s Song";
+    console.log('tit', escape(tit))
 
 })
 

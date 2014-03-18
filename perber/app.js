@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:41:38
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-01 17:13:11
+* @Last Modified time: 2014-03-15 18:00:49
 */
 
 
@@ -69,13 +69,6 @@ if(app.get('config').credentials) {
  */
 
 require('./sockets')(app, exports.server);
-
-
-/*
- * Xiami
- */
-
-require('./xiami')(app, exports.server);
 
 
 /*

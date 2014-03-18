@@ -1,0 +1,115 @@
+/* 
+* @Author: hanjiyun
+* @Date:   2014-03-15 19:57:57
+* @Last Modified by:   hanjiyun
+* @Last Modified time: 2014-03-15 20:13:05
+*/
+    html{
+        height: 100%;
+    }
+    body{
+        text-align: center;
+        padding: 0;
+        margin: 0;
+        height: 100%
+    }
+
+    #wrap{
+        height: 100%;
+        width: 100%;
+        position:relative;
+        /*min-height: 400px;*/
+/*        min-width:310px;
+        max-width: 600px;*/
+        margin:0 auto;
+        padding-top: 30px;
+        text-align: left;
+        display: table;
+    }
+
+    #inner{
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+    #inner .button{
+        margin-top: 30px;
+    }
+
+    h1{
+        margin: 0px;
+        padding: 0px;
+        font-weight: 700;
+        border: none;
+        line-height: 1;
+        color: #7a7869;
+    }
+    #message{
+        padding: 10px;
+        font-size: 14px;
+        overflow: hidden;
+        -moz-box-sizing:border-box;
+        -webkit-box-sizing:border-box;
+        box-sizing:border-box;
+        /*-webkit-font-smoothing: antialiased;*/
+        -webkit-font-smoothing: subpixel-antialiased;
+    }
+    #smash{
+        width: 198px;
+        height: 222px;
+        position: relative;
+        top: 20px;
+        left: 50%;
+        margin-left: -149px;
+        background: url(../img/alemon.png) center center no-repeat;
+    }
+
+    #pupils-wrap{
+        position: relative;
+        left: 53px;
+        top: 100px;
+        width: 69px;
+        height: 17px;
+        background: #fff;
+        z-index: -1;
+    }
+
+    #pupils{
+        position: absolute;
+        left: 7px;
+        top: 3px;
+        width: 50px;
+        height: 13px;
+        background: url(../img/eyes.png) center center no-repeat;
+    }
+
+    #footer{
+        border-top: 1px solid #eee;
+        padding: 10px;
+        text-align: right;
+    }
+    a {
+        color:black;
+        font-weight:bold;
+        text-decoration:none;
+        text-transform:uppercase;
+    }
+
+    a:hover {
+        color:#d74963;
+        text-decoration:underline;
+    }
+
+    /*Retina*/
+    @media only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+
+        #smash{
+            background-image: url(../img/alemon@2x.png);
+            background-size: 198px;
+        }
+
+        #pupils{
+            background-image: url(../img/eyes@2x.png);
+            background-size: 50px;
+        }
+    }

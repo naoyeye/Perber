@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-07 12:52:48
+* @Last Modified time: 2014-03-15 17:02:28
 */
 
 
@@ -69,6 +69,38 @@ function Sockets (app, server) {
     });
 
     var count = 0;
+
+    // 过滤转义字符
+    function toTxt(str){
+        var RexStr = /(&lt;|&gt;|&quot;|&#39;|&#039;|&amp;)/g;
+        str = str.replace(RexStr,
+            function(MatchStr){
+                switch(MatchStr){
+                    case "&lt;":
+                        return "<";
+                        break;
+                    case "&gt;":
+                        return ">";
+                        break;
+                    case "&quot;":
+                        return '\"';
+                        break;
+                    case "&#39;":
+                        return "'";
+                        break;
+                    case "&#039;":
+                        return "'";
+                        break;
+                    case "&amp;":
+                        return "&";
+                        break;
+                    default :
+                        break;
+                }
+            }
+        )
+        return str;
+    }
 
     io.set('authorization', function (hsData, accept) {
         if(hsData.headers.cookie) {
@@ -148,22 +180,22 @@ function Sockets (app, server) {
                     if(userAdded) {
                         client.hincrby('rooms:' + room_id + ':info', 'online', 1);
 
-                        // client.get('users:' + userKey + ':status', function(err, status) {
+                        client.get('users:' + userKey + ':status', function(err, status) {
 
-                        //     count = count + 1;
-                        //     console.log('new', count)
-                        //     // io.sockets.in(room_id).emit('update online', {
-                        //     //     count: count,
-                        //     //     action: 'add'
-                        //     // });
+                            // count = count + 1;
+                            // console.log('new', count)
+                            // io.sockets.in(room_id).emit('update online', {
+                            //     count: count,
+                            //     action: 'add'
+                            // });
 
-                        //     io.sockets.in(room_id).emit('new user', {
-                        //         nickname: nickname,
-                        //         // avatar: avatar,
-                        //         // provider: provider,
-                        //         status: status || 'available'
-                        //     });
-                        // });
+                            io.sockets.in(room_id).emit('new user', {
+                                nickname: nickname,
+                                // avatar: avatar,
+                                // provider: provider,
+                                status: status || 'available'
+                            });
+                        });
 
                         // client.scard('rooms:' + room_id + ':info', '', function(err, how_many) {
                         //     console.log('add how_many', how_many)
@@ -248,10 +280,11 @@ function Sockets (app, server) {
                         }
 
                         // console.log('res.playlist.trackList.track', res.playlist.trackList.track)
+                        // console.log(decodeURIComponent(res.playlist.trackList.track.title.text()))
 
-                        xiamiRealSong['title'] = res.playlist.trackList.track.title.text();
-                        xiamiRealSong['artist'] =  res.playlist.trackList.track.artist.text();
-                        xiamiRealSong['album'] = res.playlist.trackList.track.album_name.text();
+                        xiamiRealSong['title'] = toTxt(res.playlist.trackList.track.title.text());
+                        xiamiRealSong['artist'] =  toTxt(res.playlist.trackList.track.artist.text());
+                        xiamiRealSong['album'] = toTxt(res.playlist.trackList.track.album_name.text());
                         xiamiRealSong['location'] = getLocation(res.playlist.trackList.track.location.text());
 
                         // 封面处理
@@ -300,105 +333,6 @@ function Sockets (app, server) {
 
                 })
             })
-
-            // var location;
-            // var xiamiRealSong = {};
-
-            // http.get(options, function(res) {
-            //     res.setEncoding('utf8');
-            //     var html = '';
-            //     res.on('data', function(data) {
-            //         html += data;
-            //     });
-            //     res.on('end', function() {
-            //         var title = titlePattern.exec(html),
-            //             artist = artistPattern.exec(html),
-            //             cover = coverPattern.exec(html),
-            //             coverPath = null;
-
-            //         title = title ? title[1] : null;
-            //         title = title.replace('<span>', ' ').replace('</span>', '');
-            //         artist = artist ? artist[1] : null;
-            //         cover = cover ? cover[0] : null;
-
-            //         // console.log('cover 1', cover)
-
-            //         var coverReg = /http:\/\/[a-zA-Z0-9-.-\/-_]+.(jpg|jpeg|png|gif|bmp)/g;
-            //         if(coverReg.test(cover)){
-            //             // var coverPath = cover.match(coverReg)[0];
-            //             // coverPath = coverPath.replace('_2.jpg', '.jpg');
-            //             // console.log('coverPath 1', coverPath)
-            //             cover.replace(coverReg, function(s,value) {
-            //                 coverPath = s.replace('_2', '');
-            //             });
-            //             // console.log('coverPath 2', coverPath)
-            //         }
-
-            //         var filename = title + (artist ? (' - ' + artist) : '') + '.mp3';
-
-            //         xiamiRealSong['title'] = title;
-            //         xiamiRealSong['artist'] = artist;
-            //         xiamiRealSong['cover'] = coverPath;
-
-            //         console.log('xiamiRealSong', xiamiRealSong)
-
-            //         if ((title || artist) && title.indexOf('span class') < 0) {
-            //             filename = safeFilter(filename);
-            //             // options = url.parse('http://www.xiami.com/song/gethqsong/sid/' + sid);
-
-            //             options = url.parse('http://www.xiami.com/song/playlist/id/'+ sid +'/object_name/default/object_id/0');
-
-            //             console.log('options', options)
-            //             console.log('filename', filename)
-
-            //             return;
-
-            //             http.get(options, function(res) {
-            //                 res.setEncoding('utf8');
-            //                 res.on('data', function(data) {
-            //                     location = getLocation(JSON.parse(data).location);
-            //                     console.log('location', location)
-            //                     xiamiRealSong['location'] = location;
-            //                 })
-
-            //                 res.on('end', function() {
-            //                     // console.log('end location, xiamiRealSong', xiamiRealSong)
-
-            //                     var data = [
-            //                         pageUrl,
-            //                         xiamiRealSong.title,
-            //                         xiamiRealSong.artist,
-            //                         xiamiRealSong.cover,
-            //                         xiamiRealSong.location
-            //                     ]
-
-            //                     console.log('data', data)
-
-            //                     // 往数据库中插入
-            //                     mysql.query('INSERT INTO Messages SET message = ?, music_title = ?, music_artist = ?, music_cover = ?, music_location = ?', data, function(error, results) {
-            //                         if(error) {
-            //                             console.log("mysql INSERT Error: " + error.message);
-            //                             // mysql.end();
-            //                             return;
-            //                         }
-
-            //                         var msgID = results.insertId;
-
-            //                         // 向前端返回歌曲信息
-            //                         io.sockets.in(room_id).emit('new song', {
-            //                             id: msgID,
-            //                             song: xiamiRealSong,
-            //                             songOriginal : pageUrl,
-            //                             time: new Date()
-            //                         });
-            //                     })
-
-            //                 })
-
-            //             })
-            //         }
-            //     })
-            // })
         }
 
         function xiamiRun(pageUrl){
@@ -520,43 +454,6 @@ function Sockets (app, server) {
 
             var history = [];
 
-            // var tail = require('child_process').spawn('tac', [chatlogFileName]);
-            // var tail = require('child_process').spawn('tail', ['-r', chatlogFileName]); // fixed
-
-            // todo 
-            // tail.stdout.on('data', function (data) {
-            //     // console.log('===start===!')
-            //     // console.log('data:', data.length)
-            //     // console.log('===end===!')
-
-            //     var lines = data.toString('utf-8').split("\n");
-
-            //     // console.log(lines.length)
-
-            //     // for(var i=0; i<lines.length; i++){
-            //     lines.forEach(function(line, index) {
-            //         if(line.length) {
-            //             // console.log(index, line)
-            //             // console.log('哈哈哈')
-
-            //             var historyLine = JSON.parse(line);
-            //             history.push(historyLine);
-            //         } else {
-            //             // console.log('空的!!!')
-            //         };
-            //     });
-            //     // };
-
-            //     // console.log(history)
-            //     socket.emit('history response', {
-            //         history: history
-            //     });
-
-            //     // console.log('push a history response======!')
-
-            // });
-
-
             // todo // limit 500
             mysql.query( 'SELECT * FROM Messages ORDER BY id DESC LIMIT 500', function selectCb(error, results, fields) {
                 if (error) {  
@@ -575,6 +472,23 @@ function Sockets (app, server) {
                // }
             });
 
+            mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
+                if (error) {  
+                    console.log('GetData Error: ' + error.message);
+                    // mysql.end();
+                    return;
+                }
+
+               // if(results.length > 0){
+                    // results.forEach(function(line, index) {
+                    //     history.push(line);
+                    // });
+                    socket.emit('new vote', {
+                        result: results[0]
+                    });
+               // }
+            });
+
 
 
             // mysql.end();
@@ -582,6 +496,45 @@ function Sockets (app, server) {
 
         });
 
+
+    // 新投票
+        socket.on('my vote', function(data) {
+            if(data.vote === 'up'){
+                mysql.query('UPDATE vote SET up = up+1', function(error, results) {
+                    if(error) {
+                        console.log("mysql INSERT Error: " + error.message);
+                        // mysql.end();
+                        return;
+                    }
+                    // console.log('results', results)
+                })
+            } else if(data.vote === 'down'){
+                mysql.query('UPDATE vote SET down = down+1', function(error, results) {
+                    if(error) {
+                        console.log("mysql INSERT Error: " + error.message);
+                        // mysql.end();
+                        return;
+                    }
+                    // console.log('results', results)
+                })
+            }
+
+            // 去数据库查询最新的投票结果
+            mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
+                if (error) {  
+                    console.log('GetData Error: ' + error.message);
+                    mysql.end();
+                    return;
+                }
+                // console.log('results:', results[0]);
+                // 向前端返回投票信息
+                io.sockets.in(room_id).emit('new vote', {
+                    result: results[0]
+                });
+            });
+        })
+
+    // 断开连接
         socket.on('disconnect', function() {
             // console.log('disconnect!!!')
             

@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-05 16:13:36
+* @Last Modified time: 2014-03-15 16:49:47
 */
 
 /*
@@ -847,6 +847,89 @@ body{
     color: #666;
 }
 
+/*===== Card 3 ===*/
+.chat-box .card_3{
+    height: 350px;
+}
+.chat-box .card_3 .ta_cont h4{
+    margin: 0;
+    font-size: 18px;
+}
+.chat-box .card_3 .ta_cont p{
+    margin: 0;
+    padding: 30px 0;
+    /*font-size: 12px;*/
+}
+#vote_bar{
+    text-align: center;
+}
+#vote_info{font-size: 12px;padding-top: 20px;text-align: center;color: #bbb;}
+
+#vote_bar .ui.button{
+    width: 81px;
+    -moz-box-sizing:content-box;
+    -webkit-box-sizing:content-box;
+    box-sizing:content-box;
+}
+#vote_bar .ui.button.disabled{
+    opacity: .6!important;
+    background: #f3f3f3!important;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.1) inset !important;
+}
+
+.disabled span{
+    color: #333;
+}
+
+/*===== Card 4 ===*/
+.card_4{
+    height: 350px;
+}
+.card_4 .imgbox,
+.card_4 .ta_cover{
+    height: 350px;
+}
+.card_4 .ta_cover{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.card_4 .ta_cont{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 34px;
+    color: #fff;
+    line-height: 1.7;
+    display: table;
+    width: 100%;
+}
+.chat-box .card_4 p {
+    height: auto;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    overflow: hidden;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: 700;
+    padding-top: 190px;
+}
+.chat-box .card_4 p span{
+    padding-top: 20px;
+    display: block;
+    font-size: 12px;
+    color: #999;
+    font-weight: normal;
+}
+
+.chat-box .card_4 p span a{
+    color: #7bcaa5;
+}
 
 /*music box*/
 figure{

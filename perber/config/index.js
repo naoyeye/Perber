@@ -80,9 +80,6 @@ function Config (app) {
     qiniu.conf.ACCESS_KEY = config.qiniuConfig.access_key
     qiniu.conf.SECRET_KEY = config.qiniuConfig.secret_key
 
-    // var imagesBucket = qiniu.bucket(config.qiniuConfig.bucket_name);
-
-    // app.set('imagesBucket', imagesBucket);
 
 // redis
 // ==========
