@@ -28,10 +28,20 @@ node.js(express), socket.io, redis, jade, mysql(node-mysql), node-qiniu
 
 4 run server: `node perer/app.js`
 
-p.s. If you want run Perber on your online server, maybe you should install "forever" : `npm install forever -g`, then: `forever start perer/app.js` 
+
+or use node-supervisor : https://github.com/isaacs/node-supervisor
+
+`npm install supervisor -g`
+
+`supervisor perber/app.js`
+
 
 5 open in browser : http://localhost:6789 
 
+
+tips:
+
+If you want run Perber on your online server, maybe you should install "forever" : `npm install forever -g`, then: `forever start perer/app.js` 
 
 
 
