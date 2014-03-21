@@ -122,10 +122,10 @@ script#notice_template(type='text/html')
 
 script#vote_template(type='text/html')
     .ui.buttons
-        a#v_upup.button.ui.green(class="{{ voted_class }}")
+        a#v_upup.button.ui.black(class="{{ voted_class }}")
             span#count_upup {{ count_upup }}
         .or
-        a#v_down.button.ui.red(class="{{ voted_class }}")
+        a#v_down.button.ui.black(class="{{ voted_class }}")
             span#count_down {{ count_down }}
 
 
