@@ -14,32 +14,32 @@ Maybe you can think of Perber as a blackboard in the square, anyone can put on t
 
 ## Requirements
 
-node.js(express), socket.io, redis, jade, mysql(node-mysql), node-qiniu
+node.js, socket.io, redis, jade, mysql(node-mysql), node-qiniu
 
 ## How To Start
 
-0 into the project root directory: `/Perber/`
+1. create database `Perber` in *MySQL* , create tables use *perber.sql*
 
-1 `npm install`
+2. run `npm install` in directory: */Peber/perber/*
 
-2 change the file `config-example.json` (in '/Perber/perber/config/' ) to `config.json`
+3. change the file `config-example.json` (directory: */Perber/perber/config/* ) to `config.json`
 
-3 modify: `mysqlConf` `qiniuConfig` and `mailer` in your `config.json` file.
+4. modify `mysqlConf` `qiniuConfig` and `mailer` in your `config.json` file.
 
-4 run server: `node perer/app.js`
+5. run server: `node perer/app.js`
 
-
-or use node-supervisor : https://github.com/isaacs/node-supervisor
-
-`npm install supervisor -g`
-
-`supervisor perber/app.js`
+6. open in browser : http://localhost:6789 
 
 
-5 open in browser : http://localhost:6789 
+> you can also use "node-supervisor" to run perber : https://github.com/isaacs/node-supervisor
 
+> `npm install supervisor -g`
 
-tips:
+> `supervisor perber/app.js`
+
+---
+
+* Tips:
 
 If you want run Perber on your online server, maybe you should install "forever" : `npm install forever -g`, then: `forever start perer/app.js` 
 
