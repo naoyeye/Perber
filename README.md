@@ -2,7 +2,7 @@
 
 I think it might be a meaningless thing(>_<), but just like a small experimental. I prefer to think of it as a hollow. The difference with hollow is: nobody knows who I am, but they can see what I said. when someone 'touch' my words, it'll disappear.
 
-Maybe you can think of Perber as a blackboard in the square, anyone can put on the cloak into the square, write text and paste picture on the blackboard, anyone can also put them cleared. 
+Maybe you can think of Perber as a blackboard in the square, anyone can put on the cloak into the square, write text and paste picture on the blackboard, anyone can also put them cleared. yep, it's realtime! (thanks to socket.io)
 
 > "Not a community, not a forum, not a micro-blog, not a chat room."
 
@@ -16,22 +16,30 @@ Maybe you can think of Perber as a blackboard in the square, anyone can put on t
 
 node.js, socket.io, redis, jade, mysql(node-mysql), node-qiniu
 
+Perber use **Qiniu** to store pictures, so, you'll need a "**bucket_name**" "**access_key**" and "**secret_key**".
+
+> Qiniu Cloud Storage: [http://www.qiniu.com/](http://www.qiniu.com/) 
+
+> Qiniu on Github: [https://github.com/qiniu](https://github.com/qiniu)
+
 ## How To Start
 
-1. create database `Perber` in *MySQL* , create tables use *perber.sql*
+1. create database `Perber` in **MySQL** , create tables use **perber.sql**
 
-2. run `npm install` in directory: */Peber/perber/*
+2. run `npm install` in directory: **/Peber/perber/**
 
-3. change the file `config-example.json` (directory: */Perber/perber/config/* ) to `config.json`
+3. change the file `config-example.json` (directory: **/Perber/perber/config/** ) to `config.json`
 
-4. modify `mysqlConf` `qiniuConfig` and `mailer` in your `config.json` file.
+4. modify `mysqlConf` `qiniuConfig`(make sure you got the **bucket_name**, **access_key** and **secret_key**) and `mailer` in your `config.json` file.
 
 5. run server: `node perer/app.js`
 
-6. open in browser : http://localhost:6789 
+6. open in browser : [http://localhost:6789](http://localhost:6789) (the default port is 6789)
 
 
-> you can also use "node-supervisor" to run perber : https://github.com/isaacs/node-supervisor
+**Tips:**
+
+> you can also use "node-supervisor" to run perber : [https://github.com/isaacs/node-supervisor](https://github.com/isaacs/node-supervisor)
 
 > `npm install supervisor -g`
 
@@ -39,9 +47,12 @@ node.js, socket.io, redis, jade, mysql(node-mysql), node-qiniu
 
 ---
 
-* Tips:
 
-If you want run Perber on your online server, maybe you should install "forever" : `npm install forever -g`, then: `forever start perer/app.js` 
+>If you want run Perber on your online server, maybe you should install "forever" [https://github.com/nodejitsu/forever](https://github.com/nodejitsu/forever) :
+
+> `npm install forever -g` 
+ 
+> `forever start perer/app.js` 
 
 
 
@@ -59,7 +70,7 @@ If you want run Perber on your online server, maybe you should install "forever"
 
 
 ## The starting point:
-http://www.douban.com/group/topic/45262966/
+[http://www.douban.com/group/topic/45262966/](http://www.douban.com/group/topic/45262966/)
 
 ## License
 
