@@ -28,7 +28,7 @@ $(document).ready(function(){
       		$(this).jPlayer("setMedia", {
     			// m4a: "/media/2012/07/30/song.m4a",
     			// mp3: "player/media/aria.mp3"
-    			mp3: "http://m5.file.xiami.com/1/62001/1493574372/1772590865_11443936_l.mp3?auth_key=8d21d5b78995346065598df1f69c9bae-1393891200-0-null"
+    			mp3: "http://mf.songtaste.com/201403311840/ea241e95080e30a3118dbc5729f75aa1/f/f6/f6120e2d1ef0eaf3e52b349e7316cb54.mp3"
         		//oga: "media/2012/07/30/song.ogg"
       		});
     	},

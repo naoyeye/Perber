@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-15 17:02:28
+* @Last Modified time: 2014-03-26 09:47:27
 */
 
 
@@ -129,6 +129,9 @@ function Sockets (app, server) {
         }
     });
 
+    // var l =  io.sockets.clients().filter(function(s) {return !s.disconnected;}).length;
+    // console.log(l)
+
     io.configure(function() {
         io.set('store',
             new sio.RedisStore({
@@ -153,6 +156,9 @@ function Sockets (app, server) {
             userKey = provider + ":" + nickname,
             room_id = hs.perber.room,
             now = new Date(),
+            address = hs.address;
+
+        console.log('address', address.address);
 
 
         socket.join(room_id);
@@ -174,7 +180,6 @@ function Sockets (app, server) {
             // console.log('socketAdded!!!')
 
             if(socketAdded) {
-
                 client.sadd('socketio:sockets', socket.id);
                 client.sadd('rooms:' + room_id + ':online', userKey, function(err, userAdded) {
                     if(userAdded) {
@@ -212,19 +217,7 @@ function Sockets (app, server) {
         });
 
 
-// xiamiHandle start
-        function safeFilename(value) {
-            return value.replace(/(\/|\\|\:|\*|\?|\"|\<|\>|\||\s+)/g, ' ');
-        }
-
-        function safeFilter(value) {
-            return safeFilename(removeSpan(value));
-        }
-
-        function removeSpan(value) {
-            return value.replace('<span>', ' ').replace('</span>', '');
-        }
-
+    // xiamiHandle start
         function getLocation(str) {
             try {
                 var a1 = parseInt(str.charAt(0)),
@@ -340,19 +333,19 @@ function Sockets (app, server) {
                 xiamiParse(pageUrl)
             }
         }
-// xiamiHandle end
+        // xiamiHandle end
 
 
-// new message
+    // new message
         socket.on('my msg', function(data) {
 
             var no_empty = data.msg.replace("\n","");
             var msgID,
-                havaImg = false;
+                isPhoto = false;
                 isSong = false;
 
             if(data.imgKey){
-                havaImg = true;
+                isPhoto = true;
             }
 
             /*
@@ -384,7 +377,7 @@ function Sockets (app, server) {
                     msgID = results.insertId;
 
                     // 如果带有qiniu图片key, 往图片表里增加记录
-                    if(havaImg){
+                    if(isPhoto){
                         var sql = [imgKey, msgID];
                         mysql.query('INSERT INTO Images SET imgKey = ?, msgID = ?', sql, function(error, results) {
                             if(error) {
@@ -404,7 +397,9 @@ function Sockets (app, server) {
             }
         });
 
-// delete message
+
+
+    // delete message
         socket.on('delete message', function(data) {
 
             // console.log('data = ', data);
@@ -449,7 +444,7 @@ function Sockets (app, server) {
         });
 
 
-// history message
+    // history message
         socket.on('history request', function() {
 
             var history = [];
