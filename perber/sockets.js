@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-03 16:43:18
+* @Last Modified time: 2014-04-03 17:57:41
 */
 
 
@@ -63,6 +63,7 @@ function Sockets (app, server) {
     var sessionStore = app.get('sessionStore'); // redis
     var imagesBucket = app.get('imagesBucket');
 
+    // 用来记录用户的动作 目前只是记录发言动作
     var address_list = {};
 
     var io = sio.listen(server,{
@@ -75,15 +76,15 @@ function Sockets (app, server) {
     var count = 0;
 
     // 清理工
-
-    setInterval(clearMan, 600000);
+    // 5分钟运行一次清理程序
+    setInterval(clearMan, 300000);
 
     function clearMan(){
-        console.log('清理工要开始工作了！')
-        console.log(address_list)
+        // console.log('清理工要开始工作了！')
+        // console.log(address_list)
         address_list = {}
-        console.log('已清理！')
-        console.log(address_list)
+        // console.log('已清理！')
+        // console.log(address_list)
     }
 
     // 过滤转义字符
