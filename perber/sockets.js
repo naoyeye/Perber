@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-03 17:57:41
+* @Last Modified time: 2014-04-03 23:03:35
 */
 
 
@@ -77,14 +77,12 @@ function Sockets (app, server) {
 
     // 清理工
     // 5分钟运行一次清理程序
-    setInterval(clearMan, 300000);
+    setInterval(cleaner, 60000 * config.app.timer);
 
-    function clearMan(){
-        // console.log('清理工要开始工作了！')
-        // console.log(address_list)
+    function cleaner(){
+        console.log('清理工开始工作了！', address_list)
         address_list = {}
-        // console.log('已清理！')
-        // console.log(address_list)
+        console.log('已清理！', address_list)
     }
 
     // 过滤转义字符
@@ -396,7 +394,7 @@ function Sockets (app, server) {
                 console.log('已经在列表里!!');
 
                 // 判断是不是超过了次数
-                if(address_list[address].action < 5){
+                if(address_list[address].action < config.app.limit){
                     // 如果没超过次数，则给次数 +1
                     address_list[address].action = address_list[address].action + 1;
                     console.log('当前用户的最新行为次数是：', address_list[address].action);

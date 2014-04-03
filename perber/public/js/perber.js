@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-03 16:38:30
+* @Last Modified time: 2014-04-03 23:15:52
 */
 
 
@@ -319,9 +319,7 @@ delete msg
 
 // limited someone
     socket.on('limited someone', function(data){
-        notice('error', '说话太快了 :0', 2000);
-        console.log('limited someone!!')
-        console.log(data)
+        notice('error', '说话太快，会累。影响到别人，不好。', 2000);
     })
 
 

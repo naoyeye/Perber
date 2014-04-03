@@ -47,6 +47,16 @@ Perber use **Qiniu** to store pictures, so, you'll need a "**bucket_name**" "**a
 
 ---
 
+##config.json:
+
+> config.app.timer:
+> 清理程序 sockets.js 里的cleaner() 的自动运行时间间隔，按分钟计算。
+> 设为 1 ，则 1分钟运行一次。
+
+> config.app.limit:
+> 在设定的 timer 时间范围内，每个在线用户最多能发多少信息。
+
+
 
 >If you want run Perber on your online server, maybe you should install "forever" [https://github.com/nodejitsu/forever](https://github.com/nodejitsu/forever) :
 
