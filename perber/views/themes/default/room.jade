@@ -47,31 +47,44 @@ block content
 
 
                         //- card 0 apply
+                        //- .fixed_block.null
+                        //-     #front
+                        //-         .ui.right.teal.corner.label(title="虚位以待")
+                        //-             i.fa-lock.fa
+                        //-         .imgbox
+                        //-             a.ta_cover(href="javascript:void(0);")
+                        //-     #back
+                        //-         #back2front.circular.ui.icon.button(title="返回")
+                        //-             i.fa.fa-chevron-left
+                        //-         .ui.form
+                        //-             .ui.message
+                        //-                 ul.list
+                        //-                     li 如果不清楚这个位置是干嘛用的，请参考“怎么玩儿”的第2条规则。
+                        //-                     li 提交后，会有人联系你，问你到底想干嘛。没搞明白这个是干嘛之前别乱提交。
+                        //-             .field
+                        //-                 label 你叫啥(网名之类的称呼也可以)
+                        //-                 input#input_name(type="text",placeholder="输入称呼",name="name", maxlength="20")
+                        //-             .field
+                        //-                 label 邮箱地址(*必填)
+                        //-                 input#input_email(type="email",placeholder="输入邮箱地址",name="email")
+                        //-             .field(style="text-align:center")
+                        //-                 #applyBtn.ui.button.green
+                        //-                     | 写好了，提交
 
-                        .fixed_block.null
-                            #front
-                                .ui.right.teal.corner.label(title="虚位以待")
-                                    i.fa-lock.fa
-                                .imgbox
-                                    a.ta_cover(href="javascript:void(0);")
-                            #back
-                                #back2front.circular.ui.icon.button(title="返回")
-                                    i.fa.fa-chevron-left
-                                .ui.form
-                                    .ui.message
-                                        ul.list
-                                            li 如果不清楚这个位置是干嘛用的，请参考“怎么玩儿”的第2条规则。
-                                            li 提交后，会有人联系你，问你到底想干嘛。没搞明白这个是干嘛之前别乱提交。
-                                    .field
-                                        label 你叫啥(网名之类的称呼也可以)
-                                        input#input_name(type="text",placeholder="输入称呼",name="name", maxlength="20")
-                                    .field
-                                        label 邮箱地址(*必填)
-                                        input#input_email(type="email",placeholder="输入邮箱地址",name="email")
-                                    .field(style="text-align:center")
-                                        #applyBtn.ui.button.green
-                                            | 写好了，提交
 
+                        //- card blocking
+                        .fixed_block.card_4
+                            .ui.right.teal.corner.label(title="友情置顶")
+                                i.fa-star.fa
+                            .imgbox
+                                a.ta_cover(style="background-image:url(http://ww4.sinaimg.cn/large/ed133892gw1eegi25aklrj20hv0m8q3y.jpg); background-size:cover;")
+                                .ta_cont
+                                    p
+                                        | Sean Malto
+                                        span
+                                            | 由 <a href="http://www.douban.com/people/coolzi/" target="_blank")>彼得潘</a> 投递
+
+                        
                         //- card 1 bg+text
                         .fixed_block.card_1
                            .ui.right.teal.corner.label(title="友情置顶")
@@ -84,22 +97,7 @@ block content
                                            | —— nobody 2014.04.03
 
 
-                        //- card blocking
-                        //- .fixed_block.card_4
-                        //-     .ui.right.teal.corner.label(title="友情置顶")
-                        //-         i.fa-star.fa
-                        //-     .imgbox
-                        //-         a.ta_cover(style="background-image:url(http://ww4.sinaimg.cn/large/ed133892gw1eegi25aklrj20hv0m8q3y.jpg); background-size:cover;")
-                        //-         .ta_cont
-                        //-             p
-                        //-                 | Sean Malto
-                        //-                 span
-                        //-                     | 由 <a href="http://www.douban.com/people/coolzi/" target="_blank")>彼得潘</a> 投递
-
-
-
                         //- card 2 bg+short text
-
                         .fixed_block
                             .ui.right.teal.corner.label(title="友情置顶")
                                 i.fa-star.fa
