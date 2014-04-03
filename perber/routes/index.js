@@ -3,7 +3,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-03-15 19:49:52
+* @Last Modified time: 2014-04-02 19:45:33
 */
 
 
@@ -128,7 +128,7 @@ function Routes (app, server) {
                 console.log(error);
                 res.json({status : 'error'})
             }else{
-                console.log("Message sent: " + response.message);
+                console.log("Mail sent: " + response.message);
                 res.json({status : 'success'})
             }
 

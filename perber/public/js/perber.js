@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-15 18:57:53
+* @Last Modified time: 2014-04-03 16:38:30
 */
 
 
@@ -317,6 +317,12 @@ delete msg
     })
 
 
+// limited someone
+    socket.on('limited someone', function(data){
+        notice('error', '说话太快了 :0', 2000);
+        console.log('limited someone!!')
+        console.log(data)
+    })
 
 
 /*
@@ -1208,9 +1214,5 @@ delete msg
         var cval=getCookie(name);
         if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString();
     }
-
-    var tit = "Maja&#039;s Song";
-    console.log('tit', escape(tit))
-
 })
 
