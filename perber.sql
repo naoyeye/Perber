@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # http://code.google.com/p/sequel-pro/
 #
-# Host: localhost (MySQL 5.5.29)
+# Host: 127.0.0.1 (MySQL 5.1.35-log)
 # Database: perber
-# Generation Time: 2014-03-05 08:42:38 +0000
+# Generation Time: 2014-04-04 14:46:21 +0000
 # ************************************************************
 
 
@@ -31,7 +31,7 @@ CREATE TABLE `Images` (
   `msgID` int(11) NOT NULL,
   `creation_ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 
@@ -48,10 +48,13 @@ CREATE TABLE `Messages` (
   `music_album` text,
   `music_cover` text,
   `music_location` text,
+  `location` text,
   `retained` tinyint(1) NOT NULL DEFAULT '0',
   `creation_ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 
 # Dump of table vote
 # ------------------------------------------------------------
@@ -63,15 +66,18 @@ CREATE TABLE `vote` (
   `up` int(11) NOT NULL DEFAULT '0',
   `down` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 LOCK TABLES `vote` WRITE;
 /*!40000 ALTER TABLE `vote` DISABLE KEYS */;
 
-INSERT INTO `vote` (`id`, `up`, `down`) VALUES (1,0,0);
+INSERT INTO `vote` (`id`, `up`, `down`)
+VALUES
+  (1,0,0);
 
 /*!40000 ALTER TABLE `vote` ENABLE KEYS */;
 UNLOCK TABLES;
+
 
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
