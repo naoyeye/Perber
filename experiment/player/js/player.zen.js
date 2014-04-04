@@ -28,7 +28,7 @@ $(document).ready(function(){
       		$(this).jPlayer("setMedia", {
     			// m4a: "/media/2012/07/30/song.m4a",
     			// mp3: "player/media/aria.mp3"
-    			mp3: "http://m5.file.xiami.com/182/126182/571314/1771602891_4079444_l.mp3?auth_key=b9290d3551695ca1b593e9b31d0c5638-1395619200-0-null"
+    			mp3: "player/media/If-You-Were-here-Tonight.mp3"
         		//oga: "media/2012/07/30/song.ogg"
       		});
     	},

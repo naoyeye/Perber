@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-15 17:02:28
+* @Last Modified time: 2014-04-03 23:03:35
 */
 
 
@@ -54,12 +54,17 @@ module.exports = Sockets;
 * @api public
 */
 
+
+
 function Sockets (app, server) {
     var config = app.get('config');
     var client = app.get('redisClient');
     var mysql = app.get('mysqlClient');
     var sessionStore = app.get('sessionStore'); // redis
     var imagesBucket = app.get('imagesBucket');
+
+    // 用来记录用户的动作 目前只是记录发言动作
+    var address_list = {};
 
     var io = sio.listen(server,{
         log: false,
@@ -69,6 +74,16 @@ function Sockets (app, server) {
     });
 
     var count = 0;
+
+    // 清理工
+    // 5分钟运行一次清理程序
+    setInterval(cleaner, 60000 * config.app.timer);
+
+    function cleaner(){
+        console.log('清理工开始工作了！', address_list)
+        address_list = {}
+        console.log('已清理！', address_list)
+    }
 
     // 过滤转义字符
     function toTxt(str){
@@ -129,6 +144,9 @@ function Sockets (app, server) {
         }
     });
 
+    // var l =  io.sockets.clients().filter(function(s) {return !s.disconnected;}).length;
+    // console.log(l)
+
     io.configure(function() {
         io.set('store',
             new sio.RedisStore({
@@ -152,8 +170,7 @@ function Sockets (app, server) {
 
             userKey = provider + ":" + nickname,
             room_id = hs.perber.room,
-            now = new Date(),
-
+            now = new Date();
 
         socket.join(room_id);
 
@@ -174,7 +191,6 @@ function Sockets (app, server) {
             // console.log('socketAdded!!!')
 
             if(socketAdded) {
-
                 client.sadd('socketio:sockets', socket.id);
                 client.sadd('rooms:' + room_id + ':online', userKey, function(err, userAdded) {
                     if(userAdded) {
@@ -211,20 +227,44 @@ function Sockets (app, server) {
             }
         });
 
+    
+        // 分析ip地址
+        function getIPaddress(address){
+            var taobaoip = url.parse('http://ip.taobao.com/service/getIpInfo.php?ip='+ address);
 
-// xiamiHandle start
-        function safeFilename(value) {
-            return value.replace(/(\/|\\|\:|\*|\?|\"|\<|\>|\||\s+)/g, ' ');
+            http.get(taobaoip, function(res) {
+                res.setEncoding('utf8');
+                // console.log(res)
+
+                res.on('data', function(data) {
+                    // xml += data;
+                    console.log('xml on data = ', data)
+                })
+            })
         }
 
-        function safeFilter(value) {
-            return safeFilename(removeSpan(value));
+        // 根据ip地址解析地址信息
+        function unUnicode(str) { 
+            return unescape(str.replace(/\\/g, "%"));
         }
 
-        function removeSpan(value) {
-            return value.replace('<span>', ' ').replace('</span>', '');
+        // 是否在数组中
+        function inList(needle, array, bool){  
+            if(typeof needle=="string"||typeof needle=="number"){
+                for(var i in array){
+                    if(needle===array[i]){
+                        if(bool){
+                            return i;
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }  
         }
 
+
+        // xiamiHandle start
         function getLocation(str) {
             try {
                 var a1 = parseInt(str.charAt(0)),
@@ -340,71 +380,111 @@ function Sockets (app, server) {
                 xiamiParse(pageUrl)
             }
         }
-// xiamiHandle end
+        // xiamiHandle end
 
 
-// new message
+        // new message
         socket.on('my msg', function(data) {
 
-            var no_empty = data.msg.replace("\n","");
-            var msgID,
-                havaImg = false;
-                isSong = false;
+            // get ip
+            var address = hs.address.address;
 
-            if(data.imgKey){
-                havaImg = true;
-            }
+            // 判断是不是已经有过动作
+            if( address_list[address] ) {
+                console.log('已经在列表里!!');
 
-            /*
-            ===================
-            !!!!IMPORTANT!!!!
-            ===================
-            */
+                // 判断是不是超过了次数
+                if(address_list[address].action < config.app.limit){
+                    // 如果没超过次数，则给次数 +1
+                    address_list[address].action = address_list[address].action + 1;
+                    console.log('当前用户的最新行为次数是：', address_list[address].action);
+                } else {
+                    // come on die young!!
+                    console.log('超过次数了，come on die young!!')
 
-            // 歌曲类的信息交由 xiamiRun(data.msg) 处理
-            // 这部分的逻辑太乱了 TAT
-            if(data.song === true){
-                isSong = true;
-                // xiami url parse
-                xiamiRun(data.msg);
+                    // socket.disconnect(socket.id)
+                    // delete io.sockets.sockets[socket.id];
 
-            } else {
-                // 这里只处理不是歌曲的信息(文字、图片)
-
-                var chatlogRegistry = [data.msg]
-                var imgKey = data.imgKey;
-
-                mysql.query('INSERT INTO Messages SET message = ?', chatlogRegistry, function(error, results) {
-                    if(error) {
-                        console.log("mysql INSERT Error: " + error.message);
-                        // mysql.end();
-                        return;
-                    }
-
-                    msgID = results.insertId;
-
-                    // 如果带有qiniu图片key, 往图片表里增加记录
-                    if(havaImg){
-                        var sql = [imgKey, msgID];
-                        mysql.query('INSERT INTO Images SET imgKey = ?, msgID = ?', sql, function(error, results) {
-                            if(error) {
-                                console.log("mysql INSERT image key Error: " + error.message);
-                                // mysql.end();
-                                return;
-                            }
-                        })
-                    }
-
-                    io.sockets.in(room_id).emit('new msg', {
-                        id: msgID,
-                        msg: data.msg,
-                        time: new Date()
+                    // 不做处理，针对此 id 返回警告提示
+                    io.sockets.socket(socket.id).emit('limited someone', {
+                        address: address
                     });
-                });
+
+                    return;
+                }
+            } else {
+                console.log('没在列表里，需要添加到列表！')
+                address_list[address] = { "action" : 1 }
+                console.log('address_list =', address_list)
             }
+
+            messageLogic();
+
+            // 消息处理
+            function messageLogic(){
+                var no_empty = data.msg.replace("\n","");
+                var msgID,
+                    isPhoto = false;
+                    isSong = false;
+
+                if(data.imgKey){
+                    isPhoto = true;
+                }
+
+                /*
+                ===================
+                !!!!IMPORTANT!!!!
+                ===================
+                */
+
+                // 歌曲类的信息交由 xiamiRun(data.msg) 处理
+                // 这部分的逻辑太乱了 TAT
+                if(data.song === true){
+                    isSong = true;
+                    // xiami url parse
+                    xiamiRun(data.msg);
+
+                } else {
+                    // 这里只处理不是歌曲的信息(文字、图片)
+
+                    var chatlogRegistry = [data.msg]
+                    var imgKey = data.imgKey;
+
+                    mysql.query('INSERT INTO Messages SET message = ?', chatlogRegistry, function(error, results) {
+                        if(error) {
+                            console.log("mysql INSERT Error: " + error.message);
+                            // mysql.end();
+                            return;
+                        }
+
+                        msgID = results.insertId;
+
+                        // 如果带有qiniu图片key, 往图片表里增加记录
+                        if(isPhoto){
+                            var sql = [imgKey, msgID];
+                            mysql.query('INSERT INTO Images SET imgKey = ?, msgID = ?', sql, function(error, results) {
+                                if(error) {
+                                    console.log("mysql INSERT image key Error: " + error.message);
+                                    // mysql.end();
+                                    return;
+                                }
+                            })
+                        }
+
+                        io.sockets.in(room_id).emit('new msg', {
+                            id: msgID,
+                            msg: data.msg,
+                            time: new Date()
+                        });
+                    });
+                }
+            }
+            
         });
 
-// delete message
+
+
+        // delete message
         socket.on('delete message', function(data) {
 
             // console.log('data = ', data);
@@ -449,7 +529,7 @@ function Sockets (app, server) {
         });
 
 
-// history message
+    // history message
         socket.on('history request', function() {
 
             var history = [];

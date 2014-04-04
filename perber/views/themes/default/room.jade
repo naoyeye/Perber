@@ -29,16 +29,24 @@ block content
                             .ui.right.teal.corner.label(title="通知")
                                 i.fa-bullhorn.fa
                             | ╰(*￣0￣*)╯ 怎么玩儿：<br><br>
-                            | 1. 如果对某条内容不感兴趣，或者觉得没有必要留在网上，那就<mark>一直按着它</mark>，然后点“x”把它删掉吧。在这儿，不怕内容少，就怕内容多。<br><br>
-                            | 2. <mark>如果不想让自己发的内容被删掉，可以点击“有空”——如果还有空的话——提交你的联系方式。名额只有 1 个，4月1日之前免费。</mark><br><br> 
-                            | 3. 把图片拖拽到输入框，可以上传图片。直接发GIF图片的链接是不能出现图片的，除非是来自新浪的GIF图。instagram的图片也是支持的。(￢∀￢) <br><br> 
-                            | 4. 可以识别虾米的歌曲URL（类似 <mark>http://www.xiami.com/song/11234567</mark>这种）<br><br>
-                            | 5. “网站介绍”神马的点击右上角的图标就好了，反正也没人看。对技术感兴趣的可以去<a target="_blank" href="https://github.com/naoyeye/Perber">这里</a>看代码，简单的<mark>socket.io + node.js</mark>。好了，飞走~~ ʅ(‾◡◝)ʃ
+                            | 1. 在顶部的输入框输入文字，或者把图片拖拽到输入框中。支持虾米音乐和instagram、新浪微博图片。<br><br>
+                            | 2. 长按，删除某条内容。<mark>如果不想让自己发的内容被删掉，可以点击“有空”——如果还有空的话——提交你的联系方式。名额只有 1 个，4月1日之前免费。</mark><br><br> 
+                            | 3. “网站介绍”神马的点击右上角的图标就好了，反正也没人看。对技术感兴趣的可以去<a target="_blank" href="https://github.com/naoyeye/Perber">这里</a>看代码，简单的<mark>socket.io + node.js</mark>。好了，飞走~~ ʅ(‾◡◝)ʃ
+
+
+                        //- //- card 1 bg+text
+                        //- .fixed_block.card_3
+                        //-     .ui.right.teal.corner.label(title="友情置顶")
+                        //-         i.fa-smile-o.fa
+                        //-     .ta_cont
+                        //-         h4 调查：要不要增加“投票”功能？
+                        //-         p <strong>功能描述：</strong><br><br>为了保证Perber中的内容质量，计划增加投票功能：每个人都可以对内容进行“赞”和“踩”。<br>如果某条内容得到的“赞”比“踩”多，则在一定时期内(一周？)不能删除；反之，则可以随时被任何人删除。
+                        //-         #vote_bar
+                        //-         #vote_info 此调查会在4月3日截止
 
 
 
                         //- card 0 apply
-
                         //- .fixed_block.null
                         //-     #front
                         //-         .ui.right.teal.corner.label(title="虚位以待")
@@ -63,16 +71,6 @@ block content
                         //-                 #applyBtn.ui.button.green
                         //-                     | 写好了，提交
 
-                        //- card 1 bg+text
-                        //- .fixed_block.card_1
-                        //-    .ui.right.teal.corner.label(title="友情置顶")
-                        //-        i.fa-star.fa
-                        //-    .imgbox
-                        //-        .ta_cont
-                        //-            p
-                        //-                | <i class="fa fa-quote-left"></i> 我跑上门，打开楼梯。说完睡衣，穿上祷告，关上床，钻进灯。所有这一切都是因为，道晚安时你给我的一吻。 <i class="fa fa-quote-right"></i>
-                        //-                span
-                        //-                    | —— 由“不愿意透露姓名的某人”投递
 
                         //- card blocking
                         .fixed_block.card_4
@@ -86,27 +84,28 @@ block content
                                         span
                                             | 由 <a href="http://www.douban.com/people/coolzi/" target="_blank")>彼得潘</a> 投递
 
-
+                        
                         //- card 1 bg+text
-                        .fixed_block.card_3
-                            .ui.right.teal.corner.label(title="友情置顶")
-                                i.fa-smile-o.fa
-                            .ta_cont
-                                h4 调查：要不要增加“投票”功能？
-                                p <strong>功能描述：</strong><br><br>为了保证Perber中的内容质量，计划增加投票功能：每个人都可以对内容进行“赞”和“踩”。<br>如果某条内容得到的“赞”比“踩”多，则在一定时期内(一周？)不能删除；反之，则可以随时被任何人删除。
-                                #vote_bar
-                                #vote_info 此调查会在4月3日截止
+                        .fixed_block.card_1
+                           .ui.right.teal.corner.label(title="友情置顶")
+                               i.fa-star.fa
+                           .imgbox
+                               .ta_cont
+                                   p(style="font-size:38px; font-style='normal'; font-family:'Special Elite', cursive,Georgia,Cambria,'Times New Roman',Times,serif")
+                                       | <i class="fa fa-quote-left"></i> I miss you. <br> I love you. <i class="fa fa-quote-right"></i>
+                                       span
+                                           | —— nobody 2014.04.03
+
 
                         //- card 2 bg+short text
-
-                        //- .fixed_block
-                        //-     .ui.right.teal.corner.label(title="友情置顶")
-                        //-         i.fa-star.fa
-                        //-     .imgbox
-                        //-         a.ta_cover(href="http://www.wandoujia.com/join", target="_blank", style="background-image:url(http://ww2.sinaimg.cn/large/ed133892gw1ee53b743uyj20go0gognh.jpg);background-size: cover;")
-                        //-         .ta_title
-                        //-             a(href="http://www.wandoujia.com/join", target="_blank")
-                        //-                 | (╭￣3￣)╭♡ &nbsp; 加入豌豆荚
+                        .fixed_block
+                            .ui.right.teal.corner.label(title="友情置顶")
+                                i.fa-star.fa
+                            .imgbox
+                                a.ta_cover(href="http://www.wandoujia.com/join", target="_blank", style="background-image:url(http://ww2.sinaimg.cn/large/ed133892gw1ee53b743uyj20go0gognh.jpg);background-size: cover;")
+                                .ta_title
+                                    a(href="http://www.wandoujia.com/join", target="_blank")
+                                        | (╭￣3￣)╭♡ &nbsp; 加入豌豆荚
                 .chat
 
     .noticeWrap
@@ -131,4 +130,4 @@ block content
 
     script(src="/socket.io/socket.io.js")
     script(defer, src="/js/plugins.min.js")
-    script(defer, src="/js/perber.min.js")
+    script(defer, src="/js/perber.js")
