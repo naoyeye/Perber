@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-03 23:03:35
+* @Last Modified time: 2014-04-04 15:53:03
 */
 
 
@@ -80,9 +80,9 @@ function Sockets (app, server) {
     setInterval(cleaner, 60000 * config.app.timer);
 
     function cleaner(){
-        console.log('清理工开始工作了！', address_list)
+        console.log('clean start!', address_list)
         address_list = {}
-        console.log('已清理！', address_list)
+        console.log('clean done!', address_list)
     }
 
     // 过滤转义字符
@@ -387,20 +387,24 @@ function Sockets (app, server) {
         socket.on('my msg', function(data) {
 
             // get ip
-            var address = hs.address.address;
+            // var address = hs.address.address;
+            var address = hs.headers['x-forwarded-for'] || hs.address.address;
+
+            console.log('address', address)
+
 
             // 判断是不是已经有过动作
             if( address_list[address] ) {
-                console.log('已经在列表里!!');
+                // console.log('已经在列表里!!');
 
                 // 判断是不是超过了次数
                 if(address_list[address].action < config.app.limit){
                     // 如果没超过次数，则给次数 +1
                     address_list[address].action = address_list[address].action + 1;
-                    console.log('当前用户的最新行为次数是：', address_list[address].action);
+                    // console.log('当前用户的最新行为次数是：', address_list[address].action);
                 } else {
                     // come on die young!!
-                    console.log('超过次数了，come on die young!!')
+                    console.log('come on die young!!')
 
                     // socket.disconnect(socket.id)
                     // delete io.sockets.sockets[socket.id];
@@ -413,9 +417,9 @@ function Sockets (app, server) {
                     return;
                 }
             } else {
-                console.log('没在列表里，需要添加到列表！')
+                // console.log('没在列表里，需要添加到列表！')
                 address_list[address] = { "action" : 1 }
-                console.log('address_list =', address_list)
+                // console.log('address_list =', address_list)
             }
 
             messageLogic();

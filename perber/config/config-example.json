@@ -45,7 +45,7 @@
     "app": {
         "port": 6789,
         "timer" : 1,
-        "limit" : 30
+        "limit" : 10
     },
     "theme": {
         "name" : "default"
