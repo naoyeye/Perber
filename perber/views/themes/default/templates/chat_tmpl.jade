@@ -1,14 +1,18 @@
 script#chat_box(type='text/html')
-    .chat-box(data-id="{{ id }}", data-retained="{{ retained }}", class="retained_{{ retained }}")
+    .chat-box(data-id="{{ id }}")
         {{> chat_box_text }}
 
 script#chat_box_text(type='text/html')
     p(class="{{ lang }} inner")
         | {{ msg }}
-        span.time(title="{{ time }}") {{ time }}
+        span.info
+            b.time(title="{{ time }}") {{ time }}
+            b.location(title="{{ location }}")
+                i.fa.fa-location-arrow
+                {{ location }}
 
 script#music_box(type='text/html')
-    .chat-box(data-id="{{ id }}", data-retained="{{ retained }}", class="retained_{{ retained }}")
+    .chat-box(data-id="{{ id }}")
         .musicBoxWapper.inner
             figure.musicBox
                 .cover(style="background-image:url({{ cover }});background-size: 110%;")
@@ -17,7 +21,7 @@ script#music_box(type='text/html')
                         figcaption.music_title {{ title }}
                         div
                             span.music_artist {{ artist }} - 《{{ album }}》
-                    .cp-jplayer(id="jquery_jplayer_{{ id }}", data-id="{{ id }}", data-location="{{ location }}")
+                    .cp-jplayer(id="jquery_jplayer_{{ id }}", data-id="{{ id }}", data-location="{{ song_location }}")
                     .cp-container(id="cp_container_{{ id }}")
                         .cp-buffer-holder
                             .cp-buffer-1
@@ -43,7 +47,11 @@ script#music_box(type='text/html')
                     //     .button
                     //         span.icon.play
                     //         span.icon.pause
-            span.time(title="{{ time }}") {{ time }}
+            span.info
+                b.time(title="{{ time }}") {{ time }}
+                b.location(title="{{ location }}")
+                    i.fa.fa-location-arrow
+                    {{ location }}
             span.xiami_icon
                 a(href="{{ songOriginal }}", target="_blank") xiami
 

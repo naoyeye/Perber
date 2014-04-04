@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-03 23:15:52
+* @Last Modified time: 2014-04-04 22:27:29
 */
 
 
@@ -86,9 +86,9 @@ history response
                             artist: historyLine.music_artist,
                             album: historyLine.music_album,
                             cover: historyLine.music_cover,
-                            location: historyLine.music_location,
+                            song_location: historyLine.music_location,
+                            location: historyLine.location,
                             lang : lang,
-                            retained : historyLine.retained,
                             time: time.format("yyyy-MM-dd hh:mm:ss")
                         };
                         chat.append(parseMusicBox(ich.music_box(musicBoxData)));
@@ -97,8 +97,8 @@ history response
                         var chatBoxData = {
                             id: historyLine.id,
                             msg: message,
+                            location: historyLine.location,
                             lang : lang,
-                            retained : historyLine.retained,
                             time: time.format("yyyy-MM-dd hh:mm:ss")
                         };
                         chat.append(parseChatBox(ich.chat_box(chatBoxData)));
@@ -120,6 +120,14 @@ history response
         // }, 1000)
     });
 
+    // 判断对象的长度
+    Object.size = function(obj) {
+        var size = 0, key;
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) size++;
+        }
+        return size;
+    };
 
 /*
 get new msg
@@ -130,9 +138,6 @@ get new msg
         // data.time = time;
         // console.log('data', data)
 
-        // 固定
-        data.retained = 0;
-
         // 语言
         if(isChinese(data.msg)){
             data.lang = 'en';
@@ -140,14 +145,38 @@ get new msg
             data.lang = 'cn';
         }
 
+        // 判断是不是音乐
+        if(Object.size(data.song) > 0){
+            var musicBoxData = {
+                id: data.id,
+                songOriginal: data.msg,
+                title: data.song.title,
+                artist: data.song.artist,
+                album: data.song.album,
+                cover: data.song.cover,
+                song_location: data.song.location,
+                location: data.location,
+                time: data.time
+            };
+            var $boxes = parseMusicBox(ich.music_box(musicBoxData));
+        } else {
+            var $boxes = parseChatBox(ich.chat_box(data));
+        }
+
         // 模板处理
-        var $boxes = parseChatBox(ich.chat_box(data));
+        // var $boxes = parseChatBox(ich.chat_box(data));
 
         if(chat.find('.chat-box').length === 0) {
             chat.prepend( $boxes );
             masonryAllItems(chat);
         } else {
             chat.prepend( $boxes ).masonry('prepended', $boxes);
+        }
+
+        // 初始化播放器
+        if(Object.size(data.song) > 0){
+            // console.log('初始化播放器');
+            initCirclePlayer();
         }
 
         // todo 优化性能
@@ -161,60 +190,6 @@ get new msg
             $('#chatAudio')[0].play();
         }
     });
-
-
-// get new song
-    socket.on('new song', function(data) {
-
-        // 固定
-        data.retained = 0;
-
-        // 语言
-        if(isChinese(data.message)){
-            data.lang = 'en';
-        } else {
-            data.lang = 'cn';
-        }
-
-        // console.log('data', data)
-
-        var time = new Date(data.time);
-
-        var musicBoxData = {
-            id: data.id,
-            songOriginal: data.songOriginal,
-            title: data.song.title,
-            artist: data.song.artist,
-            album: data.song.album,
-            cover: data.song.cover,
-            location: data.song.location,
-            retained : data.retained,
-            time: time.format("yyyy-MM-dd hh:mm:ss")
-        };
-
-        var $boxes = parseMusicBox(ich.music_box(musicBoxData));
-
-        if(chat.find('.chat-box').length === 0) {
-            chat.prepend( $boxes );
-            masonryAllItems(chat);
-        } else {
-            chat.prepend( $boxes ).masonry('prepended', $boxes);
-        }
-
-        // 初始化播放器
-        initCirclePlayer();
-
-        // todo 优化性能
-        $(".time").timeago();
-        hideNull();
-
-        //update title if window is hidden
-        if(windowStatus === "hidden") {
-            afkDeliveredMessages += 1;
-            updateTitle();
-            $('#chatAudio')[0].play();
-        }
-    })
 
 /*
 delete msg
@@ -271,7 +246,7 @@ delete msg
     }).on('hold', '.chat-box', function(event) {
         var $e = $(this);
         //如果已经在删除中 或 此内容已被固定
-        if($e.hasClass('waiting') || $e.data('retained') === 1) return;
+        if($e.hasClass('waiting')) return;
 
         // 显示删除按钮
         $e.append(ich.confirm_template());
@@ -316,8 +291,11 @@ delete msg
         })
     })
 
-
-// limited someone
+/*
+=================
+    Limited someone
+=================
+*/
     socket.on('limited someone', function(data){
         notice('error', '说话太快，会累。影响到别人，不好。', 2000);
     })
@@ -680,7 +658,6 @@ delete msg
         wrap.masonry({
             // columnWidth: 290,
             'itemSelector': '.chat-box',
-            'stamp' : '.retained_1',
             // 'gutter': 5,
             // isResizeBound: false,
             visibleStyle: { opacity: 1, transform: 'scale(1)' },

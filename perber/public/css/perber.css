@@ -568,12 +568,21 @@ body{
     opacity: 1;
 }
 
-.chat-box .time{
+.chat-box .info{
     display: block;
     text-align: right;
     color: #999;
     /*padding-top: 5px;*/
     font-size: 12px;
+    font-weight: normal;
+}
+
+.location{
+    padding-left: 10px;
+    font-weight: normal;
+}
+.location .fa{
+    margin-right: 3px;
 }
 
 
@@ -1026,7 +1035,7 @@ figure{
 }
 
 
-.musicBoxWapper span.time{
+.musicBoxWapper span.info{
     height: 47px;
     line-height: 46px;
     /*padding-top: 5px;*/
@@ -1947,8 +1956,9 @@ Responsive
         #Tips li span{
             padding: 9px 10px 11px 10px
         }
+        .info,
         .time{
-            font-weight: 300;
+            font-weight: normal;
         }
         .intro-wrap-content > .intro-wrap-close{
             width: 40px;
@@ -1995,8 +2005,9 @@ Responsive
         .chat{
             width: 620px;
         }
+        .info,
         .time{
-            font-weight: 300;
+            font-weight: normal;
         }
         /*#important .chat-box .fixed_block:first-child {
             width: 610px;
@@ -2069,5 +2080,9 @@ Responsive
 
     /*Retina*/
     @media only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-        /*none*/
+        .info,
+        .time,
+        .location{
+            font-weight: 100;
+        }
     }

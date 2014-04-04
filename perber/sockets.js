@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-04 15:53:03
+* @Last Modified time: 2014-04-04 22:31:52
 */
 
 
@@ -16,6 +16,8 @@ var sio = require('socket.io'),
     parseCookies = require('connect').utils.parseSignedCookies,
     cookie = require('cookie');//,
     // xiami = require('./xiami');
+
+var stepify = require('stepify');
 
 
 
@@ -73,10 +75,10 @@ function Sockets (app, server) {
         // 0 - error, 1 - warn, 2 - info, 3 - debug
     });
 
-    var count = 0;
+    // var count = 0;
 
     // 清理工
-    // 5分钟运行一次清理程序
+    // 定时运行一次清理程序
     setInterval(cleaner, 60000 * config.app.timer);
 
     function cleaner(){
@@ -227,45 +229,25 @@ function Sockets (app, server) {
             }
         });
 
-    
-        // 分析ip地址
-        function getIPaddress(address){
-            var taobaoip = url.parse('http://ip.taobao.com/service/getIpInfo.php?ip='+ address);
 
-            http.get(taobaoip, function(res) {
-                res.setEncoding('utf8');
-                // console.log(res)
-
-                res.on('data', function(data) {
-                    // xml += data;
-                    console.log('xml on data = ', data)
-                })
-            })
-        }
-
-        // 根据ip地址解析地址信息
-        function unUnicode(str) { 
-            return unescape(str.replace(/\\/g, "%"));
-        }
-
-        // 是否在数组中
-        function inList(needle, array, bool){  
-            if(typeof needle=="string"||typeof needle=="number"){
-                for(var i in array){
-                    if(needle===array[i]){
-                        if(bool){
-                            return i;
-                        }
-                        return true;
-                    }
-                }
-                return false;
-            }  
-        }
+        // 判断某字符串是否在数组中 // 暂时没用到
+            // function inList(needle, array, bool){  
+            //     if(typeof needle=="string"||typeof needle=="number"){
+            //         for(var i in array){
+            //             if(needle===array[i]){
+            //                 if(bool){
+            //                     return i;
+            //                 }
+            //                 return true;
+            //             }
+            //         }
+            //         return false;
+            //     }  
+            // }
 
 
         // xiamiHandle start
-        function getLocation(str) {
+        function getMp3Location(str) {
             try {
                 var a1 = parseInt(str.charAt(0)),
                     a2 = str.substring(1),
@@ -296,7 +278,8 @@ function Sockets (app, server) {
             }
         }
 
-        function xiamiParse(pageUrl) {
+        function xiamiParse(pageUrl, root, location) {
+            
             var sid = sidPattern.exec(pageUrl)[1];
             var options = url.parse('http://www.xiami.com/song/playlist/id/'+ sid +'/object_name/default/object_id/0');
             var xiamiRealSong = {};
@@ -325,7 +308,7 @@ function Sockets (app, server) {
                         xiamiRealSong['title'] = toTxt(res.playlist.trackList.track.title.text());
                         xiamiRealSong['artist'] =  toTxt(res.playlist.trackList.track.artist.text());
                         xiamiRealSong['album'] = toTxt(res.playlist.trackList.track.album_name.text());
-                        xiamiRealSong['location'] = getLocation(res.playlist.trackList.track.location.text());
+                        xiamiRealSong['location'] = getMp3Location(res.playlist.trackList.track.location.text());
 
                         // 封面处理
                         var cover;
@@ -341,43 +324,19 @@ function Sockets (app, server) {
                         xiamiRealSong['cover'] =  cover;
 
                         // console.log('xiamiRealSong', xiamiRealSong)
-                        //至此，已得到全部了歌曲信息
 
-                        // 往数据库中插入
-                        var data = [
-                            pageUrl,
-                            xiamiRealSong.title,
-                            xiamiRealSong.artist,
-                            xiamiRealSong.album,
-                            xiamiRealSong.cover,
-                            xiamiRealSong.location
-                        ]
-                        mysql.query('INSERT INTO Messages SET message = ?, music_title = ?, music_artist = ?, music_album = ?, music_cover = ?, music_location = ?', data, function(error, results) {
-                            if(error) {
-                                console.log("mysql INSERT Error: " + error.message);
-                                // mysql.end();
-                                return;
-                            }
+                        // 得到歌曲信息，传递给 step 4;
+                        root.done(null, xiamiRealSong, location);
 
-                            var msgID = results.insertId;
-
-                            // 向前端返回歌曲信息
-                            io.sockets.in(room_id).emit('new song', {
-                                id: msgID,
-                                song: xiamiRealSong,
-                                songOriginal : pageUrl,
-                                time: new Date()
-                            });
-                        })
                     });
 
                 })
             })
         }
 
-        function xiamiRun(pageUrl){
+        function xiamiRun(pageUrl, root, location){
             if (isXiamiSong.test(pageUrl)) {
-                xiamiParse(pageUrl)
+                xiamiParse(pageUrl, root, location);
             }
         }
         // xiamiHandle end
@@ -387,103 +346,143 @@ function Sockets (app, server) {
         socket.on('my msg', function(data) {
 
             // get ip
-            // var address = hs.address.address;
             var address = hs.headers['x-forwarded-for'] || hs.address.address;
+            // var address = '106.186.112.11'; // for test
 
-            console.log('address', address)
+            var msgID,
+                isSong = false;
 
 
-            // 判断是不是已经有过动作
-            if( address_list[address] ) {
-                // console.log('已经在列表里!!');
+            // ======总流程控制======
+            var Handle = stepify()
+            // step 1: 发言限制
+            .step( function(){
+                // 判断是不是已经有过动作
+                if( address_list[address] ) {
+                    // console.log('已经在列表里!!');
 
-                // 判断是不是超过了次数
-                if(address_list[address].action < config.app.limit){
-                    // 如果没超过次数，则给次数 +1
-                    address_list[address].action = address_list[address].action + 1;
-                    // console.log('当前用户的最新行为次数是：', address_list[address].action);
+                    // 判断是不是超过了次数
+                    if(address_list[address].action < config.app.limit){
+                        // 如果没超过次数，则给次数 +1
+                        address_list[address].action = address_list[address].action + 1;
+                        // console.log('当前用户的最新行为次数是：', address_list[address].action);
+
+                        this.done();
+
+                    } else {
+                        // come on die young!!
+                        console.log('come on die young!!')
+
+                        // 不做处理，针对此 id 返回警告提示
+                        io.sockets.socket(socket.id).emit('limited someone', {
+                            address: address
+                        });
+                        return;
+                        this.done();
+                    }
                 } else {
-                    // come on die young!!
-                    console.log('come on die young!!')
-
-                    // socket.disconnect(socket.id)
-                    // delete io.sockets.sockets[socket.id];
-
-                    // 不做处理，针对此 id 返回警告提示
-                    io.sockets.socket(socket.id).emit('limited someone', {
-                        address: address
-                    });
-
-                    return;
+                    // console.log('没在列表里，需要添加到列表！')
+                    address_list[address] = { "action" : 1 }
+                    // console.log('address_list =', address_list)
+                    this.done();
                 }
-            } else {
-                // console.log('没在列表里，需要添加到列表！')
-                address_list[address] = { "action" : 1 }
-                // console.log('address_list =', address_list)
-            }
+            })
+            // step 2: 获取IP详细信息 用的是淘宝的服务
+            .step(function(){
+                var taobaoip = url.parse('http://ip.taobao.com/service/getIpInfo.php?ip='+ address);
 
-            messageLogic();
+                var root = this;
 
-            // 消息处理
-            function messageLogic(){
-                var no_empty = data.msg.replace("\n","");
-                var msgID,
-                    isPhoto = false;
-                    isSong = false;
+                var location;
 
-                if(data.imgKey){
-                    isPhoto = true;
-                }
+                http.get(taobaoip, function(res) {
+                    res.setEncoding('utf8');
+                    var json = '';
+                    res.on('data', function(req) {
+                        if( req.code === 1) return;
 
-                /*
-                ===================
-                !!!!IMPORTANT!!!!
-                ===================
-                */
+                        json += req;
+                        json = JSON.parse(json);
+                        // location为所在地
+                        // 文档见 http://ip.taobao.com/instructions.php
+                        // 如果 city 得不到，则取 country
+                        if( json.data.city.length === 0 ){
+                            location = json.data.country;
+                        } else {
+                            location = json.data.city;
+                        }
 
-                // 歌曲类的信息交由 xiamiRun(data.msg) 处理
-                // 这部分的逻辑太乱了 TAT
+                        root.done(null, location); // 传递参数 location 到 step 3
+                    })
+                })
+            })
+            // step 3: 检查是否是虾米音乐
+            .step(function(location){
+                var root = this;
+
                 if(data.song === true){
                     isSong = true;
-                    // xiami url parse
-                    xiamiRun(data.msg);
-
+                    // 需要同时把 root 和 location 都传给 xiamiRun()
+                    // 以便回调时 step 4 能接收到这俩参数
+                    xiamiRun(data.msg, root, location);
                 } else {
-                    // 这里只处理不是歌曲的信息(文字、图片)
-
-                    var chatlogRegistry = [data.msg]
-                    var imgKey = data.imgKey;
-
-                    mysql.query('INSERT INTO Messages SET message = ?', chatlogRegistry, function(error, results) {
-                        if(error) {
-                            console.log("mysql INSERT Error: " + error.message);
-                            // mysql.end();
-                            return;
-                        }
-
-                        msgID = results.insertId;
-
-                        // 如果带有qiniu图片key, 往图片表里增加记录
-                        if(isPhoto){
-                            var sql = [imgKey, msgID];
-                            mysql.query('INSERT INTO Images SET imgKey = ?, msgID = ?', sql, function(error, results) {
-                                if(error) {
-                                    console.log("mysql INSERT image key Error: " + error.message);
-                                    // mysql.end();
-                                    return;
-                                }
-                            })
-                        }
-
-                        io.sockets.in(room_id).emit('new msg', {
-                            id: msgID,
-                            msg: data.msg,
-                            time: new Date()
-                        });
-                    });
+                    var xiamiRealSong = {}
+                    // 如果不是音乐，则设定 xiamiRealSong 为空，和 location 一起传给 step 4
+                    root.done(null, xiamiRealSong, location);
                 }
-            }
-            
+            })
+            // step 4: 把之前得到的数据汇总、整理，入库，返回
+            .step(function(xiamiRealSong, location){
+
+                data['song'] = xiamiRealSong;
+                data['location'] = location;
+
+                var coolData = [
+                        data.msg,
+                        data.song.title,
+                        data.song.artist,
+                        data.song.album,
+                        data.song.cover,
+                        data.song.location,
+                        data.location
+                    ]
+
+                mysql.query('INSERT INTO Messages SET message = ?, music_title = ?, music_artist = ?, music_album = ?, music_cover = ?, music_location = ?, location = ?', coolData, function(error, results) {
+                    if(error) {
+                        console.log("mysql INSERT Error: " + error.message);
+                        // mysql.end();
+                        return;
+                    }
+
+                    msgID = results.insertId;
+
+                    // 如果带有qiniu图片key, 往图片表里增加记录
+                    if(data.imgKey){
+                        var imgKey = data.imgKey;
+                        var sql = [imgKey, msgID];
+                        mysql.query('INSERT INTO Images SET imgKey = ?, msgID = ?', sql, function(error, results) {
+                            if(error) {
+                                console.log("mysql INSERT image key Error: " + error.message);
+                                // mysql.end();
+                                return;
+                            }
+                        })
+                    }
+
+                    io.sockets.in(room_id).emit('new msg', {
+                        id: msgID,
+                        msg: data.msg,
+                        song: xiamiRealSong,
+                        location : data.location,
+                        time: new Date()
+                    });
+                });
+                
+                // ok ! done!
+                this.done();
+            })
+            .run();
+
         });
 
 
@@ -519,7 +518,7 @@ function Sockets (app, server) {
                 );
             }
 
-            mysql.query('DELETE FROM Messages WHERE id = ? and retained = 0', data.id, function(error, results) {
+            mysql.query('DELETE FROM Messages WHERE id = ?', data.id, function(error, results) {
                 if(error) {
                     console.log("mysql delete Error: " + error.message);
                     // mysql.end();
