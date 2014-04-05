@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-06 02:19:40
+* @Last Modified time: 2014-04-06 02:25:18
 */
 
 
@@ -133,29 +133,23 @@ history response
                 // 初始化播放器
                 initCirclePlayer();
 
-                // 启动introJs
-                if(getCookie('intro_done') === 'true'){
-                } else {
-                     introJs().setOptions({ 'scrollToElement': 'true'}).start().oncomplete(function() {
-                        SetCookie('intro_done', true)
-                    }).onexit(function(){
-                        SetCookie('intro_done', true)
-                    });
-                }
-
                 $('.time').timeago();
                 masonryAllItems(chat);
-                hideLoading();
             } else {
-                hideLoading();
                 chat.append(ich.nullbox());
-                introJs().setOptions({ 'scrollToElement': 'true'}).start().oncomplete(function() {
-                        SetCookie('intro_done', true)
-                    }).onexit(function(){
-                        SetCookie('intro_done', true)
-                    });
             }
         // }, 1000)
+
+        hideLoading();
+        // 启动introJs
+        if(getCookie('intro_done') === 'true'){
+        } else {
+             introJs().setOptions({ 'scrollToElement': 'true'}).start().oncomplete(function() {
+                SetCookie('intro_done', true)
+            }).onexit(function(){
+                SetCookie('intro_done', true)
+            });
+        }
     });
 
     // 判断对象的长度
