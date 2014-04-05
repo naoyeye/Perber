@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-05 20:11:15
+* @Last Modified time: 2014-04-05 21:43:24
 */
 
 
@@ -1149,8 +1149,8 @@ delete msg
     // 投票
     // 得到最新投票
     socket.on('new vote', function(data) {
-        $('#count_upup').html(data.result.up + ' 赞成');
-        $('#count_down').html(data.result.down + ' 反对');
+        $('#count_upup').html(data.result.up + ' 点头');
+        $('#count_down').html(data.result.down + ' 摇头');
         $('#vote_bar .button').removeClass('loading');
     })
 
