@@ -523,7 +523,7 @@ body{
 .imgbox{
     position: relative;
     height: 300px;
-    margin: -20px -20px 15px -20px;
+    margin: -20px -20px 3px -20px;
     line-height: 300px;
     text-align: center;
     font-size: 0;
@@ -940,7 +940,6 @@ body{
     color: #999;
     font-weight: normal;
 }
-
 
 /*music box*/
 figure{

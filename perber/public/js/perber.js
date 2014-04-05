@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-05 19:37:51
+* @Last Modified time: 2014-04-05 20:11:15
 */
 
 
@@ -142,8 +142,6 @@ history response
                         SetCookie('intro_done', true)
                     });
                 }
-                
-
 
                 $('.time').timeago();
                 masonryAllItems(chat);
@@ -209,14 +207,21 @@ get new msg
             chat.prepend( $boxes ).masonry('prepended', $boxes);
         }
 
+
+        // 以下几项需要优化性能。因为会重复运行？ 
+        // 比如 页面里如果有很多播放器，用户新发了一个一首音乐，
+        // initCirclePlayer 就会把所有的播放器都初始化一遍
+        // 其实只要初始化刚刚发的那个就可以了
+        
         // 初始化播放器
         if(Object.size(data.song) > 0){
-            // console.log('初始化播放器');
             initCirclePlayer();
         }
 
-        // todo 优化性能
+        // 时间显示
         $(".time").timeago();
+
+        // 隐藏为空时的icon
         hideNull();
 
         //update title if window is hidden
