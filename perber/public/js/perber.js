@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-04 22:27:29
+* @Last Modified time: 2014-04-05 19:37:51
 */
 
 
@@ -13,6 +13,29 @@ $(function() {
 
     // First update the title with room's name
     updateTitle();
+
+    // console.log(introJs().__proto__)
+
+    // 给introJs增加一个方法
+    // 因为页面打开的时候，底部的内容还没加载出来。
+    // 所以第三步的intro就显示不了
+    // 新增的这个check就是在用户每次点击下一步的时候
+    // 去检查消息列表的第一个内容是不是已经出现在页面里了
+
+    // introJs().__proto__.check = function(){
+    //     var firstBox = chat.find('.chat-box').eq(0);
+    //     if(firstBox.size() > 0){
+    //         console.log(1);
+    //         introJs().exit();
+    //         introJs().start();
+    //     }
+    // }
+
+    // console.log(introJs().__proto__)
+
+    // introJs().setOption({ 'skipLabel': 'Skip', 'doneLabel': 'Done' }).start().onafterchange(function(targetElement) {  
+    //     introJs().__proto__.check();
+    // });
 
     // focusInput();
 
@@ -107,8 +130,20 @@ history response
                 });
                 
                 // initPlayer($(".zenPlayer"))
-
+                // 初始化播放器
                 initCirclePlayer();
+
+                // 启动introJs
+                if(getCookie('intro_done') === 'true'){
+                } else {
+                     introJs().setOptions({ 'scrollToElement': 'true'}).start().oncomplete(function() {
+                        SetCookie('intro_done', true)
+                    }).onexit(function(){
+                        SetCookie('intro_done', true)
+                    });
+                }
+                
+
 
                 $('.time').timeago();
                 masonryAllItems(chat);
@@ -116,6 +151,7 @@ history response
             } else {
                 hideLoading();
                 chat.append(ich.nullbox());
+                introJs().start();
             }
         // }, 1000)
     });

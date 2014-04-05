@@ -8,7 +8,7 @@ script#chat_box_text(type='text/html')
         span.info
             b.time(title="{{ time }}") {{ time }}
             b.location(title="{{ location }}")
-                i.fa.fa-location-arrow
+                i.fa.fa-globe
                 {{ location }}
 
 script#music_box(type='text/html')
@@ -50,7 +50,7 @@ script#music_box(type='text/html')
             span.info
                 b.time(title="{{ time }}") {{ time }}
                 b.location(title="{{ location }}")
-                    i.fa.fa-location-arrow
+                    i.fa.fa-globe
                     {{ location }}
             span.xiami_icon
                 a(href="{{ songOriginal }}", target="_blank") xiami
