@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-05 21:43:24
+* @Last Modified time: 2014-04-06 02:19:40
 */
 
 
@@ -149,7 +149,11 @@ history response
             } else {
                 hideLoading();
                 chat.append(ich.nullbox());
-                introJs().start();
+                introJs().setOptions({ 'scrollToElement': 'true'}).start().oncomplete(function() {
+                        SetCookie('intro_done', true)
+                    }).onexit(function(){
+                        SetCookie('intro_done', true)
+                    });
             }
         // }, 1000)
     });
