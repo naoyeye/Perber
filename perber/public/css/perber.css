@@ -1943,6 +1943,33 @@ body.intro-wrap-open  .intro-wrap-content #IntroInner{
 
 
 
+#footer{
+    padding: 20px 0;
+    text-align: center;
+}
+#footer .logo{
+    padding-bottom: 10px;
+    font-size: 30px;
+}
+#footer a{
+    color: #666;
+}
+#footer a:hover{
+    color: #61b68b;
+}
+
+#footer .logo span{
+    text-indent: -999em;
+    font-size: 0;
+    width: 0;
+    display: inline-block;
+}
+#footer p{
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 1;
+    color: #999;
+}
 
 
 
