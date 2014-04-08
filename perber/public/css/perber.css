@@ -1892,6 +1892,9 @@ body.intro-wrap-open  .intro-wrap-content #IntroInner{
 .step_1{
     left: 150px;
 }
+.step_4{
+    width: 300px;
+}
 
 
 /*--------------------

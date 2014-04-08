@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-04 22:31:52
+* @Last Modified time: 2014-04-08 15:58:43
 */
 
 
@@ -77,14 +77,33 @@ function Sockets (app, server) {
 
     // var count = 0;
 
+    Date.prototype.format = function(format){
+        var o = {
+            "M+" : this.getMonth()+1, //month
+            "d+" : this.getDate(), //day
+            "h+" : this.getHours(), //hour
+            "m+" : this.getMinutes(), //minute
+            "s+" : this.getSeconds(), //second
+            "q+" : Math.floor((this.getMonth()+3)/3), //quarter
+            "S" : this.getMilliseconds() //millisecond
+        }
+
+        if(/(y+)/.test(format)) format=format.replace(RegExp.$1,(this.getFullYear()+"").substr(4- RegExp.$1.length));
+        for(var k in o)if(new RegExp("("+ k +")").test(format))
+            format = format.replace(RegExp.$1,RegExp.$1.length==1? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+        return format;
+    }
+
     // 清理工
     // 定时运行一次清理程序
     setInterval(cleaner, 60000 * config.app.timer);
 
     function cleaner(){
-        console.log('clean start!', address_list)
-        address_list = {}
-        console.log('clean done!', address_list)
+
+        address_list = {};
+
+        console.log(new Date().format("yyyy-MM-dd hh:mm:ss"));
+        console.log('clean done!', address_list);
     }
 
     // 过滤转义字符
@@ -371,6 +390,7 @@ function Sockets (app, server) {
 
                     } else {
                         // come on die young!!
+                        console.log(new Date().format("yyyy-MM-dd hh:mm:ss"));
                         console.log('come on die young!!')
 
                         // 不做处理，针对此 id 返回警告提示

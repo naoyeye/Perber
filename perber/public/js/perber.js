@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-06 02:25:18
+* @Last Modified time: 2014-04-08 16:09:19
 */
 
 
@@ -14,30 +14,10 @@ $(function() {
     // First update the title with room's name
     updateTitle();
 
-    // console.log(introJs().__proto__)
-
-    // 给introJs增加一个方法
-    // 因为页面打开的时候，底部的内容还没加载出来。
-    // 所以第三步的intro就显示不了
-    // 新增的这个check就是在用户每次点击下一步的时候
-    // 去检查消息列表的第一个内容是不是已经出现在页面里了
-
-    // introJs().__proto__.check = function(){
-    //     var firstBox = chat.find('.chat-box').eq(0);
-    //     if(firstBox.size() > 0){
-    //         console.log(1);
-    //         introJs().exit();
-    //         introJs().start();
-    //     }
-    // }
-
-    // console.log(introJs().__proto__)
-
-    // introJs().setOption({ 'skipLabel': 'Skip', 'doneLabel': 'Done' }).start().onafterchange(function(targetElement) {  
-    //     introJs().__proto__.check();
-    // });
-
-    // focusInput();
+    // window width
+    if(window.innerWidth < 401){
+        $('#Tips').remove();
+    }
 
     chat.append(ich.loader());
 

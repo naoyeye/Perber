@@ -8,7 +8,10 @@ block content
                 span#number
                 span#action
 
-            ul#Tips
+            ul#Tips(data-step="4",
+                    data-position="left",
+                    data-tooltipClass="step_4",
+                    data-intro= "更多介绍、怎么使用，可以点击这俩东西（其实也是乱写的）。好了，就这样。")
                 li#about
                     i.fa.fa-circle-o
                     span About Perber
@@ -158,7 +161,7 @@ block content
                 .chat(data-step="3",
                     data-position="top",
                     data-tooltipClass="step_3",
-                    data-intro= "这里是大家发的消息（如果是空的，那就是有人把消息都删除了）。如果你觉得某条消息没意思，也可以一直按着它，然后点击“X”将它删除掉。任何人都可以删除这个页面里的所有消息。消息被删除时，它也会实时地从其他人眼前消失。就是这样了。")
+                    data-intro= "这里是大家发的消息（如果是空的，那就是有人把消息都删除了）。如果你觉得某条消息没意思，也可以一直按着它，然后点击“X”将它删除掉。任何人都可以删除这个页面里的所有消息。消息被删除时，它也会实时地从其他人眼前消失。")
 
         #footer
             .logo
