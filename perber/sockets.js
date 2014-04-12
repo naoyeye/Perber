@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-13 00:03:28
+* @Last Modified time: 2014-04-13 00:49:06
 */
 
 
@@ -365,8 +365,8 @@ function Sockets (app, server) {
         socket.on('my msg', function(data) {
 
             // get ip
-            // var address = hs.headers['x-forwarded-for'] || hs.address.address;
-            var address = '106.186.112.11'; // for test
+            var address = hs.headers['x-forwarded-for'] || hs.address.address;
+            // var address = '106.186.112.11'; // for test
 
             var msgID,
                 isSong = false;
