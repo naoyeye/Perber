@@ -2,9 +2,25 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-08 16:09:19
+* @Last Modified time: 2014-04-13 00:04:44
 */
 
+/*
+
+         _         _           _          _              _           _      
+        /\ \      /\ \        /\ \       / /\           /\ \        /\ \    
+       /  \ \    /  \ \      /  \ \     / /  \         /  \ \      /  \ \   
+      / /\ \ \  / /\ \ \    / /\ \ \   / / /\ \       / /\ \ \    / /\ \ \  
+     / / /\ \_\/ / /\ \_\  / / /\ \_\ / / /\ \ \     / / /\ \_\  / / /\ \_\ 
+    / / /_/ / / /_/_ \/_/ / / /_/ / // / /\ \_\ \   / /_/_ \/_/ / / /_/ / / 
+   / / /__\/ / /____/\   / / /__\/ // / /\ \ \___\ / /____/\   / / /__\/ /  
+  / / /_____/ /\____\/  / / /_____// / /  \ \ \__// /\____\/  / / /_____/   
+ / / /     / / /______ / / /\ \ \ / / /____\_\ \ / / /______ / / /\ \ \     
+/ / /     / / /_______/ / /  \ \ / / /__________/ / /_______/ / /  \ \ \    
+\/_/      \/__________\/_/    \_\\/_____________\/__________\/_/    \_\/    
+                                                                            
+
+*/
 
 $(function() {
     var windowStatus,
@@ -91,6 +107,7 @@ history response
                             cover: historyLine.music_cover,
                             song_location: historyLine.music_location,
                             location: historyLine.location,
+                            address: historyLine.address,
                             lang : lang,
                             time: time.format("yyyy-MM-dd hh:mm:ss")
                         };
@@ -101,6 +118,7 @@ history response
                             id: historyLine.id,
                             msg: message,
                             location: historyLine.location,
+                            address: historyLine.address,
                             lang : lang,
                             time: time.format("yyyy-MM-dd hh:mm:ss")
                         };
@@ -168,6 +186,7 @@ get new msg
                 cover: data.song.cover,
                 song_location: data.song.location,
                 location: data.location,
+                address: data.address,
                 time: data.time
             };
             var $boxes = parseMusicBox(ich.music_box(musicBoxData));

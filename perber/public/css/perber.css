@@ -591,11 +591,11 @@ body{
 .location{
     padding-left: 10px;
     font-weight: normal;
+    color: #ccc;
 }
 .location .fa{
     margin-right: 3px;
 }
-
 
 #important{
     margin: 0 auto;

@@ -6,8 +6,8 @@ script#chat_box_text(type='text/html')
     p(class="{{ lang }} inner")
         | {{ msg }}
         span.info
-            b.time(title="{{ time }}") {{ time }}
-            b.location(title="{{ location }}")
+            b.time(title='{{ time }}') {{ time }}
+            a.location(title="{{ address }}", href="//ip.taobao.com/ipSearch.php?ipAddr={{ address }}")
                 i.fa.fa-globe
                 {{ location }}
 
@@ -49,7 +49,7 @@ script#music_box(type='text/html')
                     //         span.icon.pause
             span.info
                 b.time(title="{{ time }}") {{ time }}
-                b.location(title="{{ location }}")
+                a.location(title="{{ address }}", href="//ip.taobao.com/ipSearch.php?ipAddr={{ address }}")
                     i.fa.fa-globe
                     {{ location }}
             span.xiami_icon

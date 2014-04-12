@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-08 15:58:43
+* @Last Modified time: 2014-04-13 00:03:28
 */
 
 
@@ -324,10 +324,10 @@ function Sockets (app, server) {
                         // console.log('res.playlist.trackList.track', res.playlist.trackList.track)
                         // console.log(decodeURIComponent(res.playlist.trackList.track.title.text()))
 
-                        xiamiRealSong['title'] = toTxt(res.playlist.trackList.track.title.text());
-                        xiamiRealSong['artist'] =  toTxt(res.playlist.trackList.track.artist.text());
-                        xiamiRealSong['album'] = toTxt(res.playlist.trackList.track.album_name.text());
-                        xiamiRealSong['location'] = getMp3Location(res.playlist.trackList.track.location.text());
+                        xiamiRealSong.title = toTxt(res.playlist.trackList.track.title.text());
+                        xiamiRealSong.artist =  toTxt(res.playlist.trackList.track.artist.text());
+                        xiamiRealSong.album = toTxt(res.playlist.trackList.track.album_name.text());
+                        xiamiRealSong.location = getMp3Location(res.playlist.trackList.track.location.text());
 
                         // 封面处理
                         var cover;
@@ -340,7 +340,7 @@ function Sockets (app, server) {
                                 cover = s.replace('_1', '');
                             });
                         }
-                        xiamiRealSong['cover'] =  cover;
+                        xiamiRealSong.cover =  cover;
 
                         // console.log('xiamiRealSong', xiamiRealSong)
 
@@ -365,8 +365,8 @@ function Sockets (app, server) {
         socket.on('my msg', function(data) {
 
             // get ip
-            var address = hs.headers['x-forwarded-for'] || hs.address.address;
-            // var address = '106.186.112.11'; // for test
+            // var address = hs.headers['x-forwarded-for'] || hs.address.address;
+            var address = '106.186.112.11'; // for test
 
             var msgID,
                 isSong = false;
@@ -454,8 +454,7 @@ function Sockets (app, server) {
             // step 4: 把之前得到的数据汇总、整理，入库，返回
             .step(function(xiamiRealSong, location){
 
-                data['song'] = xiamiRealSong;
-                data['location'] = location;
+                data.song = xiamiRealSong;
 
                 var coolData = [
                         data.msg,
@@ -464,10 +463,11 @@ function Sockets (app, server) {
                         data.song.album,
                         data.song.cover,
                         data.song.location,
-                        data.location
+                        location,
+                        address
                     ]
 
-                mysql.query('INSERT INTO Messages SET message = ?, music_title = ?, music_artist = ?, music_album = ?, music_cover = ?, music_location = ?, location = ?', coolData, function(error, results) {
+                mysql.query('INSERT INTO Messages SET message = ?, music_title = ?, music_artist = ?, music_album = ?, music_cover = ?, music_location = ?, location = ?, address = ?', coolData, function(error, results) {
                     if(error) {
                         console.log("mysql INSERT Error: " + error.message);
                         // mysql.end();
@@ -493,7 +493,8 @@ function Sockets (app, server) {
                         id: msgID,
                         msg: data.msg,
                         song: xiamiRealSong,
-                        location : data.location,
+                        location : location,
+                        address : address,
                         time: new Date()
                     });
                 });
