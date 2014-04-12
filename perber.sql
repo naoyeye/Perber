@@ -49,6 +49,7 @@ CREATE TABLE `Messages` (
   `music_cover` text,
   `music_location` text,
   `location` text,
+  `address` text,
   `retained` tinyint(1) NOT NULL DEFAULT '0',
   `creation_ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
