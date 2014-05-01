@@ -1984,7 +1984,14 @@ Responsive
 
 
     @media(min-width: 320px){
-        #important,
+        .chat-input {
+            position: absolute;
+        }
+
+        #important {
+            display: none;
+        }
+
         .chat{
             width: 310px;
         }
@@ -2010,43 +2017,19 @@ Responsive
             right: 17px;
             padding-top: 3px;
         }
-        /*#important .chat-box .fixed_block:first-child {
-            width: 300px;
-            max-width: 300px;
-        }*/
         #Tips{
             display: none;
         }
-/*        .cover{
-            -webkit-filter:none;
-            -moz-filter:none;
-            -o-filter:none;
-            -ms-filtner:none;
-            filter:none;
-        }
-        .chat-box:hover .cover{
-            -webkit-filter:none;
-            -moz-filter:none;
-            -o-filter:none;
-            -ms-filtner:none;
-            filter:none;
-        }*/
     }
     @media(min-width: 325px){
-        #important,
         .chat{
             width: 310px;
         }
-        /*#important .chat-box .fixed_block:first-child {
-            width: 300px;
-            max-width: 300px;
-        }*/
         .step_1{
             left: 50px;
         }
     }
     @media(min-width: 625px){
-        #important,
         .chat{
             width: 620px;
         }
@@ -2054,10 +2037,6 @@ Responsive
         .time{
             font-weight: normal;
         }
-        /*#important .chat-box .fixed_block:first-child {
-            width: 610px;
-            max-width: 610px;
-        }*/
         .step_1{
             left: 50px;
         }
@@ -2065,44 +2044,36 @@ Responsive
     }
 
     @media(min-width: 935px){
+        .chat-input {
+            position: fixed;
+        }
+
+        #important{
+            display: block;
+        }
+
         #important,
-        .chat{width: 930px;}
+        .chat{
+            width: 930px;
+        }
+
         #IntroInner{
             font-size: 20px;
             font-weight: 300;
         }
+
         #important .chat-box .fixed_block {
             width: 455px;
             max-width: 455px;
         }
-        /*#important .chat-box .fixed_block:first-child {
-            width: 920px;
-            max-width: 920px;
-        }*/
+
         a.ta_cover{
             background-position: center top;
         }
+
         #Tips{
             display: block;
         }
-/*        .cover{
-            -webkit-filter:blur(2px);
-            -moz-filter:blur(2px);
-            -o-filter:blur(2px);
-            -ms-filter:blur(2px);
-            filter:blur(2px);
-
-            -moz-transition:-moz-filter 0.4s, -moz-transform 0.4s;
-            -webkit-transition:-webkit-filter 0.4s, -webkit-transform 0.4s;
-            transition:filter 0.4s, transform 0.4s;
-        }
-        .chat-box:hover .cover{
-            -webkit-filter:blur(0px);
-            -moz-filter:blur(0px);
-            -o-filter:blur(0px);
-            -ms-filtner:blur(0px);
-            filter:blur(0px);
-        }*/
     }
     @media(min-width: 1245px){
         #important,
@@ -2116,10 +2087,6 @@ Responsive
             width: 300px;
             max-width: 300px;
         }
-        /*#important .chat-box .fixed_block:first-child {
-            width: 610px;
-            max-width: 610px;
-        }*/
     }
 
     @media(min-width: 1617px){
