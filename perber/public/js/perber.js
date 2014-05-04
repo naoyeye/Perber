@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-13 00:04:44
+* @Last Modified time: 2014-05-04 11:39:52
 */
 
 /*
@@ -139,15 +139,7 @@ history response
         // }, 1000)
 
         hideLoading();
-        // 启动introJs
-        if(getCookie('intro_done') === 'true'){
-        } else {
-             introJs().setOptions({ 'scrollToElement': 'true'}).start().oncomplete(function() {
-                SetCookie('intro_done', true)
-            }).onexit(function(){
-                SetCookie('intro_done', true)
-            });
-        }
+
     });
 
     // 判断对象的长度
