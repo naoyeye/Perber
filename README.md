@@ -70,13 +70,13 @@ Perber use **Qiniu** to store pictures, so, you'll need a "**bucket_name**" "**a
 
 * Web preview in iOS Safari:
 
-![Perber in iOS Safari](http://ww2.sinaimg.cn/mw690/61b8bbf4gw1ee2vic6rhwj20hs0vkmzm.jpg)
+![Perber in iOS Safari](http://ww2.sinaimg.cn/large/61b8bbf4tw1eg3q0lcsc5j20cn0m8dhz.jpg)
 
 * Perber in Chrome(Mackbook Pro 13):
 
-![Perber in Chrome](http://ww2.sinaimg.cn/large/ed133892gw1ee8kx8udjbj210i105k0q.jpg)
+![Perber in Chrome](http://ww1.sinaimg.cn/large/61b8bbf4tw1eg3okf24rij21340vk0yl.jpg)
 
-![Perber in Chrome](http://ww1.sinaimg.cn/large/ed133892gw1ee8kxy2dxqj210i1jwn8k.jpg)
+![Perber in Chrome](http://ww1.sinaimg.cn/large/61b8bbf4tw1eg3olvkq95j20on0q60vm.jpg)
 
 
 ## The starting point:
