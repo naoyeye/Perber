@@ -28,7 +28,7 @@ $(document).ready(function(){
       		$(this).jPlayer("setMedia", {
     			// m4a: "/media/2012/07/30/song.m4a",
     			// mp3: "player/media/aria.mp3"
-    			mp3: "player/media/If-You-Were-here-Tonight.mp3"
+    			mp3: "http://share.han.im/audio/remix-4.mp3"
         		//oga: "media/2012/07/30/song.ogg"
       		});
     	},

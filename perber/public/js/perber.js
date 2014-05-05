@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-05-04 11:39:52
+* @Last Modified time: 2014-05-05 17:58:40
 */
 
 /*
@@ -129,7 +129,7 @@ history response
                 
                 // initPlayer($(".zenPlayer"))
                 // 初始化播放器
-                initCirclePlayer();
+                initZenPlayer();
 
                 $('.time').timeago();
                 masonryAllItems(chat);
@@ -199,12 +199,12 @@ get new msg
 
         // 以下几项需要优化性能。因为会重复运行？ 
         // 比如 页面里如果有很多播放器，用户新发了一个一首音乐，
-        // initCirclePlayer 就会把所有的播放器都初始化一遍
+        // initZenPlayer 就会把所有的播放器都初始化一遍
         // 其实只要初始化刚刚发的那个就可以了
         
         // 初始化播放器
         if(Object.size(data.song) > 0){
-            initCirclePlayer();
+            initZenPlayer();
         }
 
         // 时间显示
@@ -749,8 +749,8 @@ delete msg
 
 // =============player==============
 
-    function initCirclePlayer(){
-        $('.cp-jplayer').each(function(i, el){
+    function initZenPlayer(){
+        $('.zenPlayer').each(function(i, el){
             var $t = $(this);
             if($t.data('inited') !== '1'){
                 var id = $t.data('id'),
@@ -758,11 +758,12 @@ delete msg
 
                 $t.data('inited', '1');
 
-                var myCirclePlayer = new CirclePlayer("#jquery_jplayer_" + id, {
+                var myZenPlayer = new zenPlayer("#jquery_jplayer_" + id + ' .player' , {
                     mp3: location
                 }, {
-                    cssSelectorAncestor: "#cp_container_"+id,
-                    supplied:"mp3"
+                    cssSelectorAncestor: "#jquery_jplayer_" + id,
+                    supplied: "mp3",
+                    swfPath: '/static/public/swf'
                 });
             }
         })

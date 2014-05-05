@@ -6,6 +6,9 @@
 
 
 /* player */
+.zenPlayer {
+    z-index: 4;
+}
 
 .zenPlayer .player {
     /* With display: none; it doesn't work on iOS, below an alternative */
@@ -18,7 +21,8 @@
 .zenPlayer:before {
     content: "";
     position: absolute;
-    display: inline-block;
+    /*display: inline-block;*/
+    display: none;
     z-index: -1;
     border-radius: 100px;
     width: 150px;
@@ -27,6 +31,7 @@
     
     background: rgba(198, 76, 73, 0.9); /* fallback */
     background: -webkit-gradient(radial, center top, 180, center top, 0, from(rgba(255, 255, 255, 0.2)), to(rgba(0, 0, 0, 0.2)));
+
 /*  background: -webkit-radial-gradient(50% 0 180deg, circle farthest-side, hsla(0,0%,50%,.05), hsla(0,0%,100%,.4) );
     background:    -moz-radial-gradient(50% 0 180deg, circle farthest-side, hsla(0,0%,50%,.05), hsla(0,0%,100%,.4) );
     background:     -ms-radial-gradient(50% 0 180deg, circle farthest-side, hsla(0,0%,50%,.05), hsla(0,0%,100%,.4) );
@@ -38,7 +43,7 @@
 .zenPlayer {
     display: inline-block;
     position: absolute;
-    bottom: 30px;
+    bottom: 120px;
     left: 50%;
     margin-left: -52px;
     padding: 2px;
@@ -287,11 +292,11 @@
          -o-transition:      -o-transform 1s cubic-bezier(0,.5,0,1), background-color .6s linear;
             transition:         transform 1s cubic-bezier(0,.5,0,1), background-color .6s linear;
     
-    -webkit-animation: rotate 20s linear infinite 1s;
+/*    -webkit-animation: rotate 20s linear infinite 1s;
        -moz-animation: rotate 20s linear infinite 1s;
         -ms-animation: rotate 20s linear infinite 1s;
          -o-animation: rotate 20s linear infinite 1s;
-            animation: rotate 20s linear infinite 1s;   
+            animation: rotate 20s linear infinite 1s;   */
 }
 
 

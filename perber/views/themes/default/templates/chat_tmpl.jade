@@ -21,32 +21,34 @@ script#music_box(type='text/html')
                         figcaption.music_title {{ title }}
                         div
                             span.music_artist {{ artist }} - 《{{ album }}》
-                    .cp-jplayer(id="jquery_jplayer_{{ id }}", data-id="{{ id }}", data-location="{{ song_location }}")
-                    .cp-container(id="cp_container_{{ id }}")
-                        .cp-buffer-holder
-                            .cp-buffer-1
-                            .cp-buffer-2
-                        .cp-progress-holder
-                            .cp-progress-1
-                            .cp-progress-2
-                        .cp-circle-control
-                        ul.cp-controls
-                            li
-                                a.cp-play(href="javascript:void(0)", tabindex="1")
-                                    | play
-                            li
-                                a.cp-pause(href="javascript:void(0)", tabindex="1", style="display:none;")
-                                    | pause
 
-                    // .zenPlayer(data-location="{{ location }}", id="{{ id }}")
-                    //     span.player
-                    //     span.circle
-                    //     span.progress
-                    //     span.buffer
-                    //     span.drag
-                    //     .button
-                    //         span.icon.play
-                    //         span.icon.pause
+                    //- .cp-jplayer(id="jquery_jplayer_{{ id }}", data-id="{{ id }}", data-location="{{ song_location }}")
+                    //- .cp-container(id="cp_container_{{ id }}")
+                    //-     .cp-buffer-holder
+                    //-         .cp-buffer-1
+                    //-         .cp-buffer-2
+                    //-     .cp-progress-holder
+                    //-         .cp-progress-1
+                    //-         .cp-progress-2
+                    //-     .cp-circle-control
+                    //-     ul.cp-controls
+                    //-         li
+                    //-             a.cp-play(href="javascript:void(0)", tabindex="1")
+                    //-                 | play
+                    //-         li
+                    //-             a.cp-pause(href="javascript:void(0)", tabindex="1", style="display:none;")
+                    //-                 | pause
+
+                    .zenPlayer(id="jquery_jplayer_{{ id }}", data-location="{{ song_location }}", data-id="{{ id }}")
+                        span.player
+                        span.circle
+                        span.progress
+                        span.buffer
+                        span.drag
+                        .button
+                            span.icon.play
+                            span.icon.pause
+
             span.info
                 b.time(title="{{ time }}") {{ time }}
                 a.location(title="{{ address }}", href="//ip.taobao.com/ipSearch.php?ipAddr={{ address }}")

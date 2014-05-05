@@ -111,16 +111,29 @@ block content
                                                 | 去 APP store 下载
 
 
-                        //- .fixed_block.card_4
-                        //-     .ui.right.teal.corner.label(title="友情置顶")
-                        //-         i.fa-star.fa
-                        //-     .imgbox
-                        //-         a.ta_cover(style="background-image:url(http://ww4.sinaimg.cn/large/ed133892gw1eegi25aklrj20hv0m8q3y.jpg); background-size:cover;")
+                        .fixed_block.card_4
+                            .ui.right.teal.corner.label(title="友情置顶")
+                                i.fa-star.fa
 
-                        //-         .ta_cont
-                        //-             p Sean Malto
-                        //-                 span
-                        //-                     | Post by : <a href="http://www.douban.com/people/coolzi/" target="_blank">彼得潘</a>
+                            .zenPlayer(id="jquery_jplayer_0", data-location="http://share.han.im/audio/The_Return_Of_Starlight.mp3", data-id="0")
+                                span.player
+                                span.circle
+                                span.progress
+                                span.buffer
+                                span.drag
+                                .button
+                                    span.icon.play
+                                    span.icon.pause
+
+                            .imgbox
+                                a.ta_cover(style="background-image:url(http://ww4.sinaimg.cn/large/61b8bbf4tw1eg3d7u2oj9j20go0jg0xm.jpg); background-size:cover;")
+                                .ta_cont
+                                    p(style="padding-top: 296px;line-height:50px;")
+                                        span(style="font-size:12px;padding-top:0;")
+                                            a(href="http://www.xiami.com/album/422944", target="_blank", style="color:#fff; font-size:24px;")
+                                                | Woolfy vs Projections
+
+
 
                         //- .fixed_block.card_4
                         //-     .ui.right.teal.corner.label(title="友情置顶")
@@ -132,6 +145,7 @@ block content
                         //-                 span(style="font-size:20px;padding-top:0;font-weight:bold;")
                         //-                     a(href="http://www.freundevonfreunden.com/", target="_blank", style="color:#fff;")
                         //-                         | Freunde von Freunden
+
 
                         //- card 1 bg+text
                         //- .fixed_block.card_1
@@ -183,11 +197,16 @@ block content
 
     include templates/chat_tmpl
 
-    script(src="js/player/jquery.transform.js")
-    script(src="js/player/jquery.grab.js")
-    script(src="js/player/jquery.jplayer.js")
-    script(src="js/player/mod.csstransforms.min.js")
-    script(src="js/player/circle.player.js")
+    //- script(src="js/player/jquery.transform.js")
+    script(src="js/libs/jquery.browser.min.js")
+    script(src="js/player/player.jquery.rotate.js")
+    script(src="js/player/player.jquery.grab.js")
+    script(src="js/player/player.jquery.jplayer.min.js")
+    //- script(src="js/player/player.zen.js")
+    script(src="js/player/zenplayer.js")
+
+    //- script(src="js/player/mod.csstransforms.min.js")
+    //- script(src="js/player/circle.player.js")
 
     script(src="/socket.io/socket.io.js")
     script(defer, src="/js/plugins.min.js")
