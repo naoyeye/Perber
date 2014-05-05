@@ -56,9 +56,6 @@ zenPlayer.prototype = {
         this.player.jPlayer(this.options);
 
         this.player.bind($.jPlayer.event.ready + this.eventNamespace, function(event) {
-
-            console.log('bind ready');
-
             if(event.jPlayer.html.used && event.jPlayer.html.audio.available) {
                 self.audio = $(this).data('jPlayer').htmlElement.audio;
             }
@@ -80,7 +77,6 @@ zenPlayer.prototype = {
         });
 
         this.player.bind($.jPlayer.event.timeupdate + this.eventNamespace, function(event) {
-            console.log('bind timeupdate');
             var percent = event.jPlayer.status.currentPercentAbsolute;
             if (!self.dragging) {
                 self._displayProgress(percent);
@@ -95,9 +91,7 @@ zenPlayer.prototype = {
             if((typeof self.audio.buffered === 'object') && (self.audio.buffered.length > 0)) {
                 percent = parseInt(((self.audio.buffered.end(0) / self.audio.duration) * 100), 10);
                 self._displayBuffered(percent);
-                //console.log(percent);
                 if(percent >= 99) {
-                    //console.log('loaded');
                     self.jq.buffer.addClass('loaded');
                 }
             }
@@ -166,7 +160,6 @@ zenPlayer.prototype = {
         self.status = 'stop';
     },
     _initCircleControl: function() {
-        console.log('_initCircleControl');
         var self = this;
         self.jq.circleControl.grab({
             onstart: function(){
@@ -185,7 +178,6 @@ zenPlayer.prototype = {
         });
     },
     _displayProgress: function (pc) {
-        // console.log('_displayProgress');
         var degs = pc * 3.6 + 'deg';
         this.jq.progress.css({rotate: degs});
     },
