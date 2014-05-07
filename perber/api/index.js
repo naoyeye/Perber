@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2014-05-06 14:57:44
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-05-07 20:50:25
+* @Last Modified time: 2014-05-07 21:14:27
 */
 
 
@@ -13,7 +13,6 @@ function API (app) {
     console.log('====== API service start ======');
 
     var mysql = app.get('mysqlClient');
-
     mysql.query('USE perber', function(error, results) {
         if(error) {
             console.log('mysqlConnectionReady Error: ' + error.message);
@@ -23,31 +22,33 @@ function API (app) {
         console.log('====== socketio MySQL Connected!! ======')
     });
 
-    app.get('/api', function(req, res, next) {
-        res.render('api');
+    var allowCrossDomain = function(req, res, next) {
+        res.header('Access-Control-Allow-Origin', req.headers.origin || "*");
+        res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,HEAD,DELETE,OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'content-Type,x-requested-with');
+        next();
+    }
+
+    app.configure(function () {
+        app.use(allowCrossDomain);
     });
 
-    app.all('/api/v1/*', function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-        next();
+    app.options('/api/v1/*', function(req, res){
+        res.header('Access-Control-Allow-Origin', req.headers.origin || "*");
+        res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,HEAD,DELETE,OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'content-Type,x-requested-with');
+        res.send(200);
+    });
+
+    // api home
+    app.get('/api', function(req, res, next) {
+        res.render('api');
     });
 
     // new one
     app.post('/api/v1/new', function(req, res, next) {
 
-        res.setHeader('content-type', 'application/json');
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
-        var strQuery = '';
-
-        console.log('req ========= ', req.params);
-
-        // var song = [];
-
-        // song.title = req.body.song.title || null;
+        res.header('Access-Control-Allow-Origin', req.headers.origin);
 
         var coolData = [
             req.body.msg
@@ -58,6 +59,7 @@ function API (app) {
                 sendError(res, 503, 'error', 'connection', error);
             } else {
                 console.log('HAKULAMATATA!!!')
+                res.contentType('json');
                 res.send({
                     result      : 'success',
                     err         : '',
