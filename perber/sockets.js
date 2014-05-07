@@ -1,8 +1,9 @@
+// jshint ignore:start 
 /* 
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-04-13 00:49:06
+* @Last Modified time: 2014-05-07 18:47:41
 */
 
 
@@ -14,8 +15,7 @@
 
 var sio = require('socket.io'),
     parseCookies = require('connect').utils.parseSignedCookies,
-    cookie = require('cookie');//,
-    // xiami = require('./xiami');
+    cookie = require('cookie');
 
 var stepify = require('stepify');
 
@@ -25,19 +25,7 @@ var stepify = require('stepify');
 var http = require('http');
 var url = require('url');
 var path = require('path');
-var xmlreader = require("xmlreader");
-
-var isXiamiSong = /www.xiami.com\/song\/\d+/;
-
-var sidPattern = /(\d+)/,
-    songUrlPattern = /a href="(\/song\/\d+)"/g;
-
-var titlePattern = /<div id="title">\s*<h1>(.*)<\/h1>/,
-    artistPattern = /<a href="\/artist\/\d+" title=".*">(.*)<\/a>/,
-    coverPattern = /<img class="cdCDcover185" src=".*" \/>/;
-
-
-
+var xmlreader = require('xmlreader');
 
 
 
@@ -65,16 +53,40 @@ function Sockets (app, server) {
     var sessionStore = app.get('sessionStore'); // redis
     var imagesBucket = app.get('imagesBucket');
 
+
+    // xiami
+    var isXiamiSong = /www.xiami.com\/song\/\d+/;
+
+    var sidPattern = /(\d+)/,
+        songUrlPattern = /a href="(\/song\/\d+)"/g;
+
+    var titlePattern = /<div id="title">\s*<h1>(.*)<\/h1>/,
+        artistPattern = /<a href="\/artist\/\d+" title=".*">(.*)<\/a>/,
+        coverPattern = /<img class="cdCDcover185" src=".*" \/>/;
+
+
     // 用来记录用户的动作 目前只是记录发言动作
     var address_list = {};
 
-    var io = sio.listen(server,{
-        log: false,
-        // 'debug': false,
-        // 'log level' : 0
-        // 0 - error, 1 - warn, 2 - info, 3 - debug
-    });
+    var io;
 
+    if (config.debug === true) {
+        console.log('====== socket.io debug enabled ======');
+        // // 0 - error, 1 - warn, 2 - info, 3 - debug
+        io = sio.listen(server, {
+            log: true,
+            'debug' : true,
+            'log level' : 3
+        });
+    } else {
+        io = sio.listen(server,{
+            log: false,
+            'debug': false,
+            // 'log level' : 0
+        });
+    }
+
+    // TODO: online number
     // var count = 0;
 
     Date.prototype.format = function(format){
@@ -99,9 +111,7 @@ function Sockets (app, server) {
     setInterval(cleaner, 60000 * config.app.timer);
 
     function cleaner(){
-
         address_list = {};
-
         console.log(new Date().format("yyyy-MM-dd hh:mm:ss"));
         console.log('clean done!', address_list);
     }
@@ -203,7 +213,7 @@ function Sockets (app, server) {
                 mysql.end();
                 return;
             }
-            // console.log('MySQL Connected!!')
+            console.log('====== socketio MySQL Connected!! ======')
         });
 
 
@@ -249,7 +259,8 @@ function Sockets (app, server) {
         });
 
 
-        // 判断某字符串是否在数组中 // 暂时没用到
+        // 判断某字符串是否在数组中
+        // 暂时没用到
             // function inList(needle, array, bool){  
             //     if(typeof needle=="string"||typeof needle=="number"){
             //         for(var i in array){
@@ -576,22 +587,22 @@ function Sockets (app, server) {
                // }
             });
 
-            mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
-                if (error) {  
-                    console.log('GetData Error: ' + error.message);
-                    // mysql.end();
-                    return;
-                }
+            // mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
+            //     if (error) {  
+            //         console.log('GetData Error: ' + error.message);
+            //         // mysql.end();
+            //         return;
+            //     }
 
-               // if(results.length > 0){
-                    // results.forEach(function(line, index) {
-                    //     history.push(line);
-                    // });
-                    socket.emit('new vote', {
-                        result: results[0]
-                    });
-               // }
-            });
+            //    // if(results.length > 0){
+            //         // results.forEach(function(line, index) {
+            //         //     history.push(line);
+            //         // });
+            //         socket.emit('new vote', {
+            //             result: results[0]
+            //         });
+            //    // }
+            // });
 
 
 
@@ -601,44 +612,44 @@ function Sockets (app, server) {
         });
 
 
-    // 新投票
-        socket.on('my vote', function(data) {
-            if(data.vote === 'up'){
-                mysql.query('UPDATE vote SET up = up+1', function(error, results) {
-                    if(error) {
-                        console.log("mysql INSERT Error: " + error.message);
-                        // mysql.end();
-                        return;
-                    }
-                    // console.log('results', results)
-                })
-            } else if(data.vote === 'down'){
-                mysql.query('UPDATE vote SET down = down+1', function(error, results) {
-                    if(error) {
-                        console.log("mysql INSERT Error: " + error.message);
-                        // mysql.end();
-                        return;
-                    }
-                    // console.log('results', results)
-                })
-            }
+    // vote // TODO need clean
+        // socket.on('my vote', function(data) {
+        //     if(data.vote === 'up'){
+        //         mysql.query('UPDATE vote SET up = up+1', function(error, results) {
+        //             if(error) {
+        //                 console.log("mysql INSERT Error: " + error.message);
+        //                 // mysql.end();
+        //                 return;
+        //             }
+        //             // console.log('results', results)
+        //         })
+        //     } else if(data.vote === 'down'){
+        //         mysql.query('UPDATE vote SET down = down+1', function(error, results) {
+        //             if(error) {
+        //                 console.log("mysql INSERT Error: " + error.message);
+        //                 // mysql.end();
+        //                 return;
+        //             }
+        //             // console.log('results', results)
+        //         })
+        //     }
 
-            // 去数据库查询最新的投票结果
-            mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
-                if (error) {  
-                    console.log('GetData Error: ' + error.message);
-                    mysql.end();
-                    return;
-                }
-                // console.log('results:', results[0]);
-                // 向前端返回投票信息
-                io.sockets.in(room_id).emit('new vote', {
-                    result: results[0]
-                });
-            });
-        })
+        //     // 去数据库查询最新的投票结果
+        //     mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
+        //         if (error) {  
+        //             console.log('GetData Error: ' + error.message);
+        //             mysql.end();
+        //             return;
+        //         }
+        //         // console.log('results:', results[0]);
+        //         // 向前端返回投票信息
+        //         io.sockets.in(room_id).emit('new vote', {
+        //             result: results[0]
+        //         });
+        //     });
+        // })
 
-    // 断开连接
+    // disconnect
         socket.on('disconnect', function() {
             // console.log('disconnect!!!')
             
@@ -697,3 +708,4 @@ function Sockets (app, server) {
 };
 
 
+// /* jshint ignore:end */

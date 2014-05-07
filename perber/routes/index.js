@@ -1,9 +1,10 @@
+// jshint ignore:start
 /* 
 * @Author: hanjiyun
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-04-02 19:45:33
+* @Last Modified time: 2014-05-06 16:30:59
 */
 
 
@@ -95,7 +96,7 @@ function Routes (app, server) {
         res.json({token : token})
     })
 
-    // 申请展示位
+    // 申请展示位发送邮件
     app.post('/apply', function(req, res, next){
         var mail_text;
         var m_name = req.body.name,
@@ -136,10 +137,5 @@ function Routes (app, server) {
             //smtpTransport.close(); // shut down the connection pool, no more messages
         });
     })
-
-    //The 404 Route (ALWAYS Keep this as the last route)
-    app.get('*', function(req, res){
-        res.render('pages_404', 404);
-    });
-
 }
+// jshint ignore:end 

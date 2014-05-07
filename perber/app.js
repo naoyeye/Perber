@@ -1,8 +1,9 @@
+// jshint ignore:start 
 /* 
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:41:38
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-15 18:00:49
+* @Last Modified time: 2014-05-07 18:44:06
 */
 
 
@@ -21,9 +22,8 @@ var express = require('express'),
 var app = exports.app = express();
 
 
-app.set("view engine", "jade");
+app.set('view engine', 'jade');
 app.use(express.favicon(__dirname + '/public/img/favicon.png')); 
-
 
 /**
  * Configure application
@@ -41,7 +41,7 @@ init(app.get('redisClient'));
  * Passportjs auth strategy
  */
 
-require('./strategy')(app);
+// require('./strategy')(app);
 
 
 /*
@@ -50,17 +50,30 @@ require('./strategy')(app);
 
 require('./routes')(app);
 
+
+/*
+ * API
+*/
+
+require('./api')(app);
+
+
+// The 404 Route (ALWAYS Keep this as the last route)
+app.get('*', function(req, res){
+    res.render('pages_404', 404);
+});
+
 /*
  * Web server
  */
 
 if(app.get('config').credentials) {
     exports.server = require('https').createServer(app.get('config').credentials, app).listen(app.get('port'), function() {
-        // console.log('Perber started on port %d', app.get('port'));
+        console.log('Perber started on port %d', app.get('port'));
     });
 } else {
     exports.server = require('http').createServer(app).listen(app.get('port'), function() {
-        // console.log('Perber started on port %d', app.get('port'));
+        console.log('Perber started on port %d', app.get('port'));
     });
 }
 
@@ -78,3 +91,4 @@ require('./sockets')(app, exports.server);
 process.on('uncaughtException', function(err){
     console.log('Exception: ' + err.stack);
 });
+// /* jshint ignore:end */

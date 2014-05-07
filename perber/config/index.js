@@ -1,4 +1,6 @@
-/**
+ // jshint ignore:start 
+
+/*
  * Module dependencies.
  */
 
@@ -45,7 +47,7 @@ function Config (app) {
     // log('Save configuration values in app %j', config);
     app.set('config', config);
 
-    console.log('Setting port as %d', config.app.port);
+    // log('Setting port as %d', config.app.port);
     app.set('port', config.app.port);
 
     // log('Setting view engine as %s', 'jade');
@@ -61,7 +63,7 @@ function Config (app) {
 
     app.set('mysqlClient', mysqlClient);
 
-    console.log('Connected to MySQL automatically');
+    console.log('====== Connected to MySQL automatically ======');
 
 
 // qiniu
@@ -92,11 +94,11 @@ function Config (app) {
     var redisClient = redis.createClient(redisConfig.port, redisConfig.hostname);
   
     redisClient.on('error', function(err) {
-        log('Error connecting to redis %j', err);
+        console.log('Error connecting to redis %j', err);
     }).on('connect', function() {
-        log('Connected to redis.');
+        console.log('====== Connected to redis. ======');
     }).on('ready', function() {
-        log('Redis mysql ready.');
+        console.log('====== Redis mysql ready. ======');
     });
 
     if (redisConfig.auth) {
@@ -119,6 +121,11 @@ function Config (app) {
     // log('Setting static files lookup root path.');
     app.use(express.static(path.join(__dirname, '..', '/public')));
 
+    if(config.debug === true) {
+        console.log('====== express debug enabled ======');
+        app.use(express.logger('dev'));
+    }
+
     // log('Use of express body parser middleware.');
     app.use(express.bodyParser());
 
@@ -138,3 +145,4 @@ function Config (app) {
     // log('Use of express router.');
     app.use(app.router);
 }
+// /* jshint ignore:end */
