@@ -45,24 +45,76 @@ Perber use **Qiniu** to store pictures, so, you'll need a "**bucket_name**" "**a
 
 > `supervisor perber/app.js`
 
----
-
-##config.json:
-
-> config.app.timer:
-> 清理程序 sockets.js 里的cleaner() 的自动运行时间间隔，按分钟计算。
-> 设为 1 ，则 1分钟运行一次。
-
-> config.app.limit:
-> 在设定的 timer 时间范围内，每个在线用户最多能发多少信息。
-
-
-
 >If you want run Perber on your online server, maybe you should install "forever" [https://github.com/nodejitsu/forever](https://github.com/nodejitsu/forever) :
 
 > `npm install forever -g` 
  
 > `forever start perer/app.js` 
+
+
+##config.json:
+
+**redisURL**
+
+your redis url, default is "http://localhost/"
+
+**mysqlConf**
+
+your mysql host, port, user, password.
+
+
+**mailer**
+
+// todo
+
+**auth**
+
+// todo
+
+**session**
+
+// todo
+
+**app**
+
+// todo
+
+**app.timer:**
+
+清理程序 sockets.js 里的cleaner() 的自动运行时间间隔，按分钟计算。
+
+设为 1 ，则 1分钟运行一次。
+
+**app.limit:**
+
+在设定的 timer 时间范围内，每个在线用户最多能发多少信息。
+
+**theme**
+
+// todo
+
+**debug** : true | false
+
+
+## API
+
+#### post new message
+
+**url**: /api/v1/new
+
+```
+var data = { msg: "HAKULAMATATA test api" };
+$.ajax({
+    url:'http://www.perber.com/api/v1/new',
+    contentType: 'application/json; charset=utf-8',
+    type: 'POST',
+    data : JSON.stringify(data)
+})
+```
+
+// todo
+
+
 
 
 
