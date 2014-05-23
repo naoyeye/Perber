@@ -7,7 +7,7 @@ script#chat_box_text(type='text/html')
         | {{ msg }}
         span.info
             b.time(title='{{ time }}') {{ time }}
-            a.location(title="{{ address }}", target="_blank", href="//ip.taobao.com/ipSearch.php?ipAddr={{ address }}")
+            b.location
                 i.fa.fa-globe
                 {{ location }}
 
@@ -34,9 +34,9 @@ script#music_box(type='text/html')
 
             span.info
                 b.time(title="{{ time }}") {{ time }}
-                a.location(title="{{ address }}", target="_blank", href="//ip.taobao.com/ipSearch.php?ipAddr={{ address }}")
+                b.location
                     i.fa.fa-globe
-                    {{ location }}
+                        {{ location }}
             span.xiami_icon
                 a(href="{{ songOriginal }}", target="_blank") xiami
 
