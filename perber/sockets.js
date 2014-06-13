@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-05-07 18:47:41
+* @Last Modified time: 2014-06-13 11:33:08
 */
 
 
@@ -325,7 +325,7 @@ function Sockets (app, server) {
                 })
 
                 res.on('end', function() {
-                    // console.log('xml end = ', xml)
+                    console.log('xml end = ', xml);
                     xmlreader.read(xml, function(errors, res){
                         if(null !== errors ){
                             console.log('errors', errors)
