@@ -2,8 +2,8 @@
 /* 
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
-* @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-06-13 12:11:45
+* @Last Modified by:   Jiyun
+* @Last Modified time: 2014-09-10 01:22:26
 */
 
 
@@ -276,98 +276,98 @@ function Sockets (app, server) {
             // }
 
 
-        // xiamiHandle start
-        function getMp3Location(str) {
-            try {
-                var a1 = parseInt(str.charAt(0)),
-                    a2 = str.substring(1),
-                    a3 = Math.floor(a2.length / a1),
-                    a4 = a2.length % a1,
-                    a5 = [],
-                    a6 = 0,
-                    a7 = '',
-                    a8 = '';
-                for (; a6 < a4; ++a6) {
-                    a5[a6] = a2.substr((a3 + 1) * a6, (a3 + 1));
-                }
-                for (; a6 < a1; ++a6) {
-                    a5[a6] = a2.substr(a3 * (a6 - a4) + (a3 + 1) * a4, a3);
-                }
-                for (var i = 0,a5_0_length = a5[0].length; i < a5_0_length; ++i) {
-                    for (var j = 0,a5_length = a5.length; j < a5_length; ++j) {
-                        a7 += a5[j].charAt(i);
-                    }
-                }
-                a7 = decodeURIComponent(a7);
-                for (var i = 0,a7_length = a7.length; i < a7_length; ++i) {
-                    a8 += a7.charAt(i) === '^' ? '0': a7.charAt(i);
-                }
-                return a8;
-            } catch(e) {
-                return false;
-            }
-        }
+        // // xiamiHandle start
+        // function getMp3Location(str) {
+        //     try {
+        //         var a1 = parseInt(str.charAt(0)),
+        //             a2 = str.substring(1),
+        //             a3 = Math.floor(a2.length / a1),
+        //             a4 = a2.length % a1,
+        //             a5 = [],
+        //             a6 = 0,
+        //             a7 = '',
+        //             a8 = '';
+        //         for (; a6 < a4; ++a6) {
+        //             a5[a6] = a2.substr((a3 + 1) * a6, (a3 + 1));
+        //         }
+        //         for (; a6 < a1; ++a6) {
+        //             a5[a6] = a2.substr(a3 * (a6 - a4) + (a3 + 1) * a4, a3);
+        //         }
+        //         for (var i = 0,a5_0_length = a5[0].length; i < a5_0_length; ++i) {
+        //             for (var j = 0,a5_length = a5.length; j < a5_length; ++j) {
+        //                 a7 += a5[j].charAt(i);
+        //             }
+        //         }
+        //         a7 = decodeURIComponent(a7);
+        //         for (var i = 0,a7_length = a7.length; i < a7_length; ++i) {
+        //             a8 += a7.charAt(i) === '^' ? '0': a7.charAt(i);
+        //         }
+        //         return a8;
+        //     } catch(e) {
+        //         return false;
+        //     }
+        // }
 
-        function xiamiParse(pageUrl, root, location) {
+        // function xiamiParse(pageUrl, root, location) {
             
-            var sid = sidPattern.exec(pageUrl)[1];
-            var options = url.parse('http://www.xiami.com/song/playlist/id/'+ sid +'/object_name/default/object_id/0');
-            var xiamiRealSong = {};
+        //     var sid = sidPattern.exec(pageUrl)[1];
+        //     var options = url.parse('http://www.xiami.com/song/playlist/id/'+ sid +'/object_name/default/object_id/0');
+        //     var xiamiRealSong = {};
 
-            http.get(options, function(res) {
-                res.setEncoding('utf8');
+        //     http.get(options, function(res) {
+        //         res.setEncoding('utf8');
 
-                var xml = '';
+        //         var xml = '';
 
-                res.on('data', function(data) {
-                    xml += data;
-                })
+        //         res.on('data', function(data) {
+        //             xml += data;
+        //         })
 
-                res.on('end', function() {
-                    xmlreader.read(xml, function(errors, res){
-                        if(null !== errors ){
-                            console.log('errors', errors)
-                            return;
-                        }
+        //         res.on('end', function() {
+        //             xmlreader.read(xml, function(errors, res){
+        //                 if(null !== errors ){
+        //                     console.log('errors', errors)
+        //                     return;
+        //                 }
 
-                        // console.log('res.playlist.trackList.track', res.playlist.trackList.track)
-                        // console.log(decodeURIComponent(res.playlist.trackList.track.title.text()))
+        //                 // console.log('res.playlist.trackList.track', res.playlist.trackList.track)
+        //                 // console.log(decodeURIComponent(res.playlist.trackList.track.title.text()))
 
-                        xiamiRealSong.title = toTxt(res.playlist.trackList.track.title.text());
-                        xiamiRealSong.artist =  toTxt(res.playlist.trackList.track.artist.text());
-                        xiamiRealSong.album = toTxt(res.playlist.trackList.track.album_name.text());
-                        xiamiRealSong.location = getMp3Location(res.playlist.trackList.track.location.text());
+        //                 xiamiRealSong.title = toTxt(res.playlist.trackList.track.title.text());
+        //                 xiamiRealSong.artist =  toTxt(res.playlist.trackList.track.artist.text());
+        //                 xiamiRealSong.album = toTxt(res.playlist.trackList.track.album_name.text());
+        //                 xiamiRealSong.location = getMp3Location(res.playlist.trackList.track.location.text());
 
-                        // 封面处理
-                        var cover;
-                        var coverpath = res.playlist.trackList.track.pic.text();
-                        var coverReg = /http:\/\/[a-zA-Z0-9-.-\/-_]+.(jpg|jpeg|png|gif|bmp)/g;
+        //                 // 封面处理
+        //                 var cover;
+        //                 var coverpath = res.playlist.trackList.track.pic.text();
+        //                 var coverReg = /http:\/\/[a-zA-Z0-9-.-\/-_]+.(jpg|jpeg|png|gif|bmp)/g;
 
-                        // 正则替换小的封面为大封面
-                        if(coverReg.test(coverpath)){
-                            coverpath.replace(coverReg, function(s,value) {
-                                cover = s.replace('_1', '');
-                            });
-                        }
-                        xiamiRealSong.cover =  cover;
+        //                 // 正则替换小的封面为大封面
+        //                 if(coverReg.test(coverpath)){
+        //                     coverpath.replace(coverReg, function(s,value) {
+        //                         cover = s.replace('_1', '');
+        //                     });
+        //                 }
+        //                 xiamiRealSong.cover =  cover;
 
-                        // console.log('xiamiRealSong', xiamiRealSong)
+        //                 // console.log('xiamiRealSong', xiamiRealSong)
 
-                        // 得到歌曲信息，传递给 step 4;
-                        root.done(null, xiamiRealSong, location);
+        //                 // 得到歌曲信息，传递给 step 4;
+        //                 root.done(null, xiamiRealSong, location);
 
-                    });
+        //             });
 
-                })
-            })
-        }
+        //         })
+        //     })
+        // }
 
-        function xiamiRun(pageUrl, root, location){
-            if (isXiamiSong.test(pageUrl)) {
-                xiamiParse(pageUrl, root, location);
-            }
-        }
-        // xiamiHandle end
+        // function xiamiRun(pageUrl, root, location){
+        //     if (isXiamiSong.test(pageUrl)) {
+        //         xiamiParse(pageUrl, root, location);
+        //     }
+        // }
+        // // xiamiHandle end
 
 
         // new message
@@ -435,10 +435,12 @@ function Sockets (app, server) {
                         // location为所在地
                         // 文档见 http://ip.taobao.com/instructions.php
                         // 如果 city 得不到，则取 country
-                        if( json.data.city.length === 0 ){
+                        if( json.data.city && json.data.city.length === 0 && json.data.country && json.data.country.length > 0){
                             location = json.data.country;
-                        } else {
+                        } else if (json.data.city && json.data.city.length > 0) {
                             location = json.data.city;
+                        } else {
+                            location = 'Mars'; // :P
                         }
 
                         root.done(null, location); // 传递参数 location 到 step 3
@@ -451,9 +453,38 @@ function Sockets (app, server) {
 
                 if(data.song === true){
                     isSong = true;
-                    // 需要同时把 root 和 location 都传给 xiamiRun()
-                    // 以便回调时 step 4 能接收到这俩参数
-                    xiamiRun(data.msg, root, location);
+
+                    var xiamiRealSong = {};
+                    
+                    var xiaiFactory = url.parse('http://182.92.148.39:1337/xiami/run?song='+ data.msg);
+
+                    http.get(xiaiFactory, function(res) {
+                        res.setEncoding('utf8');
+                        var json = '';
+                        res.on('data', function(req) {
+                            if( req.status === 1) return;
+
+                            // console.log('req', req);
+                            // json += req;
+                            // json = JSON.parse(json);
+                            // // location为所在地
+                            // // 文档见 http://ip.taobao.com/instructions.php
+                            // // 如果 city 得不到，则取 country
+                            // console.log('json', json);
+                            // if( json.data.city && json.data.city.length === 0 && json.data.country && json.data.country.length > 0){
+                            //     location = json.data.country;
+                            // } else if (json.data.city && json.data.city.length > 0) {
+                            //     location = json.data.city;
+                            // } else {
+                            //     location = 'Mars'; // :P
+                            // }
+
+                            // root.done(null, location); // 传递参数 location 到 step 3
+                            xiamiRealSong = JSON.parse(req);
+                            root.done(null, xiamiRealSong, location);
+                        })
+                    })
+                    // root.done(null, xiamiRealSong, location);
                 } else {
                     var xiamiRealSong = {}
                     // 如果不是音乐，则设定 xiamiRealSong 为空，和 location 一起传给 step 4
@@ -471,10 +502,10 @@ function Sockets (app, server) {
                         data.song.artist,
                         data.song.album,
                         data.song.cover,
-                        data.song.location,
+                        data.song.url,
                         location,
                         address
-                    ]
+                    ];
 
                 mysql.query('INSERT INTO Messages SET message = ?, music_title = ?, music_artist = ?, music_album = ?, music_cover = ?, music_location = ?, location = ?, address = ?', coolData, function(error, results) {
                     if(error) {

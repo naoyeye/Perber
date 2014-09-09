@@ -1,8 +1,8 @@
 /* 
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
-* @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-05-05 17:58:40
+* @Last Modified by:   Jiyun
+* @Last Modified time: 2014-09-10 01:21:35
 */
 
 /*
@@ -176,7 +176,7 @@ get new msg
                 artist: data.song.artist,
                 album: data.song.album,
                 cover: data.song.cover,
-                song_location: data.song.location,
+                song_location: data.song.url,
                 location: data.location,
                 address: data.address,
                 time: data.time

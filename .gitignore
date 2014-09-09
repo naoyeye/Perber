@@ -11,7 +11,7 @@ pids
 logs
 results
 
-
+.DS_Store
 dump.rdb
 npm-debug.log
 node_modules
