@@ -131,6 +131,12 @@ $.ajax({
 ![Perber in Chrome](http://ww1.sinaimg.cn/large/61b8bbf4tw1eg3olvkq95j20on0q60vm.jpg)
 
 
+## xiamiRun
+A service for parsing the real path of Xiami songs
+
+https://github.com/naoyeye/xiamiRun
+
+
 ## The starting point:
 [http://www.douban.com/group/topic/45262966/](http://www.douban.com/group/topic/45262966/)
 
