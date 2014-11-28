@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   Jiyun
-* @Last Modified time: 2014-11-28 14:29:51
+* @Last Modified time: 2014-11-28 14:34:26
 */
 
 
@@ -435,12 +435,12 @@ function Sockets (app, server) {
                         // location为所在地
                         // 文档见 http://ip.taobao.com/instructions.php
                         // 如果 city 得不到，则取 country
-                        if( json.data.city && json.data.city.length === 0 && json.data.country && json.data.country.length > 0){
+                        if( !json.data.city || json.data.city.length === 0 && json.data.country && json.data.country.length > 0){
                             location = json.data.country;
                         } else if (json.data.city && json.data.city.length > 0) {
                             location = json.data.city;
                         } else {
-                            // location = 'Mars'; // :P
+                            location = 'Mars'; // :P
                         }
 
                         root.done(null, location); // 传递参数 location 到 step 3
