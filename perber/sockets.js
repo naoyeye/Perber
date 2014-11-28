@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   Jiyun
-* @Last Modified time: 2014-09-10 01:22:26
+* @Last Modified time: 2014-11-28 14:29:51
 */
 
 
@@ -440,7 +440,7 @@ function Sockets (app, server) {
                         } else if (json.data.city && json.data.city.length > 0) {
                             location = json.data.city;
                         } else {
-                            location = 'Mars'; // :P
+                            // location = 'Mars'; // :P
                         }
 
                         root.done(null, location); // 传递参数 location 到 step 3
