@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2014-05-06 14:57:44
 * @Last Modified by:   Jiyun
-* @Last Modified time: 2015-02-09 13:05:28
+* @Last Modified time: 2015-02-09 13:08:35
 */
 
 
@@ -109,7 +109,7 @@ function API (app) {
         // setup e-mail data with unicode symbols
         var mailOptions = {
             from: "无聊治愈所的一号门神 ✔ <"+ config.mailer.user +">", // sender address
-            to: ['hanjiyun@wandoujia.com'], // list of receivers
+            to: ['hanjiyun@wandoujia.com', 'sunboheng@wandoujia.com'], // list of receivers
             subject: "T_T 无聊治愈所的条目又出问题了", // Subject line
             text: mail_text//, // plaintext body
         }
