@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2014-05-06 14:57:44
 * @Last Modified by:   Jiyun
-* @Last Modified time: 2015-02-09 13:08:35
+* @Last Modified time: 2015-02-25 15:07:06
 */
 
 
@@ -59,7 +59,7 @@ function API (app) {
             if (error) {
                 sendError(res, 503, 'error', 'connection', error);
             } else {
-                console.log('HAKULAMATATA!!!')
+                // console.log('HAKULAMATATA!!!')
                 res.contentType('json');
                 res.send({
                     result      : 'success',
@@ -88,9 +88,13 @@ function API (app) {
         };
 
         var config = app.get('config');
+
         res.header('Access-Control-Allow-Origin', req.headers.origin);
 
-        console.log(req.body);
+        if (req.headers.origin !== 'http://www.wandoujia.com') {
+            res.json({status : 'Permission denied!'})
+            return;
+        }
         
         var smtpTransport = nodemailer.createTransport("SMTP",{
             service: "Gmail",
@@ -109,7 +113,7 @@ function API (app) {
         // setup e-mail data with unicode symbols
         var mailOptions = {
             from: "无聊治愈所的一号门神 ✔ <"+ config.mailer.user +">", // sender address
-            to: ['hanjiyun@wandoujia.com', 'sunboheng@wandoujia.com'], // list of receivers
+            to: ['hanjiyun@wandoujia.com', /*'sunboheng@wandoujia.com'*/], // list of receivers
             subject: "T_T 无聊治愈所的条目又出问题了", // Subject line
             text: mail_text//, // plaintext body
         }
