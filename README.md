@@ -1,51 +1,42 @@
-# About
+# 关于
 
-I think it might be a meaningless thing(>_<), but just like a small experimental. I prefer to think of it as a hollow. The difference with hollow is: nobody knows who I am, but they can see what I said. when someone 'touch' my words, it'll disappear.
+ 一个可以匿名群聊的 web 服务。
+ 每个人都可以删掉其他人说的话。
 
-Maybe you can think of Perber as a blackboard in the square, anyone can put on the cloak into the square, write text and paste picture on the blackboard, anyone can also put them cleared. yep, it's realtime! (thanks to socket.io)
-
-> "Not a community, not a forum, not a micro-blog, not a chat room."
-
-> "No follow, no timeline, no notification, no registration."
-
-> "All the words will gone, only the void forever lone."
-
-> "Any information published by anyone may also be deleted by anyone."
-
-## Requirements
+# 用到了哪些东西
 
 node.js, socket.io, redis, jade, mysql(node-mysql), node-qiniu
 
-Perber use **Qiniu** to store pictures, so, you'll need a "**bucket_name**" "**access_key**" and "**secret_key**".
+Perber 用到了 **Qiniu** 来存储图片, 你需要注册 Qiniu 来获得 "**bucket_name**" "**access_key**" 和 "**secret_key**"。
 
 > Qiniu Cloud Storage: [http://www.qiniu.com/](http://www.qiniu.com/) 
 
 > Qiniu on Github: [https://github.com/qiniu](https://github.com/qiniu)
 
-## How To Start
+## 开始
 
-1. create database `Perber` in **MySQL** , create tables use **perber.sql**
+1. 在 **MySQL** 创建名为 `Perber` 的数据库, 然后导入项目根目录中的 **perber.sql** 来创建表。
 
-2. run `npm install` in directory: **/Peber/perber/**
+2. 在 **/Peber/perber/** 中运行 `npm install`，安装项目所需的包。
 
-3. change the file `config-example.json` (directory: **/Perber/perber/config/** ) to `config.json`
+3. 修改 `config-example.json` (位于目录: **/Perber/perber/config/** 中) 为 `config.json`
 
-4. modify `mysqlConf` `qiniuConfig`(make sure you got the **bucket_name**, **access_key** and **secret_key**) and `mailer` in your `config.json` file.
+4. 修改 `config.json` 中的 `mysqlConf` `qiniuConfig`(前提是已经有了自己的 **bucket_name**, **access_key** 和 **secret_key**) 和 `mailer`.
 
-5. run server: `node perer/app.js`
+5. 启动: `node perber/app.js`
 
-6. open in browser : [http://localhost:6789](http://localhost:6789) (the default port is 6789)
+6. 在浏览器中访问 : [http://localhost:6789](http://localhost:6789) (默认端口为 6789)
 
 
 **Tips:**
 
-> you can also use "node-supervisor" to run perber : [https://github.com/isaacs/node-supervisor](https://github.com/isaacs/node-supervisor)
+> 本地开发可以用 "node-supervisor" : [https://github.com/isaacs/node-supervisor](https://github.com/isaacs/node-supervisor)
 
 > `npm install supervisor -g`
 
 > `supervisor perber/app.js`
 
->If you want run Perber on your online server, maybe you should install "forever" [https://github.com/nodejitsu/forever](https://github.com/nodejitsu/forever) :
+> 如果想在服务器上运行，可以试试 "forever" [https://github.com/nodejitsu/forever](https://github.com/nodejitsu/forever) :
 
 > `npm install forever -g` 
  
@@ -56,11 +47,11 @@ Perber use **Qiniu** to store pictures, so, you'll need a "**bucket_name**" "**a
 
 **redisURL**
 
-your redis url, default is "http://localhost/"
+redis url, default is "http://localhost/"
 
 **mysqlConf**
 
-your mysql host, port, user, password.
+mysql host, port, user, password.
 
 
 **mailer**
@@ -118,26 +109,27 @@ $.ajax({
 
 
 
-## UI Preview
+## UI
 
-* Web preview in iOS Safari:
+* iOS Safari:
 
 ![Perber in iOS Safari](http://ww2.sinaimg.cn/large/61b8bbf4tw1eg3q0lcsc5j20cn0m8dhz.jpg)
 
-* Perber in Chrome(Mackbook Pro 13):
+* Chrome(Mackbook Pro 13):
 
 ![Perber in Chrome](http://ww1.sinaimg.cn/large/61b8bbf4tw1eg3okf24rij21340vk0yl.jpg)
 
 ![Perber in Chrome](http://ww1.sinaimg.cn/large/61b8bbf4tw1eg3olvkq95j20on0q60vm.jpg)
 
 
-## xiamiRun
-A service for parsing the real path of Xiami songs
+## 广告：
+### xiamiRun
+一个用来解析虾米音乐地址的服务
 
 https://github.com/naoyeye/xiamiRun
 
 
-## The starting point:
+## 为什么做这个:
 [http://www.douban.com/group/topic/45262966/](http://www.douban.com/group/topic/45262966/)
 
 ## License
