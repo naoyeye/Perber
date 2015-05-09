@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   Jiyun
-* @Last Modified time: 2015-05-09 14:07:42
+* @Last Modified time: 2015-05-09 16:06:43
 */
 
 /*
@@ -650,7 +650,13 @@ delete msg
 
 
 
-//===============
+
+
+/*
+=================
+    MISC
+=================
+*/
     // open intro
     $('#Tips li').click(function(){
         var elementId = $(this).attr('id');
@@ -665,7 +671,7 @@ delete msg
         setTimeout(function(){
             $('body').addClass('intro-wrap-open');
         },0)
-    })
+    });
 
     // close intro
     $('body').on('click', '.intro-wrap-close', function(){
@@ -675,8 +681,43 @@ delete msg
             $('body').removeClass('intro-wrap-open');
             $('.intro-wrap').remove();
         }, 300)
-    })
+    });
 
+    // Disable long-Press action on mobile
+    if (isPC() === false) {
+        var styles = '.chat-box {-webkit-touch-callout: none; -webkit-user-select: none;}';
+        includeStyleElement(styles, 'newstyle');
+    }
+
+    function isPC () {
+        var userAgentInfo = navigator.userAgent;
+        var Agents = new Array('Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod');
+        var flag = true;
+        for (var v = 0; v < Agents.length; v++) {
+            if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }
+        }
+        return flag;
+    };
+
+    function includeStyleElement (styles, styleId) {
+        if (document.getElementById(styleId)) {
+            return;
+        }
+        var style = document.createElement('style');
+        style.id = styleId;
+        //这里最好给ie设置下面的属性
+        /*if (isIE()) {
+            style.type = “text/css”;
+            style.media = “screen”
+        }*/
+        (document.getElementsByTagName('head')[0] || document.body).appendChild(style);
+
+        if (style.styleSheet) { //for ie
+            style.styleSheet.cssText = styles;
+        } else {//for w3c
+            style.appendChild(document.createTextNode(styles));
+        }
+    }
 
     function focusInput() {
         $('.chat-input textarea').focus();
