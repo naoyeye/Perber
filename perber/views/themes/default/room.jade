@@ -11,15 +11,15 @@ block content
             ul#Tips
                 li#about
                     i.fa.fa-circle-o
-                    span About Perber
+                    span 关于 Perber
                 li#usage
                     i.fa.fa-question-circle
-                    span Usage
+                    span 怎么玩儿
 
             #drop_zone.chat-input(data-bucket="#{bucket_name}")
                 .ui.form
                     .field
-                        textarea(placeholder="Say something", maxlength="240")
+                        textarea(placeholder="说点什么？", maxlength="240")
                 #upimg
 
             .chat-list
@@ -36,102 +36,130 @@ block content
 
 
                         //- card 1 bg+text
-                        //- .fixed_block.card_3
+                        .fixed_block.card_3
+                            .ui.right.teal.corner.label(title="友情置顶")
+                                i.fa-smile-o.fa
+                            .ta_cont
+                                h4 你觉得自己好不好看？
+                                p 好看就点头，不好看就摇头<br> 哈哈哈哈
+                                //- p <strong>功能描述：</strong><br><br>为了保证Perber中的内容质量，计划开发新的功能：每个人都可以对内容进行“赞”和“踩”。<br>如果某条内容得到的“赞”比“踩”多，则在一定时期内(一周？)不能删除；反之，则可以随时被任何人删除。
+                                #vote_bar
+                                #vote_info 此调查会在某月某日截止
+
+
+                        //- card 1 bg+text
+                        .fixed_block.card_1
+                            .ui.right.teal.corner.label(title="友情置顶")
+                                i.fa-star.fa
+                            .imgbox
+                                .ta_cont
+                                    p(style="font-size:12px; text-align:center;")
+
+                                        a(href="http://han.im/",target="_blank")
+                                            i(style="display:block;width:40px;height:40px;background:url(http://img3.douban.com/icon/ul1203352-424.jpg) center center no-repeat; background-size:45px;border-radius:50%;margin: 0 auto;margin-bottom:10px;border:1px solid #7bb487;")
+                                            | http://han.im
+
+                                       //- span
+                                           //- | —— nobody 2014.04.03
+
+
+                        //- card 1 bg+text
+                        .fixed_block.card_1
+                            .ui.right.teal.corner.label(title="友情置顶")
+                                i.fa-star.fa
+                            .imgbox
+                                .ta_cont
+                                    p(style="font-size:12px; text-align:center;")
+
+                                        a(href="http://biubiubiubiu.com/",target="_blank")
+                                            i(style="display: block;width: 40px;height: 40px;margin: 0 auto;margin-bottom: 10px;font-size: 14px;font-style: normal;color: #fff;font-weight: bold;line-height: 40px;background: #333;border-radius: 50%;") Biu
+                                            | http://biubiubiubiu.com
+
+                                       //- span
+                                           //- | —— nobody 2014.04.03
+
+                        //- .fixed_block.card_4
                         //-     .ui.right.teal.corner.label(title="友情置顶")
-                        //-         i.fa-smile-o.fa
-                        //-     .ta_cont
-                        //-         h4 调查：要不要增加“赞”功能？
-                        //-         p <strong>功能描述：</strong><br><br>为了保证Perber中的内容质量，计划开发新的功能：每个人都可以对内容进行“赞”和“踩”。<br>如果某条内容得到的“赞”比“踩”多，则在一定时期内(一周？)不能删除；反之，则可以随时被任何人删除。
-                        //-         #vote_bar
-                        //-         #vote_info 此调查会在5月1日截止
+                        //-         i.fa-star.fa
+                        //-     .imgbox
+                        //-         a.ta_cover(style="background-image:url(http://ww4.sinaimg.cn/large/61b8bbf4gw1ef51ke074vj20go0jg0t1.jpg); background-size:cover;")
+                        //-         .ta_cont
+                        //-             p(style="padding-top: 300px;line-height:50px;")
+                        //-                 span(style="font-size:12px;padding-top:0;")
+                        //-                     a(href="http://www.wandoujia.com/join/", target="_blank", style="color:#3baa24;")
+                        //-                         | Join Wandou Labs
 
-
+                        //- //- card blocking
+                        //- .fixed_block.card_4
+                        //-     .ui.right.teal.corner.label(title="友情置顶")
+                        //-         i.fa-star.fa
+                        //-     .imgbox
+                        //-         a.ta_cover(style="background-image:url(http://ww1.sinaimg.cn/large/61b8bbf4gw1ef4r7amb9jj20go0jgq4w.jpg); background-size:cover;")
+                        //-         .ta_cont
+                        //-             p
+                        //-                 span
+                        //-                     a( title="去 APP store 下载", href="https://itunes.apple.com/cn/app/same/id531761928?mt=8", target="_blank", style="display:block; font-size: 0;height: 90px;margin-top: 25px;margin-left: 100px;margin-right: 100px;")
+                        //-                         | 去 APP store 下载
 
                         //- card 0 apply
-                        //- .fixed_block.null
-                        //-     #front
-                        //-         .ui.right.teal.corner.label(title="虚位以待")
-                        //-             i.fa-lock.fa
-                        //-         .imgbox
-                        //-             a.ta_cover(href="javascript:void(0);")
-                        //-     #back
-                        //-         #back2front.circular.ui.icon.button(title="返回")
-                        //-             i.fa.fa-chevron-left
-                        //-         .ui.form
-                        //-             .ui.message
-                        //-                 ul.list
-                        //-                     li 如果不清楚这个位置是干嘛用的，请参考“怎么玩儿”的第2条规则。
-                        //-                     li 提交后，会有人联系你，问你到底想干嘛。没搞明白这个是干嘛之前别乱提交。
-                        //-             .field
-                        //-                 label 你叫啥(网名之类的称呼也可以)
-                        //-                 input#input_name(type="text",placeholder="输入称呼",name="name", maxlength="20")
-                        //-             .field
-                        //-                 label 邮箱地址(*必填)
-                        //-                 input#input_email(type="email",placeholder="输入邮箱地址",name="email")
-                        //-             .field(style="text-align:center")
-                        //-                 #applyBtn.ui.button.green
-                        //-                     | 写好了，提交
+                        .fixed_block.null
+                            #front
+                                .ui.right.teal.corner.label(title="虚位以待")
+                                    i.fa-lock.fa
+                                .imgbox
+                                    a.ta_cover(href="javascript:void(0);")
+                            #back
+                                #back2front.circular.ui.icon.button(title="返回")
+                                    i.fa.fa-chevron-left
+                                .ui.form
+                                    .ui.message
+                                        ul.list
+                                            li 这个位置是对外开放的，你可以申请在这里放上一张图片，或者一个网站链接，也可以是一段文字。
+                                            //- li 提交后，会有人联系你。
+                                    .field
+                                        label 你叫啥(网名之类的称呼也可以)
+                                        input#input_name(type="text",placeholder="输入称呼",name="name", maxlength="20")
+                                    .field
+                                        label 邮箱地址(*必填)
+                                        input#input_email(type="email",placeholder="输入邮箱地址",name="email")
+                                    .field(style="text-align:center")
+                                        #applyBtn.ui.button.green
+                                            | 写好了，提交
+
+                        //- //- card blocking
+                        //- .fixed_block.card_4
+                        //-     .ui.right.teal.corner.label(title="友情置顶")
+                        //-         i.fa-star.fa
+                        //-     .imgbox
+                        //-         a.ta_cover(style="background-image:url(http://ww3.sinaimg.cn/large/61b8bbf4gw1ef52d1gq0dj20go0jgtaf.jpg); background-size:cover;")
+                        //-         .ta_cont
+                        //-             p
+                        //-                 span
+                        //-                     a( title="去 APP store 下载", href="https://itunes.apple.com/us/app/monument-valley/id728293409?mt=8", target="_blank", style="display:block; font-size: 0;height: 90px;margin-top: 25px;margin-left: 100px;margin-right: 100px;")
+                        //-                         | 去 APP store 下载
 
 
+                        //- .fixed_block.card_4
+                        //-     .ui.right.teal.corner.label(title="友情置顶")
+                        //-         i.fa-star.fa
 
-                        .fixed_block.card_4
-                            .ui.right.teal.corner.label(title="友情置顶")
-                                i.fa-star.fa
-                            .imgbox
-                                a.ta_cover(style="background-image:url(http://ww4.sinaimg.cn/large/61b8bbf4gw1ef51ke074vj20go0jg0t1.jpg); background-size:cover;")
-                                .ta_cont
-                                    p(style="padding-top: 300px;line-height:50px;")
-                                        span(style="font-size:12px;padding-top:0;")
-                                            a(href="http://www.wandoujia.com/join/", target="_blank", style="color:#3baa24;")
-                                                | Join Wandou Labs
+                        //-     .zenPlayer(id="jquery_jplayer_0", data-location="http://share.han.im/audio/Moby_JamForTheLadies.mp3", data-id="0")
+                        //-         span.player
+                        //-         span.circle
+                        //-         span.progress
+                        //-         span.buffer
+                        //-         span.drag
+                        //-         .button
+                        //-             span.icon.play
+                        //-             span.icon.pause
 
-                        //- card blocking
-                        .fixed_block.card_4
-                            .ui.right.teal.corner.label(title="友情置顶")
-                                i.fa-star.fa
-                            .imgbox
-                                a.ta_cover(style="background-image:url(http://ww1.sinaimg.cn/large/61b8bbf4gw1ef4r7amb9jj20go0jgq4w.jpg); background-size:cover;")
-                                .ta_cont
-                                    p
-                                        span
-                                            a( title="去 APP store 下载", href="https://itunes.apple.com/cn/app/same/id531761928?mt=8", target="_blank", style="display:block; font-size: 0;height: 90px;margin-top: 25px;margin-left: 100px;margin-right: 100px;")
-                                                | 去 APP store 下载
-
-
-                        //- card blocking
-                        .fixed_block.card_4
-                            .ui.right.teal.corner.label(title="友情置顶")
-                                i.fa-star.fa
-                            .imgbox
-                                a.ta_cover(style="background-image:url(http://ww3.sinaimg.cn/large/61b8bbf4gw1ef52d1gq0dj20go0jgtaf.jpg); background-size:cover;")
-                                .ta_cont
-                                    p
-                                        span
-                                            a( title="去 APP store 下载", href="https://itunes.apple.com/us/app/monument-valley/id728293409?mt=8", target="_blank", style="display:block; font-size: 0;height: 90px;margin-top: 25px;margin-left: 100px;margin-right: 100px;")
-                                                | 去 APP store 下载
-
-
-                        .fixed_block.card_4
-                            .ui.right.teal.corner.label(title="友情置顶")
-                                i.fa-star.fa
-
-                            .zenPlayer(id="jquery_jplayer_0", data-location="http://share.han.im/audio/The_Return_Of_Starlight.mp3", data-id="0")
-                                span.player
-                                span.circle
-                                span.progress
-                                span.buffer
-                                span.drag
-                                .button
-                                    span.icon.play
-                                    span.icon.pause
-
-                            .imgbox
-                                a.ta_cover(style="background-image:url(http://ww4.sinaimg.cn/large/61b8bbf4tw1eg3d7u2oj9j20go0jg0xm.jpg); background-size:cover;")
-                                .ta_cont
-                                    p(style="padding-top: 296px;line-height:50px;")
-                                        span(style="font-size:12px;padding-top:0;")
-                                            a(href="http://www.xiami.com/album/422944", target="_blank", style="color:#fff; font-size:24px;")
-                                                | Woolfy vs Projections
+                        //-     .imgbox
+                        //-         a.ta_cover(style="background-image:url(http://img.xiami.net/images/album/img24/12524/997501358236599.jpg); background-size:cover;")
+                        //-         .ta_cont
+                        //-             p(style="padding-top: 296px;line-height:50px;")
+                        //-                 span(style="font-size:12px;padding-top:0;")
+                        //-                     a(href="http://www.xiami.com/album/99750", target="_blank", style="color:#fff; font-size:24px;")
+                        //-                         | Moby - Jam for the ladies
 
 
 
@@ -145,18 +173,6 @@ block content
                         //-                 span(style="font-size:20px;padding-top:0;font-weight:bold;")
                         //-                     a(href="http://www.freundevonfreunden.com/", target="_blank", style="color:#fff;")
                         //-                         | Freunde von Freunden
-
-
-                        //- card 1 bg+text
-                        //- .fixed_block.card_1
-                        //-    .ui.right.teal.corner.label(title="友情置顶")
-                        //-        i.fa-star.fa
-                        //-    .imgbox
-                        //-        .ta_cont
-                        //-            p(style="font-size:38px; font-style='normal'; font-family:'Special Elite', cursive,Georgia,Cambria,'Times New Roman',Times,serif")
-                        //-                | <i class="fa fa-quote-left"></i> I miss you. <br> I love you. <i class="fa fa-quote-right"></i>
-                        //-                span
-                        //-                    | —— nobody 2014.04.03
 
 
                         //- card 2 bg+short text
@@ -177,7 +193,7 @@ block content
                     i.fa.fa-dot-circle-o
                     span Peber
             p
-                | Made with ❤ by <a href="http://about.han.im/" target="_blank">J.Y Han</a> @ 2014
+                | Made with ❤ by <a href="http://about.han.im/" target="_blank">J.Y Han</a> 2014 - 2015
             iframe(src="http://ghbtns.com/github-btn.html?user=naoyeye&repo=Perber&type=watch&count=true",
   allowtransparency="true", frameborder="0", scrolling="0", width="95", height="20")
             iframe(src="http://ghbtns.com/github-btn.html?user=naoyeye&repo=Perber&type=fork&count=true",

@@ -762,6 +762,11 @@ body{
     line-height: 1.48;
     font-size: 14px;
 }
+
+#back .ui.message ul.list li:before {
+  display: none;
+}
+
 #back .field{
     padding-left: 20px;
     padding-right: 20px;
@@ -812,7 +817,7 @@ body{
     height: 350px;
     color: #fff;
     box-sizing:border-box;
-    background: url(http://ww1.sinaimg.cn/bmiddle/ed133892gw1ee591mcug2j20go0jggnl.jpg) no-repeat;
+    background: url(http://perber.qiniudn.com/chair.jpg) no-repeat;
     background-size:cover;
 }
 .fixed_block.null a.ta_cover div{
@@ -876,14 +881,16 @@ body{
 }
 #vote_bar{
     text-align: center;
+    height:40px;
 }
-#vote_info{font-size: 12px;padding-top: 20px;text-align: center;color: #bbb;}
+#vote_info{font-size: 12px;padding-top: 10px;text-align: center;color: #bbb;}
 
 #vote_bar .ui.button{
     width: 81px;
     -moz-box-sizing:content-box;
     -webkit-box-sizing:content-box;
     box-sizing:content-box;
+    font-weight: normal;
 }
 #vote_bar .ui.button.disabled{
     opacity: .6!important;

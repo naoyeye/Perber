@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   Jiyun
-* @Last Modified time: 2014-09-10 01:21:35
+* @Last Modified time: 2015-05-09 14:07:42
 */
 
 /*
@@ -1168,7 +1168,9 @@ delete msg
     $('#vote_bar .button').click(function(){
 
         // 判断是否投过票
-        if(getCookie('voted') === 'true') return;
+        if (getCookie('voted') === 'true') {
+            return;
+        }
 
         var $t = $(this);
 

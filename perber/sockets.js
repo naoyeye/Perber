@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   Jiyun
-* @Last Modified time: 2014-11-28 14:34:26
+* @Last Modified time: 2015-05-09 13:41:11
 */
 
 
@@ -616,22 +616,23 @@ function Sockets (app, server) {
                // }
             });
 
-            // mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
-            //     if (error) {  
-            //         console.log('GetData Error: ' + error.message);
-            //         // mysql.end();
-            //         return;
-            //     }
+            // 检查投票
+            mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
+                if (error) {  
+                    console.log('GetData Error: ' + error.message);
+                    // mysql.end();
+                    return;
+                }
 
-            //    // if(results.length > 0){
-            //         // results.forEach(function(line, index) {
-            //         //     history.push(line);
-            //         // });
-            //         socket.emit('new vote', {
-            //             result: results[0]
-            //         });
-            //    // }
-            // });
+               // if(results.length > 0){
+                    // results.forEach(function(line, index) {
+                    //     history.push(line);
+                    // });
+                    socket.emit('new vote', {
+                        result: results[0]
+                    });
+               // }
+            });
 
 
 
@@ -642,41 +643,43 @@ function Sockets (app, server) {
 
 
     // vote // TODO need clean
-        // socket.on('my vote', function(data) {
-        //     if(data.vote === 'up'){
-        //         mysql.query('UPDATE vote SET up = up+1', function(error, results) {
-        //             if(error) {
-        //                 console.log("mysql INSERT Error: " + error.message);
-        //                 // mysql.end();
-        //                 return;
-        //             }
-        //             // console.log('results', results)
-        //         })
-        //     } else if(data.vote === 'down'){
-        //         mysql.query('UPDATE vote SET down = down+1', function(error, results) {
-        //             if(error) {
-        //                 console.log("mysql INSERT Error: " + error.message);
-        //                 // mysql.end();
-        //                 return;
-        //             }
-        //             // console.log('results', results)
-        //         })
-        //     }
+        socket.on('my vote', function(data) {
+            if(data.vote === 'up'){
+                mysql.query('UPDATE vote SET up = up+1', function(error, results) {
+                    if(error) {
+                        console.log("mysql INSERT Error: " + error.message);
+                        // mysql.end();
+                        return;
+                    }
+                    // console.log('results', results)
+                })
+            } else if(data.vote === 'down'){
+                mysql.query('UPDATE vote SET down = down+1', function(error, results) {
+                    if(error) {
+                        console.log("mysql INSERT Error: " + error.message);
+                        // mysql.end();
+                        return;
+                    }
+                    // console.log('results', results)
+                })
+            }
 
-        //     // 去数据库查询最新的投票结果
-        //     mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
-        //         if (error) {  
-        //             console.log('GetData Error: ' + error.message);
-        //             mysql.end();
-        //             return;
-        //         }
-        //         // console.log('results:', results[0]);
-        //         // 向前端返回投票信息
-        //         io.sockets.in(room_id).emit('new vote', {
-        //             result: results[0]
-        //         });
-        //     });
-        // })
+            // 去数据库查询最新的投票结果
+            mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
+                if (error) {  
+                    console.log('GetData Error: ' + error.message);
+                    mysql.end();
+                    return;
+                }
+
+                console.log('results', results);
+                // console.log('results:', results[0]);
+                // 向前端返回投票信息
+                io.sockets.in(room_id).emit('new vote', {
+                    result: results[0]
+                });
+            });
+        })
 
     // disconnect
         socket.on('disconnect', function() {
