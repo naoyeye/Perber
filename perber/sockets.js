@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   Jiyun
-* @Last Modified time: 2015-05-09 13:41:11
+* @Last Modified time: 2015-05-09 18:36:29
 */
 
 
@@ -456,7 +456,7 @@ function Sockets (app, server) {
 
                     var xiamiRealSong = {};
                     
-                    var xiaiFactory = url.parse('http://182.92.148.39:1337/xiami/run?song='+ data.msg);
+                    var xiaiFactory = url.parse('http://xiamirun.avosapps.com/run?song='+ data.msg);
 
                     http.get(xiaiFactory, function(res) {
                         res.setEncoding('utf8');
