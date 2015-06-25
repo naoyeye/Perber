@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   Jiyun
-* @Last Modified time: 2015-05-09 18:36:29
+* @Last Modified time: 2015-06-26 04:21:42
 */
 
 
@@ -108,12 +108,13 @@ function Sockets (app, server) {
 
     // 清理工
     // 定时运行一次清理程序
+    // todo 用schedule实现
     setInterval(cleaner, 60000 * config.app.timer);
 
     function cleaner(){
         address_list = {};
-        console.log(new Date().format("yyyy-MM-dd hh:mm:ss"));
-        console.log('clean done!', address_list);
+        // console.log(new Date().format("yyyy-MM-dd hh:mm:ss"));
+        // console.log('clean done!', address_list);
     }
 
     // 过滤转义字符
