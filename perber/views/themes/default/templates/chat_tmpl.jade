@@ -6,7 +6,7 @@ script#chat_box_text(type='text/html')
     p(class="{{ lang }} inner")
         | {{ msg }}
         span.info
-            b.time(title='{{ time }}') {{ time }}
+            a.time(title='{{ time }}', href='/per/{{ id }}') {{ time }}
             b.location
                 i.fa.fa-globe
                 {{ location }}
@@ -33,12 +33,12 @@ script#music_box(type='text/html')
                             span.icon.pause
 
             span.info
-                b.time(title="{{ time }}") {{ time }}
+                a.time(title='{{ time }}', href='/per/{{ id }}') {{ time }}
                 b.location
                     i.fa.fa-globe
                         {{ location }}
             span.xiami_icon
-                a(href="{{ songOriginal }}", target="_blank") xiami
+                a(href='{{ songOriginal }}', target='_blank') xiami
 
 script#loader(type="text/html")
    .loader

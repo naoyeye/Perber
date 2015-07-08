@@ -1,0 +1,236 @@
+extends layout
+
+block content
+    .wrap.single-per
+        .content(role="main")
+            .chat-list
+                .chat
+
+        #footer
+            .logo
+                a(href="/")
+                    i.fa.fa-dot-circle-o
+                    span Perber
+
+    .noticeWrap
+
+    include templates/chat_tmpl
+
+    //- script(src="js/player/jquery.transform.js")
+    script(src="/js/libs/jquery.browser.min.js")
+    script(src="/js/player/player.jquery.rotate.js")
+    script(src="/js/player/player.jquery.grab.js")
+    script(src="/js/player/player.jquery.jplayer.min.js")
+    //- script(src="js/player/player.zen.js")
+    script(src="/js/player/zenplayer.js")
+
+
+    script(src="/js/plugins.min.js")
+    //- script(defer, src="/js/perber.js")
+    script.
+        // time.format("yyyy-MM-dd hh:mm:ss")
+        Date.prototype.format = function(format){
+            var o = {
+                "M+" : this.getMonth()+1, //month
+                "d+" : this.getDate(), //day
+                "h+" : this.getHours(), //hour
+                "m+" : this.getMinutes(), //minute
+                "s+" : this.getSeconds(), //second
+                "q+" : Math.floor((this.getMonth()+3)/3), //quarter
+                "S" : this.getMilliseconds() //millisecond
+            }
+
+            if(/(y+)/.test(format)) format=format.replace(RegExp.$1,(this.getFullYear()+"").substr(4- RegExp.$1.length));
+            for(var k in o)if(new RegExp("("+ k +")").test(format))
+                format = format.replace(RegExp.$1,RegExp.$1.length==1? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+            return format;
+        }
+
+        var originData = !{ originData };
+        var data = {
+            id: originData.id,
+            msg: originData.message,
+            songOriginal: originData.message,
+            title: originData.music_title,
+            title: originData.title,
+            artist: originData.music_artist,
+            album: originData.music_album,
+            cover: originData.music_cover,
+            song_location: originData.music_location,
+            location: originData.location,
+            address: originData.address,
+            time: originData.creation_ts
+
+        };
+
+        var chat = $('.chat');
+
+        var isChinese = function(text){
+            if( /[\u4e00-\u9fa5]/g.test(text)){
+                return false;
+            } else {
+                return true;
+            }
+        };
+
+        var textParser = function(text) {
+
+            //sina weibo
+            var sinaImgReg = /(http:\/\/ww[0-9]{1}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g,
+                // qiniu
+                perberImageReg = /(http:\/\/[a-zA-Z0-9_\-]+.qiniudn.com\/[a-zA-Z0-9_=?\/]+)/g,
+                // instagram
+                instagramImgReg = /(http:\/\/distilleryimage[0-9]{1,2}.ak.instagram.com\/[a-zA-Z0-9_]+.jpg)/g,
+                // normal link
+                linkReg = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
+                // xiami
+                xiamiReg = /(http:\/\/www.xiami.com\/song\/[0-9]+)\s?/g;
+
+            // replace link and image
+            text = text.replace(linkReg, function(e){
+
+                var result;
+                // sina + instagram
+                if(sinaImgReg.test(e) || instagramImgReg.test(e)){
+                    result = '<div class="imgbox"><div style="background-image:url('+ e +');background-size: cover;"></div></div><a href="'+ e +'" target="_blank" class="view_full_size" title="查看原图"><i class="fa fa-dot-circle-o"></i><span>Full size</span></a>';
+                // qiniu image
+                } else if(perberImageReg.test(e)){
+                    // 从qiniu的url中匹配中key, 删除时会用到
+                    var keyReg = /(com\/[A-Za-z0-9_=]+)/g,
+                        key;
+                    e.replace(keyReg, function(s,value) {
+                        key = value.replace('com/', '');
+                    });
+                    var fullSizePath = 'http://'+ originData.bucket_name +'.qiniudn.com/' + key;
+                    result = '<div data-key="'+ key +'" class="imgbox"><div style="background-image:url('+ e +');background-size: cover;"></div></div><a href="'+ fullSizePath +'" target="_blank" class="view_full_size" title="查看原图"><i class="fa fa-dot-circle-o"></i><span>Full size</span></a>';
+                } else if(xiamiReg.test(e)){
+                    // var songidReg = /(song\/[0-9]+)/g,
+                    //     songid;
+                    // e.replace(songidReg, function(s,value) {
+                    //     console.log('s', s)
+                    //     console.log('value', value)
+                    //     songid = value.replace('song/', '');
+                    // });
+
+                    // console.log('songid', songid)
+                    var sidPattern = /(\d+)/;
+                    var songid =  sidPattern.exec(e)[1];
+
+                    result = '<embed src="http://www.xiami.com/widget/0_' + songid + '/singlePlayer.swf" type="application/x-shockwave-flash" width="257" height="33" wmode="transparent"></embed>';
+
+                } else {
+                    result = '<a href="' + e + '" target="_blank">'+ e +'</a>';
+                }
+                return result;
+            })
+
+            //replace @ twitter
+            text = text.replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
+
+            // text = text.replace(/(\n)/g, '<hr>');
+
+            return text;
+        };
+
+        // 判断对象的长度
+        Object.size = function(obj) {
+            var size = 0, key;
+            for (key in obj) {
+                if (obj.hasOwnProperty(key)) size++;
+            }
+            return size;
+        };
+
+        var parseChatBox = function(chatBox) {
+            var chatBoxMsg = chatBox.find('p');
+            parseChatBoxMsg(chatBoxMsg);
+            return chatBox;
+        };
+
+        var parseChatBoxMsg = function(chatBoxMsg) {
+            var msg = chatBoxMsg.html();
+            return chatBoxMsg.html(textParser(msg));
+        };
+
+        var musicParser = function(music){
+            // console.log('music', music)
+            return music;
+        }
+
+        var parseMusicBox = function(musicBox){
+            var musicBoxMsg = musicBox.find('.musicBoxWapper');
+            parseMusicBoxSong(musicBoxMsg);
+            return musicBox;
+        }
+
+        var parseMusicBoxSong = function(musicBoxMsg) {
+            var music = musicBoxMsg.html();
+            return musicBoxMsg.html(musicParser(music));
+        };
+
+        function hideNull(){
+            $('.chat .nullbox').remove();
+        }
+
+        function initZenPlayer(){
+            $('.zenPlayer').each(function(i, el){
+                var $t = $(this);
+                if($t.data('inited') !== '1'){
+                    var id = $t.data('id'),
+                        location = $t.data('location');
+
+                    $t.data('inited', '1');
+
+                    var myZenPlayer = new zenPlayer("#jquery_jplayer_" + id + ' .player' , {
+                        mp3: location
+                    }, {
+                        cssSelectorAncestor: "#jquery_jplayer_" + id,
+                        supplied: "mp3",
+                        swfPath: '/static/public/swf'
+                    });
+                }
+            })
+        }
+
+
+
+        $(function() {
+            // 语言
+            if(isChinese(data.msg)){
+                data.lang = 'en';
+            } else {
+                data.lang = 'cn';
+            }
+
+            // 判断是不是音乐
+            if (data.song_location !== null) {
+                var musicBoxData = {
+                    id: data.id,
+                    songOriginal: data.songOriginal,
+                    title: data.title,
+                    artist: data.artist,
+                    album: data.album,
+                    cover: data.cover,
+                    song_location: data.song_location,
+                    location: data.location,
+                    address: data.address,
+                    time: data.creation_ts
+                };
+                var $boxes = parseMusicBox(ich.music_box(musicBoxData));
+            } else {
+                var $boxes = parseChatBox(ich.chat_box(data));
+            }
+
+            if(chat.find('.chat-box').length === 0) {
+                chat.html($boxes);
+            }
+
+            // 初始化播放器
+            if (data.song_location !== null) {
+                initZenPlayer();
+            }
+
+            //- // 隐藏为空时的icon
+            //- hideNull();
+
+        });

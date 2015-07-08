@@ -1,8 +1,8 @@
 /* 
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
-* @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-03-15 16:49:47
+* @Last Modified by:   Jiyun
+* @Last Modified time: 2015-07-08 16:41:58
 */
 
 /*
@@ -1053,6 +1053,9 @@ figure{
     text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
+.musicBoxWapper {
+    position: relative;
+}
 
 .musicBoxWapper span.info{
     height: 47px;
@@ -1989,6 +1992,24 @@ body.intro-wrap-open  .intro-wrap-content #IntroInner{
 }
 
 
+/*
+================
+Single Per
+================
+*/
+
+.single-per .chat {
+    text-align: center;
+}
+
+.single-per .chat-box {
+    text-align: left;
+}
+
+.single-per .info .time {
+    display: none;
+}
+
 
 /*
 ================
@@ -2022,6 +2043,12 @@ Responsive
         .info,
         .time{
             font-weight: normal;
+        }
+        a.time {
+          color: #999;
+        }
+        a.time:hover {
+          color: #555;
         }
         .intro-wrap-content > .intro-wrap-close{
             width: 40px;

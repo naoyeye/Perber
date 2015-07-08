@@ -2,8 +2,8 @@
 /* 
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:41:38
-* @Last Modified by:   hanjiyun
-* @Last Modified time: 2014-05-07 18:44:06
+* @Last Modified by:   Jiyun
+* @Last Modified time: 2015-07-08 14:27:29
 */
 
 
@@ -57,11 +57,6 @@ require('./routes')(app);
 
 require('./api')(app);
 
-
-// The 404 Route (ALWAYS Keep this as the last route)
-app.get('*', function(req, res){
-    res.render('pages_404', 404);
-});
 
 /*
  * Web server

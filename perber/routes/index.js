@@ -4,7 +4,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2014-05-06 16:30:59
+* @Last Modified time: 2015-07-08 16:50:12
 */
 
 
@@ -53,6 +53,36 @@ function Routes (app, server) {
     // index
     app.get('/', function(req, res, next) {
         res.render('room', { bucket_name: config.qiniuConfig.bucket_name });
+    });
+
+    // single message
+    app.get('/:type(per)/:id', function(req, res, next) {
+
+        mysql.query( 'SELECT * FROM Messages WHERE id = ?', req.params.id, function selectCb(error, results, fields) {
+            if (error) {
+                console.log('GetData Error: ' + error.message);
+                mysql.end();
+                return;
+            }
+
+            if(results.length > 0) {
+                results[0].bucket_name = config.qiniuConfig.bucket_name;
+                res.render('per', {originData: JSON.stringify(results[0])});
+            } else {
+                // res.json(error, '找不到');
+                res.render('pages_404', 404);
+            }
+
+            // imagesBucket.key(key).remove(
+            //     function(err) {
+            //         if (err) {
+            //             res.json({status:'err', message: err})
+            //         } else {
+            //             res.json({status:'success'})
+            //         }
+            //     }
+            // );
+        });
     });
 
 
@@ -136,6 +166,11 @@ function Routes (app, server) {
             // if you don't want to use this transport object anymore, uncomment following line
             //smtpTransport.close(); // shut down the connection pool, no more messages
         });
-    })
+    });
+
+    // The 404 Route (ALWAYS Keep this as the last route)
+    app.get('*', function(req, res){
+        res.render('pages_404', 404);
+    });
 }
 // jshint ignore:end 
