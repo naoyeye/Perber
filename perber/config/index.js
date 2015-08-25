@@ -110,7 +110,7 @@ function Config (app) {
     app.set('redisClient', redisClient);
 
     // log('Creating and saving a session store instance with redis mysql.');
-    app.set('sessionStore', new RedisStore({mysql: redisClient}));
+    app.set('sessionStore', new RedisStore({mysql: redisClient, url:'redis:' + redisClient.host}));
 
 
 
