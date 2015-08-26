@@ -59,7 +59,7 @@ function Config (app) {
 
     var mysqlConfig = config.mysqlConf;
 
-    var mysqlClient = require('mysql').createConnection(mysqlConfig);
+    var mysqlClient = require('mysql').createPool(mysqlConfig);
 
     app.set('mysqlClient', mysqlClient);
 

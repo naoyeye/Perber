@@ -208,14 +208,14 @@ function Sockets (app, server) {
 
 
         // Mysql Connected
-        mysql.query('USE perber', function(error, results) {
+        /*mysql.query('USE perber', function(error, results) {
             if(error) {
                 console.log('mysqlConnectionReady Error: ' + error.message);
                 mysql.end();
                 return;
             }
             console.log('====== socketio MySQL Connected!! ======')
-        });
+        });*/
 
 
         client.sadd('sockets:for:' + userKey + ':at:' + room_id, socket.id, function(err, socketAdded) {
@@ -603,7 +603,7 @@ function Sockets (app, server) {
             mysql.query( 'SELECT * FROM Messages ORDER BY id DESC LIMIT 500', function selectCb(error, results, fields) {
                 if (error) {  
                     console.log('GetData Error: ' + error.message);
-                    mysql.end();
+                    //mysql.end();
                     return;
                 }
 
@@ -669,7 +669,7 @@ function Sockets (app, server) {
             mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
                 if (error) {  
                     console.log('GetData Error: ' + error.message);
-                    mysql.end();
+                    //mysql.end();
                     return;
                 }
 

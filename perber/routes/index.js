@@ -61,7 +61,7 @@ function Routes (app, server) {
         mysql.query( 'SELECT * FROM Messages WHERE id = ?', req.params.id, function selectCb(error, results, fields) {
             if (error) {
                 console.log('GetData Error: ' + error.message);
-                mysql.end();
+                //mysql.end();
                 return;
             }
 
@@ -96,7 +96,7 @@ function Routes (app, server) {
         mysql.query( 'SELECT * FROM Images WHERE imgKey = ?', imgKey, function selectCb(error, results, fields) {
             if (error) {  
                 console.log('GetData Error: ' + error.message);
-                mysql.end();
+                //mysql.end();
                 return;
             }
 

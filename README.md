@@ -51,7 +51,7 @@ redis url, default is "http://localhost/"
 
 **mysqlConf**
 
-mysql host, port, user, password.
+mysql host, port, user, password, database.
 
 
 **mailer**

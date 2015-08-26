@@ -5,7 +5,8 @@
         "host" : "localhost",
         "port" : 3306,
         "user" : "your db user",
-        "password" : "your db pwd"
+        "password" : "your db pwd",
+	"database" : "your database"
     },
 
     "qiniuConfig": {
