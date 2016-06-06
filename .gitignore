@@ -18,3 +18,4 @@ node_modules
 config.json
 perber/chats/
 /chats/
+.idea

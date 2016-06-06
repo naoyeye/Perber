@@ -17,7 +17,7 @@ function API (app) {
     mysql.query('USE perber', function(error, results) {
         if(error) {
             console.log('mysqlConnectionReady Error: ' + error.message);
-            mysql.end();
+            //mysql.end();
             return;
         }
         console.log('====== socketio MySQL Connected!! ======')
