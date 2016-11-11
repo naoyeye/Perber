@@ -4,7 +4,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2015-07-08 16:50:12
+* @Last Modified time: 2016-11-11 14:54:38
 */
 
 
@@ -67,7 +67,25 @@ function Routes (app, server) {
 
             if(results.length > 0) {
                 results[0].bucket_name = config.qiniuConfig.bucket_name;
-                res.render('per', {originData: JSON.stringify(results[0])});
+
+                // need to polish
+                var defaultTitle = '一点想法';
+                var originData = results[0];
+                if (originData.music_artist) {
+                    title = originData.music_artist + ':' + originData.music_title
+                } else if (originData.message && originData.message.length > 20) {
+                    title = results[0].message.substr(0, 20) + '...'
+                } else if (originData.message) {
+                    title = originData.message
+                } else {
+                    title = defaultTitle
+                }
+
+                res.render('per', {
+                    originData: JSON.stringify(originData),
+                    page_title: title,
+                    page_desc: results[0].message || ''
+                });
             } else {
                 // res.json(error, '找不到');
                 res.render('pages_404', 404);

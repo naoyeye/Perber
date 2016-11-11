@@ -1,6 +1,15 @@
 extends layout
 
+block title
+    title #{ page_title } - Perber
+
+block SEO
+    meta(name="description", content="#{ page_desc }")
+    meta(name="keywords", content="Perber")
+
 block content
+    .douban-share-content
+        | #{ page_desc }
     .wrap.single-per
         .content(role="main")
             .chat-list
