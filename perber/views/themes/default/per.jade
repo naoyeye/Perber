@@ -12,7 +12,7 @@ block content
         .content(role="main")
             .chat-list
                 .share-buttons.chat-box
-                    a.share-douban(target="_blank", href="https://www.douban.com/share/service?href=" + encodeURIComponent('http://www.perber.com/per/' + data.id)  + "&name=" + encodeURIComponent(page_title + ' - Perber') + "&sel=&v=1&image=" +  encodeURIComponent(share_img) + "&text=" + encodeURIComponent(!is_img ? page_desc : '来自' + (data.location ? data.location : '未知地区的匿名用户'))) 分享到豆瓣
+                    a.share-douban(target="_blank", href="https://www.douban.com/share/service?href=" + encodeURIComponent('http://www.perber.com/per/' + data.id)  + "&name=" + encodeURIComponent(page_title + ' - Perber') + "&sel=&v=1&image=" +  encodeURIComponent(share_img) + "&text=" + encodeURIComponent(!is_img ? page_desc : '来自' + (data.location ? data.location : '未知地区') + '的匿名用户')) 分享到豆瓣
                 .chat
 
         #footer
