@@ -4,7 +4,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2016-11-11 14:54:38
+* @Last Modified time: 2016-11-11 15:49:20
 */
 
 
@@ -36,6 +36,10 @@ function Routes (app, server) {
     var mysql = app.get('mysqlClient');
     var imagesBucket = app.get('imagesBucket');
 
+    var sinaImgReg = /(http:\/\/ww[0-9]{1}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g;
+    var perberImageReg = /(http:\/\/[a-zA-Z0-9_\-]+.qiniudn.com\/[a-zA-Z0-9_=?\/]+)/g;
+    var instagramImgReg = /(http:\/\/distilleryimage[0-9]{1,2}.ak.instagram.com\/[a-zA-Z0-9_]+.jpg)/g;
+
     /*
     * mailer config
     */
@@ -58,6 +62,8 @@ function Routes (app, server) {
     // single message
     app.get('/:type(per)/:id', function(req, res, next) {
 
+
+
         mysql.query( 'SELECT * FROM Messages WHERE id = ?', req.params.id, function selectCb(error, results, fields) {
             if (error) {
                 console.log('GetData Error: ' + error.message);
@@ -68,22 +74,37 @@ function Routes (app, server) {
             if(results.length > 0) {
                 results[0].bucket_name = config.qiniuConfig.bucket_name;
 
+                var originData = results[0];
+                var is_img = !!(instagramImgReg.test(originData.message) || perberImageReg.test(originData.message) || sinaImgReg.test(originData.message) || originData.music_cover);
                 // need to polish
                 var defaultTitle = '一点想法';
-                var originData = results[0];
+                
                 if (originData.music_artist) {
-                    title = originData.music_artist + ':' + originData.music_title
+                    title = '一首音乐：' + originData.music_artist + ' - ' + originData.music_title
+                } else if (is_img) {
+                    title = '一张图片'
                 } else if (originData.message && originData.message.length > 20) {
-                    title = results[0].message.substr(0, 20) + '...'
+                    // title = results[0].message.substr(0, 20) + '...'
+                    title = defaultTitle
                 } else if (originData.message) {
-                    title = originData.message
+                    // title = originData.message
+                    title = defaultTitle
                 } else {
                     title = defaultTitle
+                }
+
+                var share_img = ''
+                if (is_img && originData.music_cover) {
+                    share_img = originData.music_cover
+                } else if (is_img) {
+                    share_img = originData.message
                 }
 
                 res.render('per', {
                     originData: JSON.stringify(originData),
                     page_title: title,
+                    is_img: is_img,
+                    share_img: share_img,
                     page_desc: results[0].message || ''
                 });
             } else {

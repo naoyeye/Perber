@@ -8,12 +8,14 @@ block SEO
     meta(name="keywords", content="Perber")
 
 block content
-    .douban-share-content
-        | #{ page_desc }
     .wrap.single-per
         .content(role="main")
             .chat-list
+                .share-buttons.chat-box
+                    a.share-douban(target="_blank", href="https://www.douban.com/share/service?href=" + encodeURIComponent('http://www.perber.com/per/' + originData.id)  + "&name=" + encodeURIComponent(page_title + ' - Perber') + "&sel=&v=1&image=" +  encodeURIComponent(share_img) + "&text=" + encodeURIComponent(!is_img ? page_desc : '来自' + (originData.address ? originData.address : '未知地区的匿名用户'))) 分享到豆瓣
                 .chat
+
+
 
         #footer
             .logo
