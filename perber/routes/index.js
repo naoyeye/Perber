@@ -4,7 +4,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2016-11-11 15:49:20
+* @Last Modified time: 2016-11-11 16:02:47
 */
 
 
@@ -102,6 +102,7 @@ function Routes (app, server) {
 
                 res.render('per', {
                     originData: JSON.stringify(originData),
+                    data: originData,
                     page_title: title,
                     is_img: is_img,
                     share_img: share_img,
