@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2018-10-22 20:41:54
+* @Last Modified time: 2018-10-22 20:52:27
 */
 
 /*
@@ -377,7 +377,7 @@ delete msg
     var textParser = function(text) {
 
         //sina weibo
-        var sinaImgReg = /(http:\/\/ww[0-9]{1}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g,
+        var sinaImgReg = /(http:\/\/w[a-z0-9]{2}.sinaimg.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+.[a-z]{3})/g,
             // qiniu
             perberImageReg = /(http:\/\/[a-zA-Z0-9_\-]+.qiniudn.com\/[a-zA-Z0-9_=?\/]+)/g,
             // instagram
