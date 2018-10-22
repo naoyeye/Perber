@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2018-10-22 12:29:57
+* @Last Modified time: 2018-10-22 17:46:02
 */
 
 
@@ -13,12 +13,19 @@
 * Module dependencies
 */
 
-var sio = require('socket.io'),
-    parseCookies = require('connect').utils.parseSignedCookies,
-    cookie = require('cookie');
+var app = require('express')();
+var server = require('http').Server(app);
+var sio = require('socket.io')(server);
+
+// var sio = require('socket.io');
+    // parseCookies = require('connect').utils.parseSignedCookies,
+
+var cookie = require('cookie');
 
 var stepify = require('stepify');
-
+var cookieParser = require('cookie-parser');
+var socketSession = require('socketio-session');
+var parseCookies = cookieParser;
 
 
 // +=====Xiami======
@@ -53,17 +60,6 @@ function Sockets (app, server) {
     var mysql = app.get('mysqlClient');
     var sessionStore = app.get('sessionStore'); // redis
     var imagesBucket = app.get('imagesBucket');
-
-
-    // xiami
-    // var isXiamiSong = /www.xiami.com\/song\/\.*/;
-
-    // var sidPattern = /(\d+)/,
-        // songUrlPattern = /a href="(\/song\/\.*)"/g;
-
-    // var titlePattern = /<div id="title">\s*<h1>(.*)<\/h1>/,
-        // artistPattern = /<a href="\/artist\/\d+" title=".*">(.*)<\/a>/,
-        // coverPattern = /<img class="cdCDcover185" src=".*" \/>/;
 
 
     // 用来记录用户的动作 目前只是记录发言动作
@@ -150,73 +146,109 @@ function Sockets (app, server) {
         return str;
     }
 
-    io.set('authorization', function (hsData, accept) {
-        if(hsData.headers.cookie) {
-            var cookies = parseCookies(cookie.parse(hsData.headers.cookie), config.session.secret),
-            sid = cookies[config.session.key];
+    function parseCookie(cookie){
+        var cookies = {};
+        cookie.split(';').forEach(function(cookie){
+            var parts = cookie.split('=');
+            cookies[parts[0].trim()] = (parts[1] || '').trim();
+        });
+        return cookies;
+    }
 
-            sessionStore.load(sid, function(err, session) {
-                if(err || !session) {
-                    return accept('Error retrieving session!', false);
-                }
-                // console.log('session', session)
-                // console.log(' session.passport ' , session.passport)
+    io.use(function(socket, next){
+        // console.log('socket = ', socket)
+        var hsData = socket.request;
+        socketSession.parseCookieViaArgs(config.session.secret, config.session.key, socket, function(session){
+            // console.log(session); // and we have our session :)
 
-                hsData.perber = {
-                    user: session.passport.user,
-                    room: /\/(?:([^\/]+?))\/?$/g.exec(hsData.headers.referer)[1]
-                };
+            //code for authenticating the user
+            if(!session) {
+                next('Error retrieving session!', false);
+            }
 
-                return accept(null, true);
+            let room = /\/(?:([^\/]+?))\/?$/g.exec(hsData.headers.referer)[1]
 
-            });
-        } else {
+            // console.log('room - ', room)
 
-            // console.log('No cookie transmitted!!')
-            return accept('No cookie transmitted.', false);
-        }
+            hsData.perber = {
+                user: session.passport.user,
+                room: room
+            };
+            next(null, true);
+        });
     });
 
-    // var l =  io.sockets.clients().filter(function(s) {return !s.disconnected;}).length;
-    // console.log(l)
+    // io.set('authorization', function (hsData, accept) {
 
-    io.configure(function() {
-        io.set('store',
-            new sio.RedisStore({
-                redisClient: client,
-                redisPub: client,
-                redisSub: client
-            })
-        );
-        io.enable('browser client minification');
-        io.enable('browser client gzip');
-    });
+    // old
+        // io.use(function(socket, next) {
+        //     var hsData = socket.request;
+        //     if(hsData.headers.cookie) {
+        //         var cookies = parseCookie(hsData.headers.cookie);
+        //         // var parsedCookie = cookie.parse(hsData.headers.cookie);
+        //         // var sid = parseCookies.signedCookie(parsedCookie['connect.sid'], config.session.secret);
+        //         // var cookies = parseCookies(cookie.parse(hsData.headers.cookie), config.session.secret),
+        //         var sid = cookies[config.session.key];
+
+        //         console.log('sid - ', sid)
+
+        //         if(!cookie){
+        //             return accept('No cookie transmitted.', false);
+        //         }
+
+        //         // console.log('sessionStore = ', sessionStore)
+
+        //         sessionStore.load(sid, function(err, session) {
+        //             console.log('err = ', err, 'session =- ', session)
+        //             if(err || !session) {
+        //                 return accept('Error retrieving session!', false);
+        //             }
+        //             console.log('session', session)
+        //             console.log(' session.passport ' , session.passport)
+
+        //             hsData.perber = {
+        //                 user: session.passport.user,
+        //                 room: /\/(?:([^\/]+?))\/?$/g.exec(hsData.headers.referer)[1]
+        //             };
+
+        //             return accept(null, true);
+
+        //         });
+        //     } else {
+        //         console.log('No cookie transmitted!!')
+        //         return accept('No cookie transmitted.', false);
+        //     }
+        // });
+
+    // io.configure(function() {
+    //     io.set('store',
+    //         new sio.RedisStore({
+    //             redisClient: client,
+    //             redisPub: client,
+    //             redisSub: client
+    //         })
+    //     );
+    //     io.enable('browser client minification');
+    //     io.enable('browser client gzip');
+    // });
 
 // connection
     io.sockets.on('connection', function (socket) {
         var hs = socket.handshake,
+            socketRequest = socket.request,
             // nickname = hs.perber.user.username,
             nickname = '' // todo: random
 
             // provider = hs.perber.user.provider,
             provider = '' // todo:random
 
-            userKey = provider + ":" + nickname,
-            room_id = hs.perber.room,
-            now = new Date();
+            userKey = provider + ":" + nickname;
+
+
+        var room_id = socketRequest.perber.room;
+        var now = new Date();
 
         socket.join(room_id);
-
-
-        // Mysql Connected
-        /*mysql.query('USE perber', function(error, results) {
-            if(error) {
-                console.log('mysqlConnectionReady Error: ' + error.message);
-                mysql.end();
-                return;
-            }
-            console.log('====== socketio MySQL Connected!! ======')
-        });*/
 
 
         client.sadd('sockets:for:' + userKey + ':at:' + room_id, socket.id, function(err, socketAdded) {
@@ -261,121 +293,10 @@ function Sockets (app, server) {
         });
 
 
-        // 判断某字符串是否在数组中
-        // 暂时没用到
-            // function inList(needle, array, bool){  
-            //     if(typeof needle=="string"||typeof needle=="number"){
-            //         for(var i in array){
-            //             if(needle===array[i]){
-            //                 if(bool){
-            //                     return i;
-            //                 }
-            //                 return true;
-            //             }
-            //         }
-            //         return false;
-            //     }  
-            // }
-
-
-        // // xiamiHandle start
-        // function getMp3Location(str) {
-        //     try {
-        //         var a1 = parseInt(str.charAt(0)),
-        //             a2 = str.substring(1),
-        //             a3 = Math.floor(a2.length / a1),
-        //             a4 = a2.length % a1,
-        //             a5 = [],
-        //             a6 = 0,
-        //             a7 = '',
-        //             a8 = '';
-        //         for (; a6 < a4; ++a6) {
-        //             a5[a6] = a2.substr((a3 + 1) * a6, (a3 + 1));
-        //         }
-        //         for (; a6 < a1; ++a6) {
-        //             a5[a6] = a2.substr(a3 * (a6 - a4) + (a3 + 1) * a4, a3);
-        //         }
-        //         for (var i = 0,a5_0_length = a5[0].length; i < a5_0_length; ++i) {
-        //             for (var j = 0,a5_length = a5.length; j < a5_length; ++j) {
-        //                 a7 += a5[j].charAt(i);
-        //             }
-        //         }
-        //         a7 = decodeURIComponent(a7);
-        //         for (var i = 0,a7_length = a7.length; i < a7_length; ++i) {
-        //             a8 += a7.charAt(i) === '^' ? '0': a7.charAt(i);
-        //         }
-        //         return a8;
-        //     } catch(e) {
-        //         return false;
-        //     }
-        // }
-
-        // function xiamiParse(pageUrl, root, location) {
-            
-        //     var sid = sidPattern.exec(pageUrl)[1];
-        //     var options = url.parse('http://www.xiami.com/song/playlist/id/'+ sid +'/object_name/default/object_id/0');
-        //     var xiamiRealSong = {};
-
-        //     http.get(options, function(res) {
-        //         res.setEncoding('utf8');
-
-        //         var xml = '';
-
-        //         res.on('data', function(data) {
-        //             xml += data;
-        //         })
-
-        //         res.on('end', function() {
-        //             xmlreader.read(xml, function(errors, res){
-        //                 if(null !== errors ){
-        //                     console.log('errors', errors)
-        //                     return;
-        //                 }
-
-        //                 // console.log('res.playlist.trackList.track', res.playlist.trackList.track)
-        //                 // console.log(decodeURIComponent(res.playlist.trackList.track.title.text()))
-
-        //                 xiamiRealSong.title = toTxt(res.playlist.trackList.track.title.text());
-        //                 xiamiRealSong.artist =  toTxt(res.playlist.trackList.track.artist.text());
-        //                 xiamiRealSong.album = toTxt(res.playlist.trackList.track.album_name.text());
-        //                 xiamiRealSong.location = getMp3Location(res.playlist.trackList.track.location.text());
-
-        //                 // 封面处理
-        //                 var cover;
-        //                 var coverpath = res.playlist.trackList.track.pic.text();
-        //                 var coverReg = /http:\/\/[a-zA-Z0-9-.-\/-_]+.(jpg|jpeg|png|gif|bmp)/g;
-
-        //                 // 正则替换小的封面为大封面
-        //                 if(coverReg.test(coverpath)){
-        //                     coverpath.replace(coverReg, function(s,value) {
-        //                         cover = s.replace('_1', '');
-        //                     });
-        //                 }
-        //                 xiamiRealSong.cover =  cover;
-
-        //                 // console.log('xiamiRealSong', xiamiRealSong)
-
-        //                 // 得到歌曲信息，传递给 step 4;
-        //                 root.done(null, xiamiRealSong, location);
-
-        //             });
-
-        //         })
-        //     })
-        // }
-
-        // function xiamiRun(pageUrl, root, location){
-        //     if (isXiamiSong.test(pageUrl)) {
-        //         xiamiParse(pageUrl, root, location);
-        //     }
-        // }
-        // // xiamiHandle end
-
-
         // new message
         socket.on('my msg', function(data) {
             // get ip
-            var address = hs.headers['x-forwarded-for'] || hs.address.address;
+            var address = hs.address
             // var address = '106.186.112.11'; // for test
 
             address = address.replace('::ffff:', '')

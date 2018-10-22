@@ -2,8 +2,8 @@
 /* 
 * @Author: hanjiyun
 * @Date:   2014-05-06 14:57:44
-* @Last Modified by:   Jiyun
-* @Last Modified time: 2015-04-07 17:28:46
+* @Last Modified by:   hanjiyun
+* @Last Modified time: 2018-10-22 14:17:17
 */
 
 
@@ -30,9 +30,9 @@ function API (app) {
         next();
     }
 
-    app.configure(function () {
-        app.use(allowCrossDomain);
-    });
+    // app.configure(function () {
+    //     app.use(allowCrossDomain);
+    // });
 
     app.options('/api/v1/*', function(req, res){
         res.header('Access-Control-Allow-Origin', req.headers.origin || "*");
@@ -95,43 +95,45 @@ function API (app) {
             res.json({status : 'Permission denied!'})
             return;
         }
-        
-        var smtpTransport = nodemailer.createTransport("SMTP",{
-            service: "Gmail",
-            auth: {
-                user: config.mailer.user,
-                pass: config.mailer.pass
-            }
-        });
 
-        if (!req.body.type || !req.body.id) {
-            return;
-        }
+        nodemailer.createTestAccount((err, account) => {
+            var smtpTransport = nodemailer.createTransport({
+                service: "Gmail",
+                auth: {
+                    user: config.mailer.user,
+                    pass: config.mailer.pass
+                }
+            });
 
-        var mail_text = '出现错误的条目是： ' + req.body.type + ' : ' + req.body.id + ' ，请尽快在 http://www.wandoujia.com/needle/ 中处理。这是一封自动发送的邮件，不要回答！！不要回答！！';
-
-        // setup e-mail data with unicode symbols
-        var mailOptions = {
-            from: "无聊治愈所的一号门神 ✔ <"+ config.mailer.user +">", // sender address
-            to: ['hanjiyun@wandoujia.com', 'sunboheng@wandoujia.com'], // list of receivers
-            subject: "T_T 无聊治愈所的条目又出问题了", // Subject line
-            text: mail_text//, // plaintext body
-        }
-
-        // send mail with defined transport object
-        smtpTransport.sendMail(mailOptions, function(error, response){
-            if(error){
-                console.log(error);
-                res.json({status : 'error'})
-            }else{
-                console.log("Mail sent: " + response.message);
-                pond.push(req.body.id);
-                res.json({status : 'success'})
+            if (!req.body.type || !req.body.id) {
+                return;
             }
 
-            // if you don't want to use this transport object anymore, uncomment following line
-            //smtpTransport.close(); // shut down the connection pool, no more messages
-        });
+            var mail_text = '出现错误的条目是： ' + req.body.type + ' : ' + req.body.id + ' ，请尽快在 http://www.wandoujia.com/needle/ 中处理。这是一封自动发送的邮件，不要回答！！不要回答！！';
+
+            // setup e-mail data with unicode symbols
+            var mailOptions = {
+                from: "无聊治愈所的一号门神 ✔ <"+ config.mailer.user +">", // sender address
+                to: ['hanjiyun@wandoujia.com', 'sunboheng@wandoujia.com'], // list of receivers
+                subject: "T_T 无聊治愈所的条目又出问题了", // Subject line
+                text: mail_text//, // plaintext body
+            }
+
+            // send mail with defined transport object
+            smtpTransport.sendMail(mailOptions, function(error, response){
+                if(error){
+                    console.log(error);
+                    res.json({status : 'error'})
+                }else{
+                    console.log("Mail sent: " + response.message);
+                    pond.push(req.body.id);
+                    res.json({status : 'success'})
+                }
+
+                // if you don't want to use this transport object anymore, uncomment following line
+                //smtpTransport.close(); // shut down the connection pool, no more messages
+            });
+        })
     });
 
 }

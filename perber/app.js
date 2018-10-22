@@ -2,8 +2,8 @@
 /* 
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:41:38
-* @Last Modified by:   Jiyun
-* @Last Modified time: 2015-07-08 14:27:29
+* @Last Modified by:   hanjiyun
+* @Last Modified time: 2018-10-22 14:30:20
 */
 
 
@@ -15,6 +15,8 @@
 var express = require('express'),
     init = require('./init');
 
+var favicon = require('serve-favicon')
+
 /*
  * Create and config server
  */
@@ -23,8 +25,7 @@ var app = exports.app = express();
 
 
 app.set('view engine', 'jade');
-app.use(express.favicon(__dirname + '/public/img/favicon.png')); 
-
+app.use(favicon(__dirname + '/public/img/favicon.png'));
 /**
  * Configure application
  */

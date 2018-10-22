@@ -7,7 +7,6 @@
 var log = require('debug')('perber:config'),
         express = require('express'),
         redis = require('redis'),
-        RedisStore = require('connect-redis')(express),
         passport = require('passport'),
         path = require('path'),
         url = require('url'),
@@ -17,28 +16,26 @@ var log = require('debug')('perber:config'),
         nodeQiniu = require('node-qiniu'),
         utils = require('../utils');
 
-/**
- * Expose Configuration scope
- */
+var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
+var session = require('express-session')
+// var RedisStore = require('connect-redis')(session)
+var socketSession = require('socketio-session');
+var serveStatic = require('serve-static')
+var morgan = require('morgan')
 
-module.exports = Config;
+var logger = morgan('combined')
 
+socketSession.initializeRedis(session);
 
-/**
- * Applies configurations settings
- * for application.
- *
- * @param {Express} app `Express` instance.
- * @api public
- */
 
 function Config (app) {
     // log("Attempt to load from config.json")
     try {
         config = require('./config.json');
-        log('Loaded from config.json %j', config);
+        // console.log('Loaded from config.json %j', config);
     } catch (err) {
-        log("Failed to load file config.json %j", err);
+        console.log("Failed to load file config.json %j", err);
     }
 
     // log('Attemp to load from environment');
@@ -57,7 +54,7 @@ function Config (app) {
 // ==========
     app.set('mysqlConf', config.mysqlConf);
 
-    var mysqlConfig = config.mysqlConf;
+    var mysqlConfig = Object.assign({}, config.mysqlConf);
 
     var mysqlClient = require('mysql').createPool(mysqlConfig);
 
@@ -86,12 +83,13 @@ function Config (app) {
 // redis
 // ==========
     // log('Setting redisURL', config.redisURL);
-    app.set('redisURL', config.redisURL);
+    app.set('redisConf', config.redisConf);
 
     // log('Opening a redis mysql connection');
     // This should be moved to a db.js module
-    var redisConfig = url.parse(config.redisURL);
-    var redisClient = redis.createClient(redisConfig.port, redisConfig.hostname);
+    // var redisConfig = url.parse(config.redisConf);
+    var redisConfig = config.redisConf.url
+    var redisClient = redis.createClient(redisConfig.port, redisConfig.host);
   
     redisClient.on('error', function(err) {
         console.log('Error connecting to redis %j', err);
@@ -110,8 +108,31 @@ function Config (app) {
     app.set('redisClient', redisClient);
 
     // log('Creating and saving a session store instance with redis mysql.');
-    app.set('sessionStore', new RedisStore({mysql: redisClient, url:'redis:' + redisClient.host}));
+    // var sessionStore = session({
+    //     store: new RedisStore({mysql: redisClient, url:'redis://' + redisClient.host}),
+    //     // secret: config.session.secret,
+    //     cookie: { secure: false },
+    //     secret: config.session.secret,
+    //     key: config.session.key,
+    //     // store: app.get('sessionStore'),
+    //     resave: true,
+    //     saveUninitialized: true
+    // })
+    var sessionStore = session({
+      store : socketSession.getRedisStore(),
+      secret : config.session.secret,
+      resave : true,
+      saveUninitialized : true,
+      key : config.session.key
+    })
+    app.set('sessionStore', sessionStore);
+    app.use(sessionStore);
 
+
+    // app.use(session({
+    //     store: new RedisStore({mysql: redisClient, url:'redis://' + redisClient.host}),
+    //     secret: config.session.secret
+    // }));
 
 
 
@@ -119,30 +140,35 @@ function Config (app) {
     app.set('views', path.join(__dirname, '..', '/views/themes/', config.theme.name));
 
     // log('Setting static files lookup root path.');
-    app.use(express.static(path.join(__dirname, '..', '/public')));
+    app.use(serveStatic(path.join(__dirname, '..', '/public')));
 
-    if(config.debug === true) {
+    if (config.debug === true) {
         console.log('====== express debug enabled ======');
-        app.use(express.logger('dev'));
+        logger = morgan('dev')
     }
 
+    app.use(logger);
+
     // log('Use of express body parser middleware.');
-    app.use(express.bodyParser());
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: false }));
 
-    // log('Use of express cookie parser middleware.');
-    app.use(express.cookieParser(config.session.secret));
-
-    // log('Use of express session middleware.');
-    app.use(express.session({
-        key: config.session.key,
-        store: app.get('sessionStore')
-    }));
+    app.use(cookieParser(config.session.secret));
+    // app.use(session({
+    //     secret: config.session.secret,
+    //     key: config.session.key,
+    //     store: app.get('sessionStore'),
+    //     resave: false,
+    //     saveUninitialized: true
+    // }));
   
     // log('Use of passport middlewares.');
     app.use(passport.initialize());
     app.use(passport.session());
 
     // log('Use of express router.');
-    app.use(app.router);
+    // app.use(app.router);
 }
 // /* jshint ignore:end */
+
+module.exports = Config;

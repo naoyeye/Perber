@@ -4,7 +4,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2018-09-29 15:37:33
+* @Last Modified time: 2018-10-22 17:45:27
 */
 
 
@@ -44,7 +44,7 @@ function Routes (app, server) {
     * mailer config
     */
     // create reusable transport method (opens pool of SMTP connections)
-    var smtpTransport = nodemailer.createTransport("SMTP",{
+    var smtpTransport = nodemailer.createTransport({
         service: "Gmail",
         auth: {
             user: config.mailer.user,
@@ -107,7 +107,7 @@ function Routes (app, server) {
                 });
             } else {
                 // res.json(error, '找不到');
-                res.render('pages_404', 404);
+                res.render('pages_404');
             }
 
             // imagesBucket.key(key).remove(
@@ -132,7 +132,7 @@ function Routes (app, server) {
         // 先去数据库里查询此图片key是不是存在, 防止恶意批量删除
         mysql.query( 'SELECT * FROM Images WHERE imgKey = ?', imgKey, function selectCb(error, results, fields) {
             if (error) {  
-                console.log('GetData Error: ' + error.message);
+                // console.log('GetData Error: ' + error.message);
                 //mysql.end();
                 return;
             }
@@ -154,7 +154,7 @@ function Routes (app, server) {
 
     });
 
-    // 七牛得到token
+    // 七牛得到 token
     app.post('/sign', function(req, res, next){
         // console.log(req.body)
         var bucketname = config.qiniuConfig.bucket_name;
@@ -207,7 +207,7 @@ function Routes (app, server) {
 
     // The 404 Route (ALWAYS Keep this as the last route)
     app.get('*', function(req, res){
-        res.render('pages_404', 404);
+        res.render('pages_404');
     });
 }
 // jshint ignore:end 

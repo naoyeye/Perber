@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2018-10-22 12:30:45
+* @Last Modified time: 2018-10-22 17:40:00
 */
 
 /*
@@ -43,9 +43,7 @@ $(function() {
 =================
 */
 
-    var socket = io.connect("", {
-        "connect timeout": 1000
-    });
+    var socket = io.connect();
 
     socket.on('error', function (reason){
         console.error('Unable to connect Socket.IO !!', reason);
@@ -837,278 +835,278 @@ delete msg
 
 // =============filedrop==============
     var Bucket = $('.chat-input').data('bucket');
-    var Qiniu_isUploading = false;
+    // var Qiniu_isUploading = false;
 
-    function handleDragOver(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
+    // function handleDragOver(evt) {
+    //     evt.stopPropagation();
+    //     evt.preventDefault();
 
-        $dropZone.addClass('dragOver');
-        evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-    }
-
-
-    function handleFileSelect(evt) {
-
-        evt.stopPropagation();
-        evt.preventDefault();
-
-        $dropZone.removeClass('dragOver');
-
-        var files = evt.dataTransfer.files;
-        var new_file;
-
-        if(Qiniu_isUploading){
-            notice('error', '还有没上传完的 :)', 2000);
-            return;
-        }
-
-        if(files && files.length > 1){
-            notice('error', '一次只上传一个文件就可以 :)', 2000);
-            return;
-        }
-
-        if(files && files.length > 0){
-            for (var i = 0; file = files[i]; i++) {
-
-                //判断文件类型
-                if(!file.type || $.inArray(file.type, allowedfiletypes) < 0) {
-                    notice('error', '唉，上传图片才可以啊', 2000);
-                    return;
-                }
-
-                //判断文件大小
-
-                if(file.size > 2000000) {
-                    notice('error', '艾玛！文件太大了！减减肥，要小于2M才可以。', 2000);
-                    return;
-                }
-
-                // 判断是否正在上传、或者有上传完成但未发布的图片
-                if($('#imagePreview').size() > 0){
-                    notice('error', '别着急，一个一个来', 2000)
-                    return;
-                }
-
-                var extra = new Object();
-                var key = file.name.replace(/[ ]/g, "");
-                var time = new Date().getTime();
-
-                extra.key = base64encode(key) + '_' + time;
-
-                new_file = file;
-
-                $('#upimg').fadeIn().css({
-                    'background':'#fff',
-                });
-
-                var reader = new FileReader();
-
-                reader.onload = (function(theFile) {
-                    return function(e) {
-                        // Render thumbnail.
-                        var div = document.createElement('div');
-                        div.setAttribute('id', 'imageThumb')
-                        div.setAttribute('style', 'background:url('+ e.target.result +') center center no-repeat;background-size:cover;')
-                        document.getElementById('upimg').insertBefore(div, null);
-                    };
-                })(file);
-
-                reader.readAsDataURL(file);
-
-                // 在开始上传之前，先去后端拿token
-                $.ajax({ 
-                    url: '/sign',
-                    type: 'POST',
-                    cache: false,
-                    data: { putExtra: JSON.stringify(extra)},
-                    dataType : "json",
-                    success: function(res){
-
-                        showUploadProgress();
-
-                        var token = res.token;
-                        var Qiniu_UploadUrl = "http://up.qiniu.com";
-                        // var Qiniu_UploadUrl = "/qiniu_upload";
-
-                        // var Qiniu_Progresses.length = 0;
-                        var Qiniu_chunks = 0;
-                        var Qiniu_taking = 0;
-                        var Qiniu_status = null;
-                        // var size = file.size;
-                        Qiniu_isUploading = true;
-
-                        var xhr = new XMLHttpRequest();
-
-                        xhr.open('POST', Qiniu_UploadUrl, true);
-
-                        // xhr.open('POST', '/qiniu_upload', true);
+    //     $dropZone.addClass('dragOver');
+    //     evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+    // }
 
 
-                        var formData, startDate;
-                        formData = new FormData();
+    // function handleFileSelect(evt) {
 
-                        // if (key !== null && key !== undefined) formData.append('key', key);
-                        // for (var k in Qiniu_params) {
-                        //     formData.append(k, Qiniu_params[k]);
-                        // }
+    //     evt.stopPropagation();
+    //     evt.preventDefault();
 
-                        formData.append('token', token);
-                        formData.append('file', new_file);
-                        formData.append('key', extra.key);
-                        // formData.append('callbackBody', "name=$(fname)&hash=$(etag)&location=$(x:location)&=$(x:prise)")
+    //     $dropZone.removeClass('dragOver');
 
-                        var taking;
+    //     var files = evt.dataTransfer.files;
+    //     var new_file;
 
-                        xhr.upload.addEventListener("progress", function(evt) {
-                            if (evt.lengthComputable) {
+    //     if(Qiniu_isUploading){
+    //         notice('error', '还有没上传完的 :)', 2000);
+    //         return;
+    //     }
 
-                                var nowDate = new Date().getTime();
-                                taking = nowDate - startDate;
-                                var x = (evt.loaded) / 1024;
-                                var y = taking / 1000;
-                                var uploadSpeed = (x / y);
-                                var formatSpeed;
-                                if (uploadSpeed > 1024) {
-                                    formatSpeed = (uploadSpeed / 1024).toFixed(2) + "Mb\/s";
-                                } else {
-                                    formatSpeed = uploadSpeed.toFixed(2) + "Kb\/s";
-                                }
-                                var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-                                // console.log('percentComplete', percentComplete)
+    //     if(files && files.length > 1){
+    //         notice('error', '一次只上传一个文件就可以 :)', 2000);
+    //         return;
+    //     }
+
+    //     if(files && files.length > 0){
+    //         for (var i = 0; file = files[i]; i++) {
+
+    //             //判断文件类型
+    //             if(!file.type || $.inArray(file.type, allowedfiletypes) < 0) {
+    //                 notice('error', '唉，上传图片才可以啊', 2000);
+    //                 return;
+    //             }
+
+    //             //判断文件大小
+
+    //             if(file.size > 2000000) {
+    //                 notice('error', '艾玛！文件太大了！减减肥，要小于2M才可以。', 2000);
+    //                 return;
+    //             }
+
+    //             // 判断是否正在上传、或者有上传完成但未发布的图片
+    //             if($('#imagePreview').size() > 0){
+    //                 notice('error', '别着急，一个一个来', 2000)
+    //                 return;
+    //             }
+
+    //             var extra = new Object();
+    //             var key = file.name.replace(/[ ]/g, "");
+    //             var time = new Date().getTime();
+
+    //             extra.key = base64encode(key) + '_' + time;
+
+    //             new_file = file;
+
+    //             $('#upimg').fadeIn().css({
+    //                 'background':'#fff',
+    //             });
+
+    //             var reader = new FileReader();
+
+    //             reader.onload = (function(theFile) {
+    //                 return function(e) {
+    //                     // Render thumbnail.
+    //                     var div = document.createElement('div');
+    //                     div.setAttribute('id', 'imageThumb')
+    //                     div.setAttribute('style', 'background:url('+ e.target.result +') center center no-repeat;background-size:cover;')
+    //                     document.getElementById('upimg').insertBefore(div, null);
+    //                 };
+    //             })(file);
+
+    //             reader.readAsDataURL(file);
+
+    //             // 在开始上传之前，先去后端拿token
+    //             $.ajax({ 
+    //                 url: '/sign',
+    //                 type: 'POST',
+    //                 cache: false,
+    //                 data: { putExtra: JSON.stringify(extra)},
+    //                 dataType : "json",
+    //                 success: function(res){
+
+    //                     showUploadProgress();
+
+    //                     var token = res.token;
+    //                     var Qiniu_UploadUrl = "http://up.qiniu.com";
+    //                     // var Qiniu_UploadUrl = "/qiniu_upload";
+
+    //                     // var Qiniu_Progresses.length = 0;
+    //                     var Qiniu_chunks = 0;
+    //                     var Qiniu_taking = 0;
+    //                     var Qiniu_status = null;
+    //                     // var size = file.size;
+    //                     Qiniu_isUploading = true;
+
+    //                     var xhr = new XMLHttpRequest();
+
+    //                     xhr.open('POST', Qiniu_UploadUrl, true);
+
+    //                     // xhr.open('POST', '/qiniu_upload', true);
 
 
-                                $('.chat-input .progress .bar').height(percentComplete+"%");
+    //                     var formData, startDate;
+    //                     formData = new FormData();
 
-                                if(percentComplete == '100'){
-                                    $('#upimg .bar').html('<i class="fa fa-spinner fa-spin"></i>')
-                                }
+    //                     // if (key !== null && key !== undefined) formData.append('key', key);
+    //                     // for (var k in Qiniu_params) {
+    //                     //     formData.append(k, Qiniu_params[k]);
+    //                     // }
 
-                            }
+    //                     formData.append('token', token);
+    //                     formData.append('file', new_file);
+    //                     formData.append('key', extra.key);
+    //                     // formData.append('callbackBody', "name=$(fname)&hash=$(etag)&location=$(x:location)&=$(x:prise)")
 
-                        }, false);
+    //                     var taking;
 
-                        // 上传完成
-                        xhr.onreadystatechange = function(response) {
+    //                     xhr.upload.addEventListener("progress", function(evt) {
+    //                         if (evt.lengthComputable) {
 
-                            if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
-                                Qiniu_taking += taking;
-                                //checksum,crc32,ctx,host,offset
-                                var blkRet = JSON.parse(xhr.responseText);
+    //                             var nowDate = new Date().getTime();
+    //                             taking = nowDate - startDate;
+    //                             var x = (evt.loaded) / 1024;
+    //                             var y = taking / 1000;
+    //                             var uploadSpeed = (x / y);
+    //                             var formatSpeed;
+    //                             if (uploadSpeed > 1024) {
+    //                                 formatSpeed = (uploadSpeed / 1024).toFixed(2) + "Mb\/s";
+    //                             } else {
+    //                                 formatSpeed = uploadSpeed.toFixed(2) + "Kb\/s";
+    //                             }
+    //                             var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+    //                             // console.log('percentComplete', percentComplete)
 
-                                // console.log('上传完成 !!!')
 
-                                hideUploadProgress();
+    //                             $('.chat-input .progress .bar').height(percentComplete+"%");
 
-                                $('#imageThumb').remove();
+    //                             if(percentComplete == '100'){
+    //                                 $('#upimg .bar').html('<i class="fa fa-spinner fa-spin"></i>')
+    //                             }
 
-                                $('#upimg').css({
-                                    'background':'none',
-                                    'box-shadow': 'none'
-                                })
+    //                         }
 
-                                // console.log('blkRet', blkRet)
+    //                     }, false);
 
-                                var img = {
-                                    key: blkRet.key,
-                                    path : 'http://'+ Bucket +'.qiniudn.com/' + blkRet.key + '?imageView/1/w/200/h/200'
-                                };
+    //                     // 上传完成
+    //                     xhr.onreadystatechange = function(response) {
 
-                                // console.log('img', img)
+    //                         if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
+    //                             Qiniu_taking += taking;
+    //                             //checksum,crc32,ctx,host,offset
+    //                             var blkRet = JSON.parse(xhr.responseText);
 
-                                showPreview(img);
+    //                             // console.log('上传完成 !!!')
 
-                                Qiniu_isUploading = false;
+    //                             hideUploadProgress();
 
-                            // 上传失败
-                            } else if (xhr.status != 200 && xhr.responseText) {
-                                // console.log('xhr.responseText', xhr.responseText)
-                                // console.log('response', response)
-                                Qiniu_isUploading = false;
-                            }
-                        };
+    //                             $('#imageThumb').remove();
 
-                        startDate = new Date().getTime();
-                        xhr.send(formData);
+    //                             $('#upimg').css({
+    //                                 'background':'none',
+    //                                 'box-shadow': 'none'
+    //                             })
+
+    //                             // console.log('blkRet', blkRet)
+
+    //                             var img = {
+    //                                 key: blkRet.key,
+    //                                 path : 'http://'+ Bucket +'.qiniudn.com/' + blkRet.key + '?imageView/1/w/200/h/200'
+    //                             };
+
+    //                             // console.log('img', img)
+
+    //                             showPreview(img);
+
+    //                             Qiniu_isUploading = false;
+
+    //                         // 上传失败
+    //                         } else if (xhr.status != 200 && xhr.responseText) {
+    //                             // console.log('xhr.responseText', xhr.responseText)
+    //                             // console.log('response', response)
+    //                             Qiniu_isUploading = false;
+    //                         }
+    //                     };
+
+    //                     startDate = new Date().getTime();
+    //                     xhr.send(formData);
 
                         
-                       // $('#imagePreview').remove();
+    //                    // $('#imagePreview').remove();
 
-                    },
-                    error: function(jqXHR, textStatus, err){
-                        // console.log(jqXHR)
-                        // console.log(textStatus)
-                        // console.log(err.error)
-                        // todo error dialog
-                    }
-                })
-
-
-            }
-        }
-    }
+    //                 },
+    //                 error: function(jqXHR, textStatus, err){
+    //                     // console.log(jqXHR)
+    //                     // console.log(textStatus)
+    //                     // console.log(err.error)
+    //                     // todo error dialog
+    //                 }
+    //             })
 
 
-    function handleDragLeave(evt){
-        // console.log('鼠标移开');
-        evt.stopPropagation();
-        evt.preventDefault();
-
-        $dropZone.removeClass('dragOver');
-    }
-
-    // Setup the dnd listeners.
-    var dropZone = document.getElementById('drop_zone');
-    var $dropZone = $('#drop_zone');
-    var allowedfiletypes = ['image/jpeg','image/png','image/gif','image/bmp'];
+    //         }
+    //     }
+    // }
 
 
-    dropZone.addEventListener('dragover', handleDragOver, false);
-    dropZone.addEventListener('dragleave', handleDragLeave, false);
-    dropZone.addEventListener('drop', handleFileSelect, false);
+    // function handleDragLeave(evt){
+    //     // console.log('鼠标移开');
+    //     evt.stopPropagation();
+    //     evt.preventDefault();
+
+    //     $dropZone.removeClass('dragOver');
+    // }
+
+    // // Setup the dnd listeners.
+    // var dropZone = document.getElementById('drop_zone');
+    // var $dropZone = $('#drop_zone');
+    // var allowedfiletypes = ['image/jpeg','image/png','image/gif','image/bmp'];
 
 
+    // dropZone.addEventListener('dragover', handleDragOver, false);
+    // dropZone.addEventListener('dragleave', handleDragLeave, false);
+    // dropZone.addEventListener('drop', handleFileSelect, false);
 
 
 
 
-    // delete image
-    $('.chat-input').on('click', '#previewControl .delete', function(){
-        var $e = $(this),
-            key = $e.data('id');
-        // console.log('delete key', key);
 
-        $.ajax({ 
-            url: '/delete',
-            type: 'POST',
-            cache: false,
-            data: { key: key},
-            dataType : "json",
-            success: function(res){
-                // console.log(res)
-               $('#upimg').html('').hide();
 
-            },
-            error: function(jqXHR, textStatus, err){
-                // console.log(jqXHR)
-                // console.log(textStatus)
-                // console.log(err.error)
-                notice('error', '出错了。'+ err.error, 2000)
-            }
-        })
-    })
-    // 发布图片
-    .on('click', '#previewControl .publish', function(){
-        var $e = $(this),
-            key = $e.data('id').toString();
-            // console.log('publish key', key)
+    // // delete image
+    // $('.chat-input').on('click', '#previewControl .delete', function(){
+    //     var $e = $(this),
+    //         key = $e.data('id');
+    //     // console.log('delete key', key);
 
-            socket.emit('my msg', {
-                msg: 'http://'+ Bucket +'.qiniudn.com/' + key + '?imageView/1/w/500/h/500',
-                imgKey: key // 把图片key保存到数据库
-            });
-            $('#upimg').html('').hide();
-    });
+    //     $.ajax({ 
+    //         url: '/delete',
+    //         type: 'POST',
+    //         cache: false,
+    //         data: { key: key},
+    //         dataType : "json",
+    //         success: function(res){
+    //             // console.log(res)
+    //            $('#upimg').html('').hide();
+
+    //         },
+    //         error: function(jqXHR, textStatus, err){
+    //             // console.log(jqXHR)
+    //             // console.log(textStatus)
+    //             // console.log(err.error)
+    //             notice('error', '出错了。'+ err.error, 2000)
+    //         }
+    //     })
+    // })
+    // // 发布图片
+    // .on('click', '#previewControl .publish', function(){
+    //     var $e = $(this),
+    //         key = $e.data('id').toString();
+    //         // console.log('publish key', key)
+
+    //         socket.emit('my msg', {
+    //             msg: 'http://'+ Bucket +'.qiniudn.com/' + key + '?imageView/1/w/500/h/500',
+    //             imgKey: key // 把图片key保存到数据库
+    //         });
+    //         $('#upimg').html('').hide();
+    // });
 
 
 
