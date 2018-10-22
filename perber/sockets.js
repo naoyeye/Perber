@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2018-10-22 21:19:11
+* @Last Modified time: 2018-10-22 21:35:36
 */
 
 
@@ -296,8 +296,8 @@ function Sockets (app, server) {
         // new message
         socket.on('my msg', function(data) {
             // get ip
-            var address = socket.request.connection.remoteAddress
             // var address = '106.186.112.11'; // for test
+            var address = socket.handshake.headers["X-Real-IP"]
 
             address = address.replace('::ffff:', '')
 
