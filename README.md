@@ -1,9 +1,9 @@
-# 关于
+# Perber 是什么
 
  一个可以实时匿名群聊的 web 服务。
- 每个人都可以删掉其他人说的话。
+ 特色是无需注册，每个人都可以删掉其他人说的话。
 
-# 用到了哪些东西
+# 用到了哪些技术
 
 node.js, socket.io, redis, jade, mysql(node-mysql), node-qiniu
 
@@ -13,11 +13,16 @@ Perber 用到了 **Qiniu** 来存储图片, 你需要注册 Qiniu 来获得 "**b
 
 > Qiniu on Github: [https://github.com/qiniu](https://github.com/qiniu)
 
+**因七牛 api 调整，上传图片功能暂时关闭**
+
+
+
 ## 开始
 
-1. 在 **MySQL** 创建名为 `Perber` 的数据库, 然后导入项目根目录中的 **perber.sql** 来创建表。
+1. 在 **MySQL** 创建名为 `perber` 的数据库, 然后导入项目根目录中的 **perber.sql** 来创建表。
 
 2. 在 **/Peber/perber/** 中运行 `npm install`，安装项目所需的包。
+   运行 `yarn` 也可以
 
 3. 修改 `config-example.json` (位于目录: **/Perber/perber/config/** 中) 为 `config.json`
 
@@ -28,47 +33,34 @@ Perber 用到了 **Qiniu** 来存储图片, 你需要注册 Qiniu 来获得 "**b
 6. 在浏览器中访问 : [http://localhost:6789](http://localhost:6789) (默认端口为 6789)
 
 
-**Tips:**
-
-> 本地开发可以用 "node-supervisor" : [https://github.com/isaacs/node-supervisor](https://github.com/isaacs/node-supervisor)
-
-> `npm install supervisor -g`
-
-> `supervisor perber/app.js`
-
-> 如果想在服务器上运行，可以试试 "forever" [https://github.com/nodejitsu/forever](https://github.com/nodejitsu/forever) :
-
-> `npm install forever -g` 
- 
-> `forever start perer/app.js` 
 
 
-##config.json:
+## config.json:
 
-**redisURL**
+**redisConf**
 
-redis url, default is "http://localhost/"
+如果 redis 端口没改过，基本上保持默认就好
 
 **mysqlConf**
 
-mysql host, port, user, password, database.
+设置你的 mysql host, port, user, password, database.
 
 
 **mailer**
 
-// todo
+用来发信的，可以写俩自己的邮箱
 
 **auth**
 
-// todo
+暂时没有用到
 
 **session**
 
-// todo
+设置 key 和 secret
 
 **app**
 
-// todo
+设置服务运行的端口号、timer、limit
 
 **app.timer:**
 
@@ -82,12 +74,19 @@ mysql host, port, user, password, database.
 
 **theme**
 
-// todo
+保持默认就行，目前只有 default 一种
 
 **debug** : true | false
 
+调试用的
+
+
+
+
 
 ## API
+
+目前只有一个，没啥用。
 
 #### post new message
 
@@ -103,7 +102,6 @@ $.ajax({
 })
 ```
 
-// todo
 
 
 
@@ -122,11 +120,11 @@ $.ajax({
 ![Perber in Chrome](http://ww1.sinaimg.cn/large/61b8bbf4tw1eg3olvkq95j20on0q60vm.jpg)
 
 
-## 广告：
-### xiamiRun
-一个用来解析虾米音乐地址的服务
+## 依赖的第三方服务
 
-https://github.com/naoyeye/xiamiRun
+- apis.map.qq.com：腾讯地图 API，用于解析 ip， 显示所在城市或国家
+
+- xiamiRun：之前写的一个用来解析虾米音乐地址的服务 https://github.com/naoyeye/xiamiRun
 
 
 ## 为什么做这个:
