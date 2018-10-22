@@ -1,8 +1,8 @@
 /* 
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
-* @Last Modified by:   Jiyun
-* @Last Modified time: 2015-05-09 16:06:43
+* @Last Modified by:   hanjiyun
+* @Last Modified time: 2018-10-22 12:30:45
 */
 
 /*
@@ -52,7 +52,6 @@ $(function() {
     });
 
     socket.on('connect', function (){
-        // console.info('successfully established a working connection');
         if(chat.find('.chat-box').length === 0) {
             socket.emit('history request');
         }
@@ -158,7 +157,6 @@ get new msg
         // 时间
         // var time = new Date();
         // data.time = time;
-        // console.log('data', data)
 
         // 语言
         if(isChinese(data.msg)){
@@ -173,9 +171,9 @@ get new msg
                 id: data.id,
                 songOriginal: data.msg,
                 title: data.song.title,
-                artist: data.song.artist,
-                album: data.song.album,
-                cover: data.song.cover,
+                artist: data.song.artists,
+                album: data.song.albumTitle,
+                cover: data.song.coverURL,
                 song_location: data.song.url,
                 location: data.location,
                 address: data.address,
@@ -347,7 +345,7 @@ delete msg
                     var chunks = inputText.substring(0, 240);//,
 
                     // 检查用户输入的内容是不是虾米的歌曲地址
-                    var xiamiREG = /(http:\/\/www.xiami.com\/song\/[0-9]+)\s?/g;
+                    var xiamiREG = /(http(s)?:\/\/)?(www\.)?xiami.com\/(song\/[\w-./?%&=]*)?$/;
 
                     // 如果是虾米音乐，向后端发送数据时，增加一个 'song'
                     // 然后在后端解析虾米音乐的真实mp3地址
@@ -1024,8 +1022,8 @@ delete msg
 
                             // 上传失败
                             } else if (xhr.status != 200 && xhr.responseText) {
-                                console.log('xhr.responseText', xhr.responseText)
-                                console.log('response', response)
+                                // console.log('xhr.responseText', xhr.responseText)
+                                // console.log('response', response)
                                 Qiniu_isUploading = false;
                             }
                         };
@@ -1092,9 +1090,9 @@ delete msg
 
             },
             error: function(jqXHR, textStatus, err){
-                console.log(jqXHR)
-                console.log(textStatus)
-                console.log(err.error)
+                // console.log(jqXHR)
+                // console.log(textStatus)
+                // console.log(err.error)
                 notice('error', '出错了。'+ err.error, 2000)
             }
         })
@@ -1166,9 +1164,9 @@ delete msg
                 }
             },
             error: function(jqXHR, textStatus, err){
-                console.log(jqXHR)
-                console.log(textStatus)
-                console.log(err.error)
+                // console.log(jqXHR)
+                // console.log(textStatus)
+                // console.log(err.error)
                 notice('error', '出错了。'+ err.error, 2000)
                 $t.attr('class','ui green button').attr('disabled', '')
                 $('.fixed_block.null').removeClass('flip')

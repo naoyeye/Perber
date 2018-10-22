@@ -4,7 +4,7 @@
 * @Date:   2013-11-03 04:47:51
 * @Email:  jiyun@han.im
 * @Last modified by:   hanjiyun
-* @Last Modified time: 2016-11-11 16:02:47
+* @Last Modified time: 2018-09-29 15:37:33
 */
 
 
@@ -61,9 +61,6 @@ function Routes (app, server) {
 
     // single message
     app.get('/:type(per)/:id', function(req, res, next) {
-
-
-
         mysql.query( 'SELECT * FROM Messages WHERE id = ?', req.params.id, function selectCb(error, results, fields) {
             if (error) {
                 console.log('GetData Error: ' + error.message);

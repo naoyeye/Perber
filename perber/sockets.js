@@ -2,8 +2,8 @@
 /* 
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
-* @Last Modified by:   Jiyun
-* @Last Modified time: 2015-06-26 04:21:42
+* @Last Modified by:   hanjiyun
+* @Last Modified time: 2018-10-22 12:29:57
 */
 
 
@@ -23,6 +23,7 @@ var stepify = require('stepify');
 
 // +=====Xiami======
 var http = require('http');
+var https = require('https');
 var url = require('url');
 var path = require('path');
 var xmlreader = require('xmlreader');
@@ -55,14 +56,14 @@ function Sockets (app, server) {
 
 
     // xiami
-    var isXiamiSong = /www.xiami.com\/song\/\d+/;
+    // var isXiamiSong = /www.xiami.com\/song\/\.*/;
 
-    var sidPattern = /(\d+)/,
-        songUrlPattern = /a href="(\/song\/\d+)"/g;
+    // var sidPattern = /(\d+)/,
+        // songUrlPattern = /a href="(\/song\/\.*)"/g;
 
-    var titlePattern = /<div id="title">\s*<h1>(.*)<\/h1>/,
-        artistPattern = /<a href="\/artist\/\d+" title=".*">(.*)<\/a>/,
-        coverPattern = /<img class="cdCDcover185" src=".*" \/>/;
+    // var titlePattern = /<div id="title">\s*<h1>(.*)<\/h1>/,
+        // artistPattern = /<a href="\/artist\/\d+" title=".*">(.*)<\/a>/,
+        // coverPattern = /<img class="cdCDcover185" src=".*" \/>/;
 
 
     // 用来记录用户的动作 目前只是记录发言动作
@@ -71,7 +72,7 @@ function Sockets (app, server) {
     var io;
 
     if (config.debug === true) {
-        console.log('====== socket.io debug enabled ======');
+        // console.log('====== socket.io debug enabled ======');
         // // 0 - error, 1 - warn, 2 - info, 3 - debug
         io = sio.listen(server, {
             log: true,
@@ -373,10 +374,11 @@ function Sockets (app, server) {
 
         // new message
         socket.on('my msg', function(data) {
-
             // get ip
             var address = hs.headers['x-forwarded-for'] || hs.address.address;
             // var address = '106.186.112.11'; // for test
+
+            address = address.replace('::ffff:', '')
 
             var msgID,
                 isSong = false;
@@ -385,7 +387,7 @@ function Sockets (app, server) {
             // ======总流程控制======
             var Handle = stepify()
             // step 1: 发言限制
-            .step( function(){
+            .step(function(){
                 // 判断是不是已经有过动作
                 if( address_list[address] ) {
                     // console.log('已经在列表里!!');
@@ -399,9 +401,8 @@ function Sockets (app, server) {
                         this.done();
 
                     } else {
-                        // come on die young!!
-                        console.log(new Date().format("yyyy-MM-dd hh:mm:ss"));
-                        console.log('come on die young!!')
+                        // console.log(new Date().format("yyyy-MM-dd hh:mm:ss"));
+                        // console.log('come on die young!!')
 
                         // 不做处理，针对此 id 返回警告提示
                         io.sockets.socket(socket.id).emit('limited someone', {
@@ -419,29 +420,33 @@ function Sockets (app, server) {
             })
             // step 2: 获取IP详细信息 用的是淘宝的服务
             .step(function(){
-                var taobaoip = url.parse('http://ip.taobao.com/service/getIpInfo.php?ip='+ address);
 
+                // var qqip = url.parse();
                 var root = this;
-
-                var location;
-
-                http.get(taobaoip, function(res) {
+                var location = '未知';
+                https.get(`https://apis.map.qq.com/ws/location/v1/ip?ip=${address}&key=7CZBZ-VGCRU-IQ6VH-4QL5Q-NUZIZ-JGFZQ`, function(res) {
                     res.setEncoding('utf8');
                     var json = '';
                     res.on('data', function(req) {
-                        if( req.code === 1) return;
+                        if ( req.code === 1) {
+                            root.done(null, '未知');
+                        };
 
                         json += req;
+
                         json = JSON.parse(json);
-                        // location为所在地
-                        // 文档见 http://ip.taobao.com/instructions.php
-                        // 如果 city 得不到，则取 country
-                        if( !json.data.city || json.data.city.length === 0 && json.data.country && json.data.country.length > 0){
-                            location = json.data.country;
-                        } else if (json.data.city && json.data.city.length > 0) {
-                            location = json.data.city;
+
+                        if (json.status === 0) {
+                            // 如果 city 得不到，则取 nation
+                            if(json.result && json.result.ad_info && !json.result.ad_info.city && json.result.ad_info.nation){
+                                location = json.result.ad_info.nation;
+                            } else if (json.result && json.result.ad_info && json.result.ad_info.city) {
+                                location = json.result.ad_info.city;
+                            } else {
+                                location = '未知'; // :P
+                            }
                         } else {
-                            location = 'Mars'; // :P
+                            location = '未知'; // :P
                         }
 
                         root.done(null, location); // 传递参数 location 到 step 3
@@ -457,32 +462,21 @@ function Sockets (app, server) {
 
                     var xiamiRealSong = {};
                     
-                    var xiaiFactory = url.parse('http://xiamirun.avosapps.com/run?song='+ data.msg);
+                    // 第三方服务
+                    var xiaiFactory = url.parse('https://xiamirun.leanapp.cn/api?url='+ data.msg);
 
-                    http.get(xiaiFactory, function(res) {
+                    https.get(xiaiFactory, function(res) {
                         res.setEncoding('utf8');
                         var json = '';
                         res.on('data', function(req) {
-                            if( req.status === 1) return;
-
-                            // console.log('req', req);
-                            // json += req;
-                            // json = JSON.parse(json);
-                            // // location为所在地
-                            // // 文档见 http://ip.taobao.com/instructions.php
-                            // // 如果 city 得不到，则取 country
-                            // console.log('json', json);
-                            // if( json.data.city && json.data.city.length === 0 && json.data.country && json.data.country.length > 0){
-                            //     location = json.data.country;
-                            // } else if (json.data.city && json.data.city.length > 0) {
-                            //     location = json.data.city;
-                            // } else {
-                            //     location = 'Mars'; // :P
-                            // }
-
-                            // root.done(null, location); // 传递参数 location 到 step 3
+                            if (req.status === 1) return;
+                            
                             xiamiRealSong = JSON.parse(req);
-                            root.done(null, xiamiRealSong, location);
+                            if (xiamiRealSong.success) {
+                                root.done(null, xiamiRealSong, location);
+                            } else {
+                                root.done(null, {}, location);
+                            }
                         })
                     })
                     // root.done(null, xiamiRealSong, location);
@@ -500,9 +494,9 @@ function Sockets (app, server) {
                 var coolData = [
                         data.msg,
                         data.song.title,
-                        data.song.artist,
-                        data.song.album,
-                        data.song.cover,
+                        data.song.artists,
+                        data.song.albumTitle,
+                        data.song.coverURL,
                         data.song.url,
                         location,
                         address
@@ -510,7 +504,7 @@ function Sockets (app, server) {
 
                 mysql.query('INSERT INTO Messages SET message = ?, music_title = ?, music_artist = ?, music_album = ?, music_cover = ?, music_location = ?, location = ?, address = ?', coolData, function(error, results) {
                     if(error) {
-                        console.log("mysql INSERT Error: " + error.message);
+                        // console.log("mysql INSERT Error: " + error.message);
                         // mysql.end();
                         return;
                     }
@@ -523,7 +517,7 @@ function Sockets (app, server) {
                         var sql = [imgKey, msgID];
                         mysql.query('INSERT INTO Images SET imgKey = ?, msgID = ?', sql, function(error, results) {
                             if(error) {
-                                console.log("mysql INSERT image key Error: " + error.message);
+                                // console.log("mysql INSERT image key Error: " + error.message);
                                 // mysql.end();
                                 return;
                             }
@@ -562,8 +556,8 @@ function Sockets (app, server) {
                 // 从数据库删除图片
                 mysql.query('DELETE FROM Images WHERE msgID = ? and imgKey = ?', command, function(error, results) {
                     if(error) {
-                        console.log('从数据库删除图片')
-                        console.log("mysql delete Image Error: " + error.message);
+                        // console.log('从数据库删除图片')
+                        // console.log("mysql delete Image Error: " + error.message);
                         // mysql.end();
                         return;
                     }
@@ -573,8 +567,8 @@ function Sockets (app, server) {
                 imagesBucket.key(data.imgKey).remove(
                     function(err) {
                         if (err) {
-                            console.log('从qiniu删除图片出错')
-                            console.log(err)
+                            // console.log('从qiniu删除图片出错')
+                            // console.log(err)
                         }
                     }
                 );
@@ -582,7 +576,7 @@ function Sockets (app, server) {
 
             mysql.query('DELETE FROM Messages WHERE id = ?', data.id, function(error, results) {
                 if(error) {
-                    console.log("mysql delete Error: " + error.message);
+                    // console.log("mysql delete Error: " + error.message);
                     // mysql.end();
                     return;
                 }
@@ -602,7 +596,7 @@ function Sockets (app, server) {
             // todo // limit 500
             mysql.query( 'SELECT * FROM Messages ORDER BY id DESC LIMIT 500', function selectCb(error, results, fields) {
                 if (error) {  
-                    console.log('GetData Error: ' + error.message);
+                    // console.log('GetData Error: ' + error.message);
                     //mysql.end();
                     return;
                 }
@@ -620,7 +614,7 @@ function Sockets (app, server) {
             // 检查投票
             mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
                 if (error) {  
-                    console.log('GetData Error: ' + error.message);
+                    // console.log('GetData Error: ' + error.message);
                     // mysql.end();
                     return;
                 }
@@ -648,7 +642,7 @@ function Sockets (app, server) {
             if(data.vote === 'up'){
                 mysql.query('UPDATE vote SET up = up+1', function(error, results) {
                     if(error) {
-                        console.log("mysql INSERT Error: " + error.message);
+                        // console.log("mysql INSERT Error: " + error.message);
                         // mysql.end();
                         return;
                     }
@@ -657,7 +651,7 @@ function Sockets (app, server) {
             } else if(data.vote === 'down'){
                 mysql.query('UPDATE vote SET down = down+1', function(error, results) {
                     if(error) {
-                        console.log("mysql INSERT Error: " + error.message);
+                        // console.log("mysql INSERT Error: " + error.message);
                         // mysql.end();
                         return;
                     }
@@ -668,12 +662,12 @@ function Sockets (app, server) {
             // 去数据库查询最新的投票结果
             mysql.query( 'SELECT * FROM vote WHERE id = 1', function selectCb(error, results, fields) {
                 if (error) {  
-                    console.log('GetData Error: ' + error.message);
+                    // console.log('GetData Error: ' + error.message);
                     //mysql.end();
                     return;
                 }
 
-                console.log('results', results);
+                // console.log('results', results);
                 // console.log('results:', results[0]);
                 // 向前端返回投票信息
                 io.sockets.in(room_id).emit('new vote', {
