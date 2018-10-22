@@ -3,26 +3,37 @@
  一个可以实时匿名群聊的 web 服务。
  特色是无需注册，每个人都可以删掉其他人说的话。
 
-# 用到了哪些技术
+## 用到了哪些
 
-node.js, socket.io, redis, jade, mysql(node-mysql), node-qiniu
+- **express**
+- **socket.io**
+- **redis**
 
+另：
 Perber 用到了 **Qiniu** 来存储图片, 你需要注册 Qiniu 来获得 "**bucket_name**" "**access_key**" 和 "**secret_key**"。
 
 > Qiniu Cloud Storage: [http://www.qiniu.com/](http://www.qiniu.com/) 
 
 > Qiniu on Github: [https://github.com/qiniu](https://github.com/qiniu)
 
-**因七牛 api 调整，上传图片功能暂时关闭**
+**20181022 - 因七牛 api 调整，上传图片功能暂时关闭**
+
+## 功能
+
+- 识别发言人所在城市
+- 支持中英文识别，英文会以大字体显示
+- 支持虾米音乐识别（不太稳定，最好是以 https://www.xiami.com/song/1769490347 这种数字 id 类型的 url 来测试）
+- <del>上传图片</del>
+- 限制单个人发言次数
+- @某人时，会链接到他的twitter
+- 颜文字
 
 
+## 如何运行
 
-## 开始
+1. 在你的 **MySQL** 中创建名为 `perber` 的数据库, 然后导入项目根目录中的 **perber.sql**。
 
-1. 在 **MySQL** 创建名为 `perber` 的数据库, 然后导入项目根目录中的 **perber.sql** 来创建表。
-
-2. 在 **/Peber/perber/** 中运行 `npm install`，安装项目所需的包。
-   运行 `yarn` 也可以
+2. 在 **/Peber/perber/** 中运行 `npm install`，安装项目所需的包，当然运行 `yarn` 也可以。
 
 3. 修改 `config-example.json` (位于目录: **/Perber/perber/config/** 中) 为 `config.json`
 
@@ -35,7 +46,7 @@ Perber 用到了 **Qiniu** 来存储图片, 你需要注册 Qiniu 来获得 "**b
 
 
 
-## config.json:
+## 设置 config.json:
 
 **redisConf**
 
@@ -60,17 +71,17 @@ Perber 用到了 **Qiniu** 来存储图片, 你需要注册 Qiniu 来获得 "**b
 
 **app**
 
-设置服务运行的端口号、timer、limit
+设置服务运行的端口号（默认端口为 6789）、timer、limit
 
-**app.timer:**
+    **app.timer:**
 
-清理程序 sockets.js 里的cleaner() 的自动运行时间间隔，按分钟计算。
+    清理程序 sockets.js 里的cleaner() 的自动运行时间间隔，按分钟计算。
 
-设为 1 ，则 1分钟运行一次。
+    设为 1 ，则 1分钟运行一次。
 
-**app.limit:**
+    **app.limit:**
 
-在设定的 timer 时间范围内，每个在线用户最多能发多少信息。
+    在设定的 timer 时间范围内，每个在线用户最多能发多少信息。
 
 **theme**
 
@@ -86,7 +97,7 @@ Perber 用到了 **Qiniu** 来存储图片, 你需要注册 Qiniu 来获得 "**b
 
 ## API
 
-目前只有一个，没啥用。
+目前只有一个，没什么用。
 
 #### post new message
 
@@ -124,7 +135,7 @@ $.ajax({
 
 - apis.map.qq.com：腾讯地图 API，用于解析 ip， 显示所在城市或国家
 
-- xiamiRun：之前写的一个用来解析虾米音乐地址的服务 https://github.com/naoyeye/xiamiRun
+- xiamiRun：之前写的一个用来解析虾米音乐地址的服务 https://github.com/naoyeye/xiamiRun 不太稳定
 
 
 ## 为什么做这个:

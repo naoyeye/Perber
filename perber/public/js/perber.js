@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2013-11-02 18:53:14
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2018-10-22 17:40:00
+* @Last Modified time: 2018-10-22 20:41:54
 */
 
 /*
@@ -429,6 +429,8 @@ delete msg
         text = text.replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
 
         // text = text.replace(/(\n)/g, '<hr>');
+
+        text = injectEmoticons(text);
 
         return text;
     };

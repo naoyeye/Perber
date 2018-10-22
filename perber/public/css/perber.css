@@ -2,7 +2,7 @@
 * @Author: hanjiyun
 * @Date:   2014-01-02 01:59:11
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2016-11-11 15:55:35
+* @Last Modified time: 2018-10-22 20:46:48
 */
 
 /*
@@ -2018,6 +2018,119 @@ Single Per
 
 .single-per .info .time {
     display: none;
+}
+
+/*
+================
+emoticon
+================
+*/
+
+span.emoticon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-bottom: -4px;
+}
+
+.emoticon-angry {
+  background-image: url("../img/emoticons/angry.png");
+}
+.emoticon-naughty {
+  background-image: url("../img/emoticons/naughty.png");
+}
+.emoticon-sick {
+  background-image: url("../img/emoticons/sick.png");
+}
+.emoticon-smile {
+  background-image: url("../img/emoticons/smile.png");
+}
+.emoticon-wink {
+  background-image: url("../img/emoticons/wink.png");
+}
+.emoticon-frown {
+  background-image: url("../img/emoticons/frown.png");
+}
+.emoticon-ambivalent {
+  background-image: url("../img/emoticons/ambivalent.png");
+}
+.emoticon-slant {
+  background-image: url("../img/emoticons/slant.png");
+}
+.emoticon-gasp {
+  background-image: url("../img/emoticons/gasp.png");
+}
+.emoticon-laugh {
+  background-image: url("../img/emoticons/laugh.png");
+}
+.emoticon-kiss {
+  background-image: url("../img/emoticons/kiss.png");
+}
+.emoticon-yuck {
+  background-image: url("../img/emoticons/yuck.png");
+}
+.emoticon-yum {
+  background-image: url("../img/emoticons/yum.png");
+}
+.emoticon-grin {
+  background-image: url("../img/emoticons/grin.png");
+}
+.emoticon-sarcastic {
+  background-image: url("../img/emoticons/sarcastic.png");
+}
+.emoticon-cry {
+  background-image: url("../img/emoticons/cry.png");
+}
+.emoticon-cool {
+  background-image: url("../img/emoticons/cool.png");
+}
+.emoticon-nerd {
+  background-image: url("../img/emoticons/nerd.png");
+}
+.emoticon-innocent {
+  background-image: url("../img/emoticons/innocent.png");
+}
+.emoticon-sealed {
+  background-image: url("../img/emoticons/sealed.png");
+}
+.emoticon-footinmouth {
+  background-image: url("../img/emoticons/footinmouth.png");
+}
+.emoticon-embarrassed {
+  background-image: url("../img/emoticons/embarrassed.png");
+}
+.emoticon-crazy {
+  background-image: url("../img/emoticons/crazy.png");
+}
+.emoticon-confused {
+  background-image: url("../img/emoticons/confused.png");
+}
+.emoticon-moneymouth {
+  background-image: url("../img/emoticons/moneymouth.png");
+}
+.emoticon-heart {
+  background-image: url("../img/emoticons/heart.png");
+}
+.emoticon-thumbsup {
+  background-image: url("../img/emoticons/thumbsup.png");
+}
+.emoticon-thumbsdown {
+  background-image: url("../img/emoticons/thumbsdown.png");
+}
+.emoticon-not-amused {
+  background-image: url("../img/emoticons/not-amused.png");
+}
+.emoticon-mini-smile {
+  background-image: url("../img/emoticons/mini-smile.png");
+}
+.emoticon-mini-frown {
+  background-image: url("../img/emoticons/mini-frown.png");
+}
+.emoticon-content {
+  background-image: url("../img/emoticons/content.png");
+}
+.emoticon-hearteyes {
+  background-image: url("../img/emoticons/hearteyes.png");
 }
 
 
