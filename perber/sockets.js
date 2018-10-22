@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2018-10-22 21:43:30
+* @Last Modified time: 2018-10-22 21:47:32
 */
 
 
@@ -355,8 +355,6 @@ function Sockets (app, server) {
                         json += req;
 
                         json = JSON.parse(json);
-
-                        console.log('json - ', json)
 
                         if (json.status === 0) {
                             // 如果 city 得不到，则取 nation
