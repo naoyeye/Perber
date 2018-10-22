@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2018-10-22 21:39:00
+* @Last Modified time: 2018-10-22 21:43:30
 */
 
 
@@ -297,12 +297,11 @@ function Sockets (app, server) {
         socket.on('my msg', function(data) {
             // get ip
             // var address = '106.186.112.11'; // for test
-            console.log('socket.handshake.headers = ', socket.handshake.headers)
-            var address = socket.handshake.headers["X-Real-IP"]
+            // 取 nginx 代理的
+            var address = socket.handshake.headers["x-real-ip"]
 
+            // 本地开发的时候，需要过滤一下
             address = address.replace('::ffff:', '')
-
-            console.log('address - ', address)
 
             var msgID,
                 isSong = false;
