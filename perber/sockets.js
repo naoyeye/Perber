@@ -3,7 +3,7 @@
 * @Author: hanjiyun
 * @Date:   2013-12-16 00:43:01
 * @Last Modified by:   hanjiyun
-* @Last Modified time: 2018-10-22 17:46:02
+* @Last Modified time: 2018-10-22 21:19:11
 */
 
 
@@ -296,10 +296,12 @@ function Sockets (app, server) {
         // new message
         socket.on('my msg', function(data) {
             // get ip
-            var address = hs.address
+            var address = socket.request.connection.remoteAddress
             // var address = '106.186.112.11'; // for test
 
             address = address.replace('::ffff:', '')
+
+            console.log('address - ', address)
 
             var msgID,
                 isSong = false;
@@ -322,9 +324,6 @@ function Sockets (app, server) {
                         this.done();
 
                     } else {
-                        // console.log(new Date().format("yyyy-MM-dd hh:mm:ss"));
-                        // console.log('come on die young!!')
-
                         // 不做处理，针对此 id 返回警告提示
                         io.sockets.socket(socket.id).emit('limited someone', {
                             address: address
@@ -345,7 +344,7 @@ function Sockets (app, server) {
                 // var qqip = url.parse();
                 var root = this;
                 var location = '未知';
-                https.get(`https://apis.map.qq.com/ws/location/v1/ip?ip=${address}&key=7CZBZ-VGCRU-IQ6VH-4QL5Q-NUZIZ-JGFZQ`, function(res) {
+                https.get(`https://apis.map.qq.com/ws/location/v1/ip?ip=${address}&key=${config.qqMap.key}`, function(res) {
                     res.setEncoding('utf8');
                     var json = '';
                     res.on('data', function(req) {
@@ -356,6 +355,8 @@ function Sockets (app, server) {
                         json += req;
 
                         json = JSON.parse(json);
+
+                        console.log('json - ', json)
 
                         if (json.status === 0) {
                             // 如果 city 得不到，则取 nation

@@ -9,24 +9,20 @@
 - **socket.io**
 - **redis**
 
-另：
-Perber 用到了 **Qiniu** 来存储图片, 你需要注册 Qiniu 来获得 "**bucket_name**" "**access_key**" 和 "**secret_key**"。
-
-> Qiniu Cloud Storage: [http://www.qiniu.com/](http://www.qiniu.com/) 
-
-> Qiniu on Github: [https://github.com/qiniu](https://github.com/qiniu)
-
-**20181022 - 因七牛 api 调整，上传图片功能暂时关闭**
 
 ## 功能
 
-- 识别发言人所在城市
+- 长按消息块，删除
+- 来新消息时声音提醒
+- @某人时，会链接到他的twitter
+- 简单的颜文字表情识别
+- 识别新浪图床<del>和 instagram</del>的图片 url ，直接展示图片
+- 识别发言人所在城市或国家
 - 支持中英文识别，英文会以大字体显示
 - 支持虾米音乐识别（不太稳定，最好是以 https://www.xiami.com/song/1769490347 这种数字 id 类型的 url 来测试）
-- <del>上传图片</del>
+- <del>上传图片</del> **20181022 - 因七牛 api 调整，上传图片功能暂时关闭**
 - 限制单个人发言次数
-- @某人时，会链接到他的twitter
-- 颜文字
+
 
 
 ## 如何运行
@@ -54,8 +50,22 @@ Perber 用到了 **Qiniu** 来存储图片, 你需要注册 Qiniu 来获得 "**b
 
 **mysqlConf**
 
+
 设置你的 mysql host, port, user, password, database.
 
+
+**qiniuConfig**
+
+设置七牛
+
+Perber 用到了 **Qiniu** 来存储图片, 你需要注册 Qiniu 来获得 "**bucket_name**" "**access_key**" 和 "**secret_key**"。
+
+> Qiniu Cloud Storage: [http://www.qiniu.com/](http://www.qiniu.com/) 
+> Qiniu on Github: [https://github.com/qiniu](https://github.com/qiniu)
+
+**qqMap**
+
+设置腾讯地图 API key: https://lbs.qq.com/guides/startup.html
 
 **mailer**
 

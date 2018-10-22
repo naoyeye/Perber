@@ -13,6 +13,10 @@
         "database" : "your database"
     },
 
+    "qqMap": {
+        "key": "7CZBZ-VGCRU-IQ6VH-4QL5Q-NUZIZ-JGFZQ",
+    },
+
     "qiniuConfig": {
         "bucket_name": "your qiniu bucket name",
         "access_key" : "your qiniu access key",
