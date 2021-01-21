@@ -29,7 +29,7 @@
     "request": "^2.88.0",
     "serve-favicon": "^2.5.0",
     "serve-static": "^1.13.2",
-    "socket.io": "^2.1.1",
+    "socket.io": "^2.4.0",
     "socketio-session": "^0.2.0",
     "stepify": "0.1.5",
     "type-component": "0.0.1",
