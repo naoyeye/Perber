@@ -24,7 +24,7 @@
     "nodemailer": "^6.4.16",
     "passport": "~0.1.17",
     "qiniu": "^7.2.1",
-    "qs": ">=1.0.0",
+    "qs": ">=6.5.3",
     "redis": "0.7.2",
     "request": "^2.88.0",
     "serve-favicon": "^2.5.0",
