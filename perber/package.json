@@ -34,7 +34,7 @@
     "stepify": "0.1.5",
     "type-component": "0.0.1",
     "uglify-js": ">=2.6.0",
-    "validator": "^10.8.0",
+    "validator": "^13.7.0",
     "xmlreader": "0.2.3"
   },
   "engines": {
